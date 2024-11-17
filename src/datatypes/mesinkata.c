@@ -1,6 +1,6 @@
-#include "boolean.h"
-#include "mesinkata.h"
-#include "mesinkarakter.h"
+#include "../modules/boolean.h"
+#include "../modules/mesinkata.h"
+#include "../modules/mesinkarakter.h"
 #include <stdio.h>
 
 boolean EndWord;

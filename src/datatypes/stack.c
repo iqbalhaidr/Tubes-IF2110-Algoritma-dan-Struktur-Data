@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "stack.h"
-#include "boolean.h"
+#include "../modules/stack.h"
+#include "../modules/boolean.h"
 
 /* *** Konstruktor/Kreator *** */
 void CreateEmpty(Stack *S) {

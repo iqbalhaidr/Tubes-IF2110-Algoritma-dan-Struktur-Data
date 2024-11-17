@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "boolean.h"
-#include "matrix.h"
+#include "../modules/boolean.h"
+#include "../modules/matrix.h"
 #include <math.h>
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */

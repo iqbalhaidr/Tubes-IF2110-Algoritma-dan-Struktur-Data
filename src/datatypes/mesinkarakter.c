@@ -1,5 +1,5 @@
-#include "boolean.h"
-#include "mesinkarakter.h"
+#include "../modules/boolean.h"
+#include "../modules/mesinkarakter.h"
 #include <stdio.h>
 
 static FILE *pita;

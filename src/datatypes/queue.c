@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "queue.h"
-#include "boolean.h"
+#include "../modules/queue.h"
+#include "../modules/boolean.h"
 
 /* *** Kreator *** */
 void CreateQueue(Queue *q) {

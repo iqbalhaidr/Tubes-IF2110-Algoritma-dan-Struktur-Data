@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "prioqueue.h"
-#include "boolean.h"
+#include "../modules/prioqueue.h"
+#include "../modules/boolean.h"
 
 /* *** Kreator *** */
 void CreatePrioQueue(PrioQueue *pq){

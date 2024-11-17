@@ -1,6 +1,6 @@
-#include "boolean.h"
+#include "../modules/boolean.h"
 #include <stdio.h>
-#include "liststatik.h"
+#include "../modules/liststatik.h"
 
 /* ********** KONSTRUKTOR ********** */
 void CreateListStatik(ListStatik *l) {
