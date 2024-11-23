@@ -6,6 +6,17 @@
 boolean EndWord;
 Word currentWord;
 
+void reset() {
+    currentWord.Length = 0;
+    for (int i = 0; i < NMax; i++) {
+        currentWord.TabWord[i] = BLANK;
+    }
+    currentChar = BLANK;
+    EOP = false;
+    EndWord = false;
+}
+
+
 void IgnoreBlanks() {
     while (currentChar == BLANK) {
         ADV();
@@ -13,6 +24,7 @@ void IgnoreBlanks() {
 }
 
 void STARTWORD() {
+    reset();
     START();
     IgnoreBlanks();
     if (currentChar == MARK) {
@@ -44,7 +56,7 @@ void CopyWord() {
     if (i > NMax) {
         currentWord.Length = NMax;
     } else {
-        currentWord.Length = i;
+        currentWord.Length = i++;
     }
 }
 
