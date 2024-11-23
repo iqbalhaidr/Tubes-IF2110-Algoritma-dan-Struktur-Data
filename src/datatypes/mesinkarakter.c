@@ -8,7 +8,9 @@ char currentChar;
 boolean EOP;
 
 void START() {
-    pita = stdin;
+    if (pita == NULL) {
+        pita = stdin;
+    }
     ADV();
 }
 
@@ -16,6 +18,6 @@ void ADV() {
     retval = fscanf(pita, "%c", &currentChar);
     EOP = (currentChar == MARK);
     if (EOP) {
-        fclose(pita);
+        pita = NULL;
     }
 }
