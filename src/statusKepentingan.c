@@ -132,6 +132,11 @@ void displayStatusKepentingan(Matrix m) {
 void statusKepentingan(ListUser listUser, ListEmail listEmail) {
     Matrix m;
 
+    if (listUser.number <= 0) {
+        printf("Belum ada user terdaftar.\n");
+        return;
+    }
+
     readStatusKepentingan(listUser, listEmail, &m);
     displayStatusKepentingan(m);
 }
