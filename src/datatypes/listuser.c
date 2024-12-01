@@ -1,6 +1,7 @@
-#include "../modules/boolean.h"
 #include <stdio.h>
+#include "../modules/boolean.h"
 #include "../modules/listuser.h"
+#include "../modules/mesinkata.h"
 
 /* ********** KONSTRUKTOR ********** */
 void CreateListUser(ListUser *l) {
@@ -14,7 +15,7 @@ boolean isEmptyUser(ListUser l) {
 }
 
 boolean isFullUser(ListUser l) {
-    return l.number == CAPACITY;
+    return l.number == CAPACITY_USER;
 }
 
 void printListUser(ListUser l) {
@@ -35,5 +36,30 @@ void addUser(ListUser *l, userType user) {
     if (!isFullUser(*l)) {
         l->data[l->number] = user;
         l->number++;
+    }
+}
+
+/* ********** SEARCHING ********** */
+int idUser(ListUser l, Word word) {
+    boolean found;
+    int i = 0;
+
+    if(isEmptyUser(l)){
+        return IDX_UNDEF;
+    } else{
+        found = false;
+        while(!found && i < l.number) {
+            if (isEqual(word, l.data[i].email)){
+                found = true;
+            } else{
+                found = false;
+                i++;
+            }
+        }
+        if(found) {
+            return i++;
+        } else {
+            return IDX_UNDEF;
+        }
     }
 }
