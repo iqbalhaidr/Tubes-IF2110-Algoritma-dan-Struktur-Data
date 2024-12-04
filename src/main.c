@@ -7,6 +7,8 @@ boolean authenticated;
 ListUser listUser; 
 ListEmail listEmail; 
 activeUser user;
+char fileUserPath[256];
+char fileEmailPath[256];
 
 int main(){
     printf("Berhasil run main.\n");
@@ -20,11 +22,20 @@ int main(){
     int init = inisialisasi(&listUser, &listEmail);
     if(init){        
         //Autentikasi Pengguna (REGISTER/LOGIN)
-        startMenu();
-        autentikasiUser();
+        do {
+            startMenu();
+            autentikasiUser();
+        } while (!authenticated);
 
         //Program
         if (authenticated){
+
+            // printListUser(listUser);
+            // printf("\n");
+            // printListEmail(listEmail);
+
+            saveConfig();
+
             menu();
         }
     } 
