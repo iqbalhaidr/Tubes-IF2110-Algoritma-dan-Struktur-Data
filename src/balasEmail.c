@@ -2,22 +2,24 @@
 #include "loadData.c"
 #include "./datatypes/tree.c"
 #include "./datatypes/listdin.c"
+#include "draftemail.c"
 
-void addReplies(Address node, ListEmail listEmail) {
+void addReplies(Tree node, ListEmail listEmail) {
     for (int i = 0; i < listEmail.number; i++) {
         if (listEmail.data[i].reply == node->info) {
             Address newNode = newTreeNode(listEmail.data[i].id);
             if (newNode != NULL) {
-                if (LEFT(node) == NULL) {
+                if (LEFT (node) == NULL) {
                     LEFT(node) = newNode;
+                    addReplies(newNode, listEmail);
                 } else if (RIGHT(node) == NULL) {
                     RIGHT(node) = newNode;
+                    addReplies(newNode, listEmail);
                 } else {
-                    // Tambahkan balasan ke sub-tree
-                    addReply(&LEFT(node), listEmail.data[i].id);
+                    printf("Error: Node is full\n");
                 }
             }
-            addReplies(newNode, listEmail);
+            
         }
     }
 }
@@ -92,17 +94,28 @@ void printEmail(ListEmail ListEmail,Tree emailTree,int emailID){
     printf("[---------------------------------------------------------------------]\n");
 }
 
+int findDepth(Address root, int val, int depth) { 
+    if (root == NULL) { 
+        return -1;  
+    } 
+    if (root->info == val) { 
+        return depth; 
+    } 
+    int leftDepth = findDepth(root->left, val, depth + 1); 
+    if (leftDepth != -1) { 
+        return leftDepth; 
+    } 
+    return findDepth(root->right, val, depth + 1);
+}
+
 void readEmail(ListEmail listEmail, int emailID) {
-    // Menemukan root dari emailID
+
     IdxType root = getRoot(listEmail, emailID);
     
-    // Buat tree dari daftar email
     Tree emailTree = newTreeNode(listEmail.data[root].id);
     
-    // Tambahkan balasan untuk root
     addReplies(emailTree, listEmail);
     
-    // Cetak email
     printEmailHead(listEmail,emailTree,emailID);
 
     ListDin l = createPreorderList(emailTree);
@@ -111,14 +124,17 @@ void readEmail(ListEmail listEmail, int emailID) {
     }
 }
 
+void replyEmail(int id_user, ListUser list_user, ListEmail listEmail, int id_reply) {
 
-int main(){
-    ListEmail l = loadEmail();
-    printListEmail(l);
+    IdxType root = getRoot(listEmail, id_reply);
     
-    IdxType root = getRoot(l, 3);
-    printf("indeks root : %d\n", root);
+    Tree emailTree = newTreeNode(listEmail.data[root].id);
 
-    readEmail(l, 3);
-    return 0;
+    addReplies(emailTree, listEmail);
+
+    int reply = findDepth(emailTree, id_reply, 0);
+
+    int id_old = listEmail.data[root].id;
+
+    DraftEmail(id_user, list_user, listEmail, reply, id_reply, id_old);
 }
