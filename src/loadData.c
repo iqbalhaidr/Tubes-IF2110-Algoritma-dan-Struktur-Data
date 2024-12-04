@@ -25,15 +25,6 @@ int stringToInt(char* str) {
     return sign * result;
 }
 
-/* Panjang Kata */
-int lenWord(char* word) {
-    int i = 0;
-    while (word[i] != '\0') {
-        i++;
-    }
-    return i;
-}
-
 /* Store word yang dibaca pada file */
 char* store(char *word){
     storedWord = (char *) malloc(CAPACITY_CHAR_EMAIL);

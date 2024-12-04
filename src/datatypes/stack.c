@@ -8,17 +8,17 @@ void CreateEmpty(Stack *S) {
 }
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
-boolean IsEmpty(Stack S) {
+boolean IsEmptyStack(Stack S) {
     return Top(S) == Nil;
 }
 
-boolean IsFull(Stack S) {
+boolean IsFullStack(Stack S) {
     return Top(S) == MaxEl - 1;
 }
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
 void Push(Stack * S, infotype X) {
-    if (!IsFull(*S)) {
+    if (!IsFullStack(*S)) {
         Top(*S)++;
         InfoTop(*S) = X;
     } 
@@ -26,7 +26,7 @@ void Push(Stack * S, infotype X) {
 
 /* ************ Menghapus sebuah elemen Stack ************ */
 void Pop(Stack * S, infotype* X) {
-    if (!IsEmpty(*S)) {
+    if (!IsEmptyStack(*S)) {
         *X = InfoTop(*S);
         Top(*S)--;
     } 

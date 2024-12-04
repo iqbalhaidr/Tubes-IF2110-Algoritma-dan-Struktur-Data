@@ -18,7 +18,7 @@ void reset() {
 
 
 void IgnoreBlanks() {
-    while (currentChar == BLANK) {
+    while (currentChar == BLANK || currentChar == '\n') {
         ADV();
     }
 }
@@ -44,6 +44,35 @@ void ADVWORD() {
         IgnoreBlanks();
     }
 }
+
+void IgnoreBlanksDraft() {
+    while (currentChar == BLANK) {
+        ADV();
+    }
+}
+
+void STARTWORDDraft() {
+    reset();
+    START();
+    IgnoreBlanksDraft();
+    if (currentChar == MARK) {
+        EndWord = true;
+    } else { //!=mark
+        EndWord = false;
+        CopyWord();
+    }
+}
+
+void ADVWORDDraft() {
+    IgnoreBlanksDraft();
+    if (currentChar == MARK) {
+        EndWord = true;
+    } else {
+        CopyWord();
+        IgnoreBlanksDraft();
+    }
+}
+
 
 void CopyWord() {
     int i = 0;

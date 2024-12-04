@@ -5,14 +5,14 @@
 
 /* ********** KONSTRUKTOR ********** */
 void CreateListDin(ListDin *l, int capacity) {
-    BUFFER(*l) = (int*) malloc(capacity*sizeof(int));
-    CAPACITY(*l) = capacity;
+    BUFFER(*l) = (ElType*) malloc(capacity*sizeof(ElType));
+    CAPACITYLD(*l) = capacity;
     NEFF(*l) = 0;
 }
 
 void dealocateList(ListDin *l) {
     free(BUFFER(*l));
-    CAPACITY(*l) = 0;
+    CAPACITYLD(*l) = 0;
     NEFF(*l) = 0;
 }
 
@@ -32,7 +32,7 @@ IdxType getLastIdx(ListDin l) {
 
 /* ********** Test Indeks yang valid ********** */
 boolean isIdxValid(ListDin l, IdxType i) {
-    return (i>=0) && (i<(CAPACITY(l)));
+    return (i>=0) && (i<(CAPACITYLD(l)));
 }
 
 /* yaitu antara 0..NEFF(l) */
@@ -46,7 +46,7 @@ boolean isEmpty(ListDin l) {
 }
 
 boolean isFull(ListDin l) {
-    return (listLength(l) == CAPACITY(l));
+    return (listLength(l) == CAPACITYLD(l));
 
 }
 
@@ -55,12 +55,12 @@ void readList(ListDin *l) {
     int N, i;
     do {
         scanf("%d", &N);
-    } while (!(N>=0 && N<=CAPACITY(*l)));
+    } while (!(N>=0 && N<=CAPACITYLD(*l)));
     
     NEFF(*l) = N;
     if (N!=0){
         for(i=0; i<NEFF(*l); i++){
-            scanf("%d", &ELMT(*l, i));
+            scanf("%d", &ELMTLD(*l, i));
         }
     }
 }
@@ -73,9 +73,9 @@ void printList(ListDin l) {
         printf("[");
         for(i=0; i<listLength(l); i++){
             if (i!=getLastIdx(l)){
-                printf("%d,", ELMT(l,i));
+                printf("%c,", ELMTLD(l,i));
             } else{
-                printf("%d", ELMT(l,i));
+                printf("%c", ELMTLD(l,i));
             }
         }
         printf("]");
@@ -86,14 +86,14 @@ void printList(ListDin l) {
 ListDin plusMinusList(ListDin l1, ListDin l2, boolean plus) {
     IdxType i;
     ListDin l3;
-    CreateListDin(&l3, CAPACITY(l1));
+    CreateListDin(&l3, CAPACITYLD(l1));
     NEFF(l3) = NEFF(l1);
     if (NEFF(l1) == NEFF(l2) && NEFF(l1) != 0 && NEFF(l2) != 0){
         for(i=0; i<NEFF(l3); i++){
             if(plus){
-                ELMT(l3,i) = ELMT(l1,i) + ELMT(l2,i);
+                ELMTLD(l3,i) = ELMTLD(l1,i) + ELMTLD(l2,i);
             } else{
-                ELMT(l3,i) = ELMT(l1,i) - ELMT(l2,i);
+                ELMTLD(l3,i) = ELMTLD(l1,i) - ELMTLD(l2,i);
             }
         }
     }
@@ -109,7 +109,7 @@ boolean isListEqual(ListDin l1, ListDin l2) {
         return false;
     } else{
         while(same && i<listLength(l1)){
-            if(ELMT(l1,i) == ELMT(l2,i)){
+            if(ELMTLD(l1,i) == ELMTLD(l2,i)){
                 same = true;
             } else{
                 same = false;
@@ -130,7 +130,7 @@ IdxType indexOf(ListDin l, ElType val) {
     } else{
         found = false;
         while(!found && i<listLength(l)){
-            if (ELMT(l,i) == val){
+            if (ELMTLD(l,i) == val){
                 found = true;
             } else{
                 found = false;
@@ -149,15 +149,15 @@ IdxType indexOf(ListDin l, ElType val) {
 /* ********** NILAI EKSTREM ********** */
 void extremeValues(ListDin l, ElType *max, ElType *min) {
     IdxType i;
-    *max = ELMT(l,0);
-    *min = ELMT(l,0);
+    *max = ELMTLD(l,0);
+    *min = ELMTLD(l,0);
 
     for(i=0; i<listLength(l); i++){
-        if(ELMT(l,i) > *max){
-            *max = ELMT(l,i);
+        if(ELMTLD(l,i) > *max){
+            *max = ELMTLD(l,i);
         }
-        if(ELMT(l,i) < *min){
-            *min = ELMT(l,i);
+        if(ELMTLD(l,i) < *min){
+            *min = ELMTLD(l,i);
         }
     }
 }
@@ -166,10 +166,10 @@ void extremeValues(ListDin l, ElType *max, ElType *min) {
 void copyList(ListDin lIn, ListDin *lOut) {
     IdxType i;
     dealocateList(lOut);
-    CreateListDin(lOut, CAPACITY(lIn));
+    CreateListDin(lOut, CAPACITYLD(lIn));
 
     for(i=0; i<listLength(lIn); i++){
-        ELMT(*lOut, i) = ELMT(lIn, i);
+        ELMTLD(*lOut, i) = ELMTLD(lIn, i);
     }
 
     NEFF(*lOut) = NEFF(lIn);
@@ -179,7 +179,7 @@ ElType sumList(ListDin l){
     ElType sum = 0;
     IdxType i;
     for(i=0; i<listLength(l); i++){
-        sum += ELMT(l,i);
+        sum += ELMTLD(l,i);
     }
     return sum;
 }
@@ -189,7 +189,7 @@ int countVal(ListDin l, ElType val){
     int count=0;
 
     for(i=0; i<listLength(l); i++){
-        if(ELMT(l,i) == val){
+        if(ELMTLD(l,i) == val){
             count ++;
         }
     }
@@ -203,20 +203,20 @@ void sort(ListDin *l, boolean asc) {
     if(asc){
         for(i=0; i<listLength(*l)-1; i++){
             for(j=i+1; j<listLength(*l); j++){
-                if(ELMT(*l,i)>ELMT(*l,j)){
-                    temp = ELMT(*l,i);
-                    ELMT(*l,i) = ELMT(*l,j);
-                    ELMT(*l,j) = temp;
+                if(ELMTLD(*l,i)>ELMTLD(*l,j)){
+                    temp = ELMTLD(*l,i);
+                    ELMTLD(*l,i) = ELMTLD(*l,j);
+                    ELMTLD(*l,j) = temp;
                 }
             }
         }
     } else{
         for(i=0; i<listLength(*l)-1; i++){
             for(j=i+1; j<listLength(*l); j++){
-                if(ELMT(*l,i)<ELMT(*l,j)){
-                    temp = ELMT(*l,i);
-                    ELMT(*l,i) = ELMT(*l,j);
-                    ELMT(*l,j) = temp;
+                if(ELMTLD(*l,i)<ELMTLD(*l,j)){
+                    temp = ELMTLD(*l,i);
+                    ELMTLD(*l,i) = ELMTLD(*l,j);
+                    ELMTLD(*l,j) = temp;
                 }
             }
         }
@@ -225,12 +225,12 @@ void sort(ListDin *l, boolean asc) {
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 void insertLast(ListDin *l, ElType val) {
-    ELMT(*l, getLastIdx(*l)+1) = val;
+    ELMTLD(*l, getLastIdx(*l)+1) = val;
     NEFF(*l) ++;
 }
 
 void deleteLast(ListDin *l, ElType *val) {
-    *val = ELMT(*l,getLastIdx(*l));
+    *val = ELMTLD(*l,getLastIdx(*l));
     NEFF(*l) --;
 }
 
@@ -239,15 +239,15 @@ void expandList(ListDin *l, int num) {
     int newNEFF;
     IdxType i;
 
-    CreateListDin(&new, CAPACITY(*l));
+    CreateListDin(&new, CAPACITYLD(*l));
     copyList(*l,&new);
     newNEFF = NEFF(*l);
     dealocateList(l);
-    CreateListDin(l, CAPACITY(new)+num);
+    CreateListDin(l, CAPACITYLD(new)+num);
     NEFF(*l) = newNEFF;
 
     for(i=0; i<listLength(new); i++){
-        ELMT(*l,i) = ELMT(new,i);
+        ELMTLD(*l,i) = ELMTLD(new,i);
     }
 }
 
@@ -256,21 +256,21 @@ void shrinkList(ListDin *l, int num) {
     int newNEFF;
     IdxType i;
 
-    CreateListDin(&new, CAPACITY(*l));
+    CreateListDin(&new, CAPACITYLD(*l));
     copyList(*l,&new);
     newNEFF = NEFF(*l);
-    CreateListDin(l, CAPACITY(new)-num);
+    CreateListDin(l, CAPACITYLD(new)-num);
     NEFF(*l) = newNEFF;
 
-    if(CAPACITY(new) - num < NEFF(*l)){
-        NEFF(*l) = CAPACITY(new) - num;
+    if(CAPACITYLD(new) - num < NEFF(*l)){
+        NEFF(*l) = CAPACITYLD(new) - num;
     }
 
     for(i=0; i<listLength(new); i++){
-        ELMT(*l,i) = ELMT(new,i);
+        ELMTLD(*l,i) = ELMTLD(new,i);
     }
 }
 
 void compressList(ListDin *l) {
-    shrinkList(l, CAPACITY(*l) -  NEFF(*l));
+    shrinkList(l, CAPACITYLD(*l) -  NEFF(*l));
 }
