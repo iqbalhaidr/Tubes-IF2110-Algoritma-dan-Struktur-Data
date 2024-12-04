@@ -38,6 +38,11 @@ void ADVWORD();
           Jika currentChar = MARK, EndWord = true.
    Proses : Akuisisi kata menggunakan procedure SalinWord */
 
+void IgnoreEnter();
+/* Mengabaikan satu Enter
+   I.S. : currentChar sembarang
+   F.S. : currentChar ≠ Enter atau currentChar = MARK */
+
 void IgnoreBlanksDraft();
 /* Mengabaikan satu atau beberapa BLANK
    I.S. : currentChar sembarang

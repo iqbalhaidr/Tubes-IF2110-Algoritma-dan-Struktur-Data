@@ -45,6 +45,12 @@ void ADVWORD() {
     }
 }
 
+void IgnoreEnter() {
+    if (currentChar == '\n') {
+        ADV();
+    }
+}
+
 void IgnoreBlanksDraft() {
     while (currentChar == BLANK) {
         ADV();
@@ -54,6 +60,7 @@ void IgnoreBlanksDraft() {
 void STARTWORDDraft() {
     reset();
     START();
+    IgnoreEnter();
     IgnoreBlanksDraft();
     if (currentChar == MARK) {
         EndWord = true;

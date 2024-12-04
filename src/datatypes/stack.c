@@ -3,7 +3,7 @@
 #include "../modules/boolean.h"
 
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty(Stack *S) {
+void CreateEmptyStack(Stack *S) {
     Top(*S) = Nil;
 }
 
@@ -17,7 +17,7 @@ boolean IsFullStack(Stack S) {
 }
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push(Stack * S, infotype X) {
+void PushStack(Stack * S, infotype X) {
     if (!IsFullStack(*S)) {
         Top(*S)++;
         InfoTop(*S) = X;
@@ -25,7 +25,7 @@ void Push(Stack * S, infotype X) {
 }
 
 /* ************ Menghapus sebuah elemen Stack ************ */
-void Pop(Stack * S, infotype* X) {
+void PopStack(Stack * S, infotype* X) {
     if (!IsEmptyStack(*S)) {
         *X = InfoTop(*S);
         Top(*S)--;
