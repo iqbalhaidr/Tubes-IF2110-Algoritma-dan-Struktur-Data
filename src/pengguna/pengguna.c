@@ -3,7 +3,7 @@
 #include "pengguna.h"
 #include "../globals.h"
 
-const char *filename = "../config/pengguna.config";
+// const char *filename = "../config/pengguna.config";
 
 /*** REGISTER ***/
 void registerUser(){
@@ -40,8 +40,6 @@ void registerUser(){
             passwordValid = true;
         }
     } while (!passwordValid);
-
-    printf("okey  here\n");
     
     // Save ID, Email, and Password to Config File
     if (passwordValid && emailValid) {
@@ -132,7 +130,7 @@ void autentikasiUser(){
             printf("Anda belum LOGIN!\n");
         }
     } else {
-        printf("Masukan tidak valid.");
+        printf("Masukan tidak valid.\n");
     }
 }
 
