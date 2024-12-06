@@ -22,10 +22,10 @@
 #define RIGHT(p) (p)->right
 
 //## Struktur Tree (Binary Tree) ##//
-typedef int ElType;
+typedef int ElTypeTree;
 typedef struct treeNode* Address;
 typedef struct treeNode { 
-    ElType info;
+    ElTypeTree info;
     Address left;
     Address right;
 } TreeNode;
@@ -33,14 +33,14 @@ typedef struct treeNode {
 typedef Address Tree;
 
 //## Konstruktor ##//
-Address newTreeNode(ElType val);
+Address newTreeNode(ElTypeTree val);
 // Mengalokasi sebuah address p jika berhasil, atau NULL jika gagal.
 // Mengembalikan address hasil alokasi sebuah elemen bernilai val. Misalnya menghasilkan p, maka p↑.info = val, p↑.left = NULL, p↑.right = NULL.
 
-Tree NewTree (ElType root , Tree left_tree , Tree right_tree); 
+Tree NewTree (ElTypeTree root , Tree left_tree , Tree right_tree); 
 // Menghasilkan sebuah tree biner dari root, left_tree, dan right_tree, jika alokasi berhasil, atau NULL jika gagal.
 
-void CreateTree (ElType root , Tree left_tree , Tree right_tree , Tree *p);
+void CreateTree (ElTypeTree root , Tree left_tree , Tree right_tree , Tree *p);
 // I.S. p sembarang.
 // F.S. Menghasilkan sebuah tree p.
 // Menghasilkan sebuah tree biner p dari root, left_tree, dan right_tree jika alokasi berhasil, atau NULL jika gagal.
@@ -70,10 +70,10 @@ boolean isBinary(Tree p);
 void removeNode(Tree *p , Address node);
 // Menghapus simpul node dari tree p dan menjaga validitas tree.
 
-Address findNode(Tree p , ElType target);
+Address findNode(Tree p , ElTypeTree target);
 // Mengembalikan alamat simpul dengan nilai target, atau NULL jika tidak ditemukan.
 
-void addReply(Tree *p , ElType new_reply);
+void addReply(Tree *p , ElTypeTree new_reply);
 // Menambahkan simpul baru dengan nilai new_reply sebagai children dari parent p.
 
 Address getParent(Tree p , Address node);
