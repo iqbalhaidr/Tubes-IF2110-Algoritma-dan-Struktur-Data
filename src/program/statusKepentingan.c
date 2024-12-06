@@ -5,7 +5,7 @@
 // #include "./datatypes/listemail.c"
 // #include "./datatypes/listuser.c"
 #include "./datatypes/matrix.c"
-#include "./loadData.c"
+#include "./load.c"
 
 #define KEPENTINGAN(M, A, B) \
     ELMTMATRIX(M, (A - 1), (B - 1))  // Kepentingan USER ID A terhadap B

@@ -8,7 +8,7 @@
 #include "./datatypes/prioqueue.c"
 // #include "./loadData.c"
 // #include "./modules/boolean.h"
-#include "./statusKepentingan.c"
+#include "statusKepentingan.c"
 
 #define TIMESTAMP(l, i) (l).data[(i)].timestamp
 #define SUBJECT(l, i) (l).data[(i)].subyek
