@@ -16,6 +16,7 @@ int ceil_division(int a, int b) {
     return (a + b - 1) / b;
 }
 
+// Fungsi untuk menampilkan garis pada inbox
 void lineInbox() {
     printf("[--------------------------------------------------------------------------------]\n");
 }
@@ -40,7 +41,7 @@ void formatEmailID(int emailID, char* output) {
     output[8] = '\0'; // Null-terminate string
 }
 
-// Fungsi untuk memotong string tanpa menggunakan string.h
+// Fungsi untuk memotong string
 void truncateString(const char* input, char* output, int maxLength) {
     int i;
     for (i = 0; i < maxLength && input[i] != '\0'; i++) {
@@ -81,7 +82,7 @@ void DisplayInbox(ListEmail listEmail) {
     char formattedID[10];
     char truncatedSubject[21];
 
-    // Menampilkan email
+    // Menampilkan daftar email
     for (IdxType i = startIdx; i >= endIdx; i--) {
         formatEmailID(listEmail.data[i - 1].id, formattedID); // Format Email ID
         truncateString(listEmail.data[i - 1].subyek, truncatedSubject, 20); // Truncate Subject
@@ -104,8 +105,8 @@ void DisplayInbox(ListEmail listEmail) {
     lineInbox();
 }
 
-// Fungsi untuk mencetak email head
-void printEmailHead(ListEmail listEmail, int emailID) {
+// Fungsi untuk bacaPesanInbox
+void bacaPesanInbox(ListEmail listEmail, int emailID) {
     char formattedID[10]; // Buffer untuk menyimpan ID terformat
     formatEmailID(listEmail.data[emailID - 1].id, formattedID); // Format ID menjadi 'EMAILxxx'
 
@@ -121,11 +122,13 @@ void printEmailHead(ListEmail listEmail, int emailID) {
     printf("[-------------------------------------------------------------------------------]\n\n");
 }
 
+// Fungsi untuk membaca pesan, yang menerima parameter berupa email ID setelah proses validasi berhasil dilakukan.
 void bacaPesan(int emailID) {
-    printEmailHead(listEmail,emailID);
+    bacaPesanInbox(listEmail,emailID);
 }
 
-void Inbox(Word w1, Word w2) {
+// Fungsi menjalankan perintah inbox
+void Inbox() {
     do {
         printf("Masukkan perintah dalam mode INBOX: ");
         STARTWORD();  // Memulai input perintah
