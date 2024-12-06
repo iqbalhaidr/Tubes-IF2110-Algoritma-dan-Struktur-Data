@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <time.h>
+
 #include "boolean.h"
 
 #define NIL -1
@@ -24,13 +25,13 @@ typedef struct {
 
 /* ********* AKSES (Selektor) ********* */
 /* Jika t adalah Datetime, maka akses elemen : */
-#define DAY(t)    (t).day
-#define MONTH(t)  (t).month
-#define YEAR(t)   (t).year
-#define HOUR(t)   (t).hour
+#define DAY(t) (t).day
+#define MONTH(t) (t).month
+#define YEAR(t) (t).year
+#define HOUR(t) (t).hour
 #define MINUTE(t) (t).minute
 #define SECOND(t) (t).second
-#define EPOCH(t)  (t).epoch
+#define EPOCH(t) (t).epoch
 
 /* *** KONSTRUKTOR *** */
 void CreateDatetime(Datetime *t);
@@ -51,6 +52,10 @@ void getDatetime(Datetime *t);
 /* *** KONVERSI *** */
 int toSecond(Datetime t);
 /* Mengembalikan detik sejak Unix Epoch sampai t */
+/* keknya ini fungsi obsolete */
+
+int toEpoch(const char *timestamp);
+/* Mengkonversi timestamp menjadi detik sejak Epoch */
 
 /* *** DISPLAY *** */
 void displayDatetime(Datetime t);

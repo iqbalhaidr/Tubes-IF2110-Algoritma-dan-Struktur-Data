@@ -8,7 +8,6 @@ typedef struct {
     char* email;
 } activeUser;
 
-
 boolean isEmailValid(char* email);
 void registerUser();
 void loginUser();
