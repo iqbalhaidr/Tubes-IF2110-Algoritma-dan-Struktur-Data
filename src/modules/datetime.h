@@ -50,12 +50,18 @@ void getDatetime(Datetime *t);
 /* Proses : Mengambil waktu terkini dan memasukkannya ke t */
 
 /* *** KONVERSI *** */
-int toSecond(Datetime t);
-/* Mengembalikan detik sejak Unix Epoch sampai t */
-/* keknya ini fungsi obsolete */
+int isLeap(int year);
+/* Mengembalikan true/false (1/0) jika year adalah tahun kabisat */
+
+int daysInMonth(int year, int month);
+/* Mengembalikan jumlah hari pada bulan dan tahun sesuai parameter */
+
+int parseInt(const char *str, int start, int length);
+/* Mengembalikan nilai integer dari string angka dimulai dari idx=start
+   sepanjang length */
 
 int toEpoch(const char *timestamp);
-/* Mengkonversi timestamp menjadi detik sejak Epoch */
+/* Mengembalikan timestamp yang berbentuk char YYYY-MM-DD HH:MM:SS */
 
 /* *** DISPLAY *** */
 void displayDatetime(Datetime t);
