@@ -126,59 +126,66 @@ int loadEmail(char* fileEmail, ListEmail *listEmail) {
 
 int saveConfig(){
     /* Save User */
-    FILE *file = fopen(fileUserPath, "w");
-    if (file == NULL){
+    FILE *fileUser = fopen(fileUserPath, "w");
+    if (fileUser == NULL){
         printf("Gagal menyimpan konfigurasi :(\n");
         return 0;
     }
     //number of user
-    fprintf(file, "%d\n", listUser.number);
+    fprintf(fileUser, "%d\n", listUser.number);
     int k = 0;
     for (int i = 0; i <listUser.number; i++){
-        fprintf(file, "%d\n", listUser.data[k].id);
-        fprintf(file, "%s\n", listUser.data[k].email);
-        fprintf(file, "%s\n", listUser.data[k].password);
+        fprintf(fileUser, "%d\n", listUser.data[k].id);
+        fprintf(fileUser, "%s\n", listUser.data[k].email);
+        fprintf(fileUser, "%s\n", listUser.data[k].password);
         k++;
     }
-    fclose(file);
+    fclose(fileUser);
 
     /* Save Email */
-    FILE *file = fopen(fileEmailPath, "w");
-    if (file == NULL){
+    FILE *fileEmail = fopen(fileEmailPath, "w");
+    if (fileEmail == NULL){
         printf("Gagal menyimpan konfigurasi :(\n");
         return 0;
     }
     //number of email
-    fprintf(file, "%d\n", listEmail.number);
+    fprintf(fileEmail, "%d\n", listEmail.number);
     k = 0;
     for (int i = 0; i <listEmail.number; i++){
-        fprintf(file, "%d\n", listEmail.data[k].id);
-        fprintf(file, "%d\n", listEmail.data[k].idPengirim);
-        fprintf(file, "%d\n", listEmail.data[k].idPenerima);
-        fprintf(file, "%d\n", listEmail.data[k].idCC);
-        fprintf(file, "%s\n", listEmail.data[k].timestamp);
-        fprintf(file, "%s\n", listEmail.data[k].subyek);
-        fprintf(file, "%s\n", listEmail.data[k].body);
-        fprintf(file, "%d\n", listEmail.data[k].reply);
-        fprintf(file, "%d\n", listEmail.data[k].read);
-        fprintf(file, "%d\n", listEmail.data[k].readCC);
+        fprintf(fileEmail, "%d\n", listEmail.data[k].id);
+        fprintf(fileEmail, "%d\n", listEmail.data[k].idPengirim);
+        fprintf(fileEmail, "%d\n", listEmail.data[k].idPenerima);
+        fprintf(fileEmail, "%d\n", listEmail.data[k].idCC);
+        fprintf(fileEmail, "%s\n", listEmail.data[k].timestamp);
+        fprintf(fileEmail, "%s\n", listEmail.data[k].subyek);
+        fprintf(fileEmail, "%s\n", listEmail.data[k].body);
+        fprintf(fileEmail, "%d\n", listEmail.data[k].reply);
+        fprintf(fileEmail, "%d\n", listEmail.data[k].read);
+        fprintf(fileEmail, "%d\n", listEmail.data[k].readCC);
         k++;
     }
-    fclose(file);
+    fclose(fileEmail);
     printf("File konfigurasi telah disimpan!\n");
     return 1;
 }
 
+void readFileToArray(char* fileUser, ListUser *listUser){
+    FILE *file = fopen(fileUser, "r");
+    // char word[CAPACITY_CHAR_USER];
+
+    if (file == NULL) {
+        printf("File %s gagal dimuat!\n", fileUser);
+        // return 0;
+    }
+
+    STARTWORD();
+    char* readWord = toString(currentWord);
+    printf("%s\n", readWord);
+}
+
 /* DRIVER */
 // int main(){
-//     ListUser listUser = loadUser();
-//     printf("LIST USER:\n");
-//     printListUser(listUser);
-//     printf("listnum user: %d\n", listUser.number);
-
-//     ListEmail listEmail = loadEmail();
-//     printListEmail(listEmail);
-//     printf("listnum email: %d\n", listEmail.number);
+//     readFileToArray(fileUserPath, &listUser);
 
 //     return 0;
 // }

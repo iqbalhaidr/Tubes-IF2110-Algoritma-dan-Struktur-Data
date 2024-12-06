@@ -11,5 +11,6 @@ int loadConfigfromFoler(char *folderPath, ListUser *listUser, ListEmail *listEma
 int loadUser(char* fileUser, ListUser *listUser);
 int loadEmail(char* fileEmail, ListEmail *listEmail);
 int saveConfig();
+void readFileToArray(char* fileUserPath, ListUser *listUser);
 
 #endif
