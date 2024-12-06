@@ -5,21 +5,23 @@
 #include "draftemail.c"
 
 // Fungsi untuk membentuk emailtree dengan menambah semua reply ke subjek utama
-void addReplies(Tree node, ListEmail listEmail) {
+void addReplies(Tree node, ListEmail listEmail, int idUser) {
     for (int i = 0; i < listEmail.number; i++) { // Mencari semua reply dari email
         if (listEmail.data[i].reply == node->info) {
-            Address newNode = newTreeNode(listEmail.data[i].id);
-            if (newNode != NULL) {
-                if (LEFT (node) == NULL) {
-                    LEFT(node) = newNode;
-                    addReplies(newNode, listEmail);
-                } else if (RIGHT(node) == NULL) {
-                    RIGHT(node) = newNode;
-                    addReplies(newNode, listEmail);
-                } else {
-                    printf("Error: Node is full\n");
+            if (listEmail.data[i].idPenerima == idUser || listEmail.data[i].idCC == idUser) {
+                Address newNode = newTreeNode(listEmail.data[i].id);
+                if (newNode != NULL) {
+                    if (LEFT (node) == NULL) {
+                        LEFT(node) = newNode;
+                        addReplies(newNode, listEmail);
+                    } else if (RIGHT(node) == NULL) {
+                        RIGHT(node) = newNode;
+                        addReplies(newNode, listEmail);
+                    } else {
+                        printf("Error: Node is full\n");
+                    }
                 }
-            }  
+            }
         }
     }
 }
@@ -124,13 +126,9 @@ void readEmail(ListEmail listEmail, int emailID) {
     }
 
     IdxType root = getRoot(listEmail, emailID);
-    
     Tree emailTree = newTreeNode(listEmail.data[root].id);
-    
     addReplies(emailTree, listEmail);
-    
     printEmailHead(listEmail,emailTree,emailID);
-
     ListDin l = createPreorderList(emailTree);
     for (int i = 0; i < l.nEff; i++) {
         printEmail(listEmail, emailTree, l.buffer[i]);
@@ -148,14 +146,9 @@ void replyEmail(int id_user, ListUser list_user, ListEmail listEmail, int id_rep
     }
     
     IdxType root = getRoot(listEmail, id_reply);
-    
     Tree emailTree = newTreeNode(listEmail.data[root].id);
-
     addReplies(emailTree, listEmail);
-
     int reply = findDepth(emailTree, id_reply, 0) + 1;
-
     int id_old = listEmail.data[root].id;
-
     DraftEmail(id_user, list_user, &listEmail, reply, id_reply, id_old);
 }
