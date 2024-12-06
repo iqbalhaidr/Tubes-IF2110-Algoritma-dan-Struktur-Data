@@ -41,7 +41,7 @@ void formatEmailID(int emailID, char* output) {
     output[8] = '\0'; // Null-terminate string
 }
 
-// Fungsi untuk memotong string tanpa menggunakan string.h
+// Fungsi untuk memotong string
 void truncateString(const char* input, char* output, int maxLength) {
     int i;
     for (i = 0; i < maxLength && input[i] != '\0'; i++) {
