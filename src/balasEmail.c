@@ -13,10 +13,10 @@ void addReplies(Tree node, ListEmail listEmail, int idUser) {
                 if (newNode != NULL) {
                     if (LEFT (node) == NULL) {
                         LEFT(node) = newNode;
-                        addReplies(newNode, listEmail);
+                        addReplies(newNode, listEmail, idUser);
                     } else if (RIGHT(node) == NULL) {
                         RIGHT(node) = newNode;
-                        addReplies(newNode, listEmail);
+                        addReplies(newNode, listEmail, idUser);
                     } else {
                         printf("Error: Node is full\n");
                     }
@@ -125,9 +125,10 @@ void readEmail(ListEmail listEmail, int emailID) {
         return;
     }
 
+    emailType email = listEmail.data[indexOfEmail(listEmail, emailID)];
     IdxType root = getRoot(listEmail, emailID);
     Tree emailTree = newTreeNode(listEmail.data[root].id);
-    addReplies(emailTree, listEmail);
+    addReplies(emailTree, listEmail, email.idPenerima);
     printEmailHead(listEmail,emailTree,emailID);
     ListDin l = createPreorderList(emailTree);
     for (int i = 0; i < l.nEff; i++) {
@@ -144,10 +145,10 @@ void replyEmail(int id_user, ListUser list_user, ListEmail listEmail, int id_rep
         printf("Email tidak diperuntukkan untuk Anda\n");
         return;
     }
-    
+    emailType email = listEmail.data[indexOfEmail(listEmail, emailID)];
     IdxType root = getRoot(listEmail, id_reply);
     Tree emailTree = newTreeNode(listEmail.data[root].id);
-    addReplies(emailTree, listEmail);
+    addReplies(emailTree, listEmail, email.idPenerima);
     int reply = findDepth(emailTree, id_reply, 0) + 1;
     int id_old = listEmail.data[root].id;
     DraftEmail(id_user, list_user, &listEmail, reply, id_reply, id_old);
