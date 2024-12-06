@@ -16,6 +16,7 @@ int ceil_division(int a, int b) {
     return (a + b - 1) / b;
 }
 
+// Fungsi untuk menampilkan garis pada inbox
 void lineInbox() {
     printf("[--------------------------------------------------------------------------------]\n");
 }
@@ -104,8 +105,8 @@ void DisplayInbox(ListEmail listEmail) {
     lineInbox();
 }
 
-// Fungsi untuk mencetak email head
-void printEmailHead(ListEmail listEmail, int emailID) {
+// Fungsi untuk bacaPesanInbox
+void bacaPesanInbox(ListEmail listEmail, int emailID) {
     char formattedID[10]; // Buffer untuk menyimpan ID terformat
     formatEmailID(listEmail.data[emailID - 1].id, formattedID); // Format ID menjadi 'EMAILxxx'
 
@@ -122,7 +123,7 @@ void printEmailHead(ListEmail listEmail, int emailID) {
 }
 
 void bacaPesan(int emailID) {
-    printEmailHead(listEmail,emailID);
+    bacaPesanInbox(listEmail,emailID);
 }
 
 void Inbox(Word w1, Word w2) {
