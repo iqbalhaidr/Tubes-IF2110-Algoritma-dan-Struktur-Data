@@ -1,14 +1,14 @@
 #include <stdio.h>
 
-// INI INCLUDE ATUR AJA LAH
-// #include "./datatypes/datetime.c"
-// #include "./datatypes/listemail.c"
-// #include "./datatypes/listuser.c"
-// #include "./datatypes/matrix.c"
+// INCLUDE INI DISESUAIKAN SAJA
+#include "./datatypes/datetime.c"
+#include "./datatypes/listemail.c"
+#include "./datatypes/listuser.c"
+#include "./datatypes/matrix.c"
 #include "./datatypes/prioqueue.c"
 // #include "./loadData.c"
 // #include "./modules/boolean.h"
-#include "./statusKepentingan.c"
+// #include "./statusKepentingan.c"
 
 #define TIMESTAMP(l, i) (l).data[(i)].timestamp
 #define SUBJECT(l, i) (l).data[(i)].subyek
@@ -104,9 +104,14 @@ void notifikasi(ListEmail LE, ListUser LU, int userID, int minInteraction) {
 /*Driver*/
 /*
 int main() {
-    ListUser listUser = loadUser();
-    ListEmail listEmail = loadEmail();
-    notifikasi(listEmail, listUser, 2, 1);
+    (<minInteraction> adalah jumlah minimum interaksi agar dianggap penting, ada
+    pada file konfigurasi umum),
+    (<userID> adalah ID user yang ingin ditampilkan notifikasinya/ID user yang
+    sedang login)
+
+    <kondisi listUser, listEmail sudah di load data>
+
+    notifikasi(listEmail, listUser, <userID>, <minInteraction>);
 
     return 0;
 }
