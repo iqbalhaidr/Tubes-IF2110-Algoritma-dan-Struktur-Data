@@ -2,6 +2,7 @@
 #include "../modules/mesinkata.h"
 #include "../modules/mesinkarakter.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 boolean EndWord;
 Word currentWord;
@@ -18,7 +19,7 @@ void reset() {
 
 
 void IgnoreBlanks() {
-    while (currentChar == BLANK) {
+    while (currentChar == BLANK || currentChar == '\n') {
         ADV();
     }
 }
@@ -64,23 +65,4 @@ void DisplayCurrentWord() {
     for (int i = 0; i < currentWord.Length; i++) {
         printf("%c", currentWord.TabWord[i]);
     }
-}
-
-int lenWord(char* word) {
-    int i = 0;
-    while (word[i] != '\0') {
-        i++;
-    }
-    return i;
-}
-
-boolean isEqual(Word currentWord, char *word){
-    if (currentWord.Length == lenWord(word)) {
-        for (int k = 0; k < lenWord(word); k++) {
-            if (currentWord.TabWord[k] != word[k])
-                return false;
-        }
-        return true;
-    }
-    return false;
 }

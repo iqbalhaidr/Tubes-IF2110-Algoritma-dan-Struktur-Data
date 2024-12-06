@@ -1,0 +1,23 @@
+Program Foldering
+
+|--bin
+|--config
+|--doc
+|--src
+|  |--datatypes 
+|  |--modules
+|  |--pengguna
+|     |--pengguna.c
+|     |--pengguna.h
+|  |--program 
+|     |--load.c
+|     |--load.h
+|     |--program.h
+|     |--program.c
+|     |--utility.h
+|     |--utility.c
+|  |--main.c
+|  |--globals.h
+|  |--modules.h
+|--Makefile
+|--README.md
