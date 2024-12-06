@@ -82,7 +82,7 @@ void DisplayInbox(ListEmail listEmail) {
     char formattedID[10];
     char truncatedSubject[21];
 
-    // Menampilkan email
+    // Menampilkan daftar email
     for (IdxType i = startIdx; i >= endIdx; i--) {
         formatEmailID(listEmail.data[i - 1].id, formattedID); // Format Email ID
         truncateString(listEmail.data[i - 1].subyek, truncatedSubject, 20); // Truncate Subject
@@ -122,11 +122,13 @@ void bacaPesanInbox(ListEmail listEmail, int emailID) {
     printf("[-------------------------------------------------------------------------------]\n\n");
 }
 
+// Fungsi untuk membaca pesan, yang menerima parameter berupa email ID setelah proses validasi berhasil dilakukan.
 void bacaPesan(int emailID) {
     bacaPesanInbox(listEmail,emailID);
 }
 
-void Inbox(Word w1, Word w2) {
+// Fungsi menjalankan perintah inbox
+void Inbox() {
     do {
         printf("Masukkan perintah dalam mode INBOX: ");
         STARTWORD();  // Memulai input perintah
