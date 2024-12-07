@@ -6,6 +6,7 @@
 
 #include "boolean.h"
 #include "mesinkarakter.h"
+#include <stdio.h>
 
 #define NMax 1000
 #define BLANK ' '
@@ -19,6 +20,9 @@ typedef struct
 /* State Mesin Word */
 extern boolean EndWord;
 extern Word currentWord;
+extern boolean isInputFile;
+extern FILE *pita;
+extern int retval;
 
 void IgnoreBlanks();
 /* Mengabaikan satu atau beberapa BLANK
@@ -51,4 +55,9 @@ void DisplayCurrentWord();
 /* Menampilkan currentWord
    I.S.  : currentWord berisi kata yang sudah diakuisisi;
    F.S.  : menampilkan currentWord di terminal*/
+
+int StartWordFromFile(char *filePath);
+void ADVNewLine();
+// void CopyWordFile();
+
 #endif
