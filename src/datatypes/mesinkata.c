@@ -1,12 +1,15 @@
 #include "../modules/boolean.h"
 #include "../modules/mesinkata.h"
 #include "../modules/mesinkarakter.h"
+#include "../program/utility.h" //temp
 #include <stdio.h>
 #include <stdlib.h>
 
 boolean over;
 boolean EndWord;
 Word currentWord;
+boolean isInputFile;
+extern int retval;
 
 void reset() {
     currentWord.Length = 0;
@@ -17,6 +20,7 @@ void reset() {
     EOP = false;
     over = false;
     EndWord = false;
+    isInputFile = false;
 }
 
 
@@ -65,16 +69,25 @@ void STARTWORDDraft() {
         CopyWordDraft();
     }
 }
+
 void CopyWordDraft() {
     int i = 0;
-    while ((currentChar != MARK) && i < NMax) {
-        currentWord.TabWord[i] = currentChar;
-        ADV();
-        i++;
-    }
-    while (currentChar != MARK) {
-        ADV();
-        over = true;
+    if (!isInputFile) {
+        while ((currentChar != MARK) && (i < NMax)) {
+            currentWord.TabWord[i] = currentChar;
+            ADV();
+            i++;
+        }
+        while (currentChar != MARK) {
+            ADV();
+            over = true;
+        }
+    } else {
+        while (retval != EOF) {
+            currentWord.TabWord[i] = currentChar;
+            ADV();
+            i++;
+        }
     }
     currentWord.Length = i;
     currentWord.TabWord[i] = '\0';
@@ -82,10 +95,14 @@ void CopyWordDraft() {
 
 void CopyWord() {
     int i = 0;
-    while ((currentChar != MARK) && (currentChar != BLANK) && i < NMax) {
+    while ((currentChar != MARK) && (currentChar != BLANK) && (i < NMax)) {
         currentWord.TabWord[i] = currentChar;
         ADV();
         i++;
+    }
+    while ((currentChar != MARK) && (currentChar != BLANK)) {
+        ADV();
+        over = true;
     }
     currentWord.TabWord[i] = '\0';
     currentWord.Length = i;
@@ -94,5 +111,36 @@ void CopyWord() {
 void DisplayCurrentWord() {
     for (int i = 0; i < currentWord.Length; i++) {
         printf("%c", currentWord.TabWord[i]);
+    }
+}
+
+int StartWordFromFile(char *filePath){
+    int isSuccess = StartFromFile(filePath);
+    if (isSuccess){
+        if (currentChar == '\n'){
+            EndWord = true;
+        } else {
+            EndWord = false;
+            CopyWord();
+        }
+        return 1;
+    }
+    return 0;
+}
+
+void ADVNewLine() {
+    if (currentChar == '\n') {
+        reset();
+        isInputFile = true;
+        EndWord = false;     
+        ADV();
+
+        if (retval == EOF) {
+            EndWord = true; 
+        } else {
+            CopyWord();
+        }
+    } else {
+        CopyWord();
     }
 }
