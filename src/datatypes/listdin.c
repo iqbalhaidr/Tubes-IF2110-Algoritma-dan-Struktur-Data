@@ -60,7 +60,7 @@ void readList(ListDin *l) {
     NEFF(*l) = N;
     if (N!=0){
         for(i=0; i<NEFF(*l); i++){
-            scanf("%d", &ELMTLD(*l, i));
+            scanf("%hhd", &ELMTLD(*l, i));
         }
     }
 }

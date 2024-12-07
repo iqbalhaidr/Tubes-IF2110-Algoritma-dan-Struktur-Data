@@ -147,7 +147,7 @@ emailType BuatDraftEmail(int id_user , ListUser list_user) {
         } else if (id_penerima == IDX_UNDEF) {
             printf("Pengguna email dengan alamat %s tidak ditemukan.\n" , currentWord.TabWord);
         } else if (id_penerima == id_user) {
-            printf("Penerima pesan tidak boleh sama dengan pengirim pesan.\n" , currentWord.TabWord);
+            printf("Penerima pesan tidak boleh sama dengan pengirim pesan.\n");
         } else {
             email.idPenerima = id_penerima;
             break;
@@ -388,7 +388,7 @@ void UbahDraftEmail(emailType *email , int id_user , ListUser list_user) {
         } else if (id_penerima == IDX_UNDEF) {
             printf("Pengguna email dengan alamat %s tidak ditemukan.\n" , currentWord.TabWord);
         } else if (id_penerima == id_user) {
-            printf("Penerima pesan tidak boleh sama dengan pengirim pesan.\n" , currentWord.TabWord);
+            printf("Penerima pesan tidak boleh sama dengan pengirim pesan.\n");
         } else {
             (*email).idPenerima = id_penerima;
             break;
@@ -610,7 +610,6 @@ void KirimDraftEmail(ListEmail *list_email , emailType *email) {
     (*email).read = false;
     (*email).readCC = false;
     printf("Draft Email berhasil dikirim!\n");
-    printListEmail(*list_email);
 }
 
 void LihatDraftEmail(ListUser list_user , emailType email) {
