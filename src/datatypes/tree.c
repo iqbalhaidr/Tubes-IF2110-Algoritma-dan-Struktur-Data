@@ -16,7 +16,7 @@
 #include <math.h>
 #include "../modules/tree.h"
 
-Address newTreeNode(ElType val) {
+Address newTreeNode(ElTypeTree val) {
     Address p = malloc(sizeof(TreeNode));
     if (p != NULL) {
         ROOT(p) = val;
@@ -25,7 +25,7 @@ Address newTreeNode(ElType val) {
     }
 }
 
-Tree NewTree(ElType root , Tree left_tree , Tree right_tree) {
+Tree NewTree(ElTypeTree root , Tree left_tree , Tree right_tree) {
     Address p = newTreeNode(root);
     if (p != NULL) {
         LEFT(p) = left_tree;
@@ -34,7 +34,7 @@ Tree NewTree(ElType root , Tree left_tree , Tree right_tree) {
     return p;
 }
 
-void CreateTree(ElType root , Tree left_tree , Tree right_tree , Tree *p) {
+void CreateTree(ElTypeTree root , Tree left_tree , Tree right_tree , Tree *p) {
     *p = newTreeNode(root);
     if (p != NULL) {
         LEFT(*p) = left_tree;
@@ -81,7 +81,7 @@ void removeNode(Tree *p , Address node) {
     }
 }
 
-Address findNode(Tree p , ElType target) {
+Address findNode(Tree p , ElTypeTree target) {
     if (p == NULL) {
         return NULL;
     } else if (ROOT(p) == target) {
@@ -96,7 +96,7 @@ Address findNode(Tree p , ElType target) {
     }
 }
 
-void addReply(Tree *p , ElType new_reply) {
+void addReply(Tree *p , ElTypeTree new_reply) {
     if (*p == NULL) {
         *p = newTreeNode(new_reply);
     } else {

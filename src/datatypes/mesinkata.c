@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+boolean over;
 boolean EndWord;
 Word currentWord;
 
@@ -14,6 +15,7 @@ void reset() {
     }
     currentChar = BLANK;
     EOP = false;
+    over = false;
     EndWord = false;
 }
 
@@ -46,19 +48,47 @@ void ADVWORD() {
     }
 }
 
+void IgnoreEnter() {
+    if (currentChar == '\n') {
+        ADV();
+    }
+}
+
+void STARTWORDDraft() {
+    reset();
+    START();
+    IgnoreEnter();
+    if (currentChar == MARK) {
+        EndWord = true;
+    } else {
+        EndWord = false;
+        CopyWordDraft();
+    }
+}
+void CopyWordDraft() {
+    int i = 0;
+    while ((currentChar != MARK) && i < NMax) {
+        currentWord.TabWord[i] = currentChar;
+        ADV();
+        i++;
+    }
+    while (currentChar != MARK) {
+        ADV();
+        over = true;
+    }
+    currentWord.Length = i;
+    currentWord.TabWord[i] = '\0';
+}
+
 void CopyWord() {
     int i = 0;
-    while ((currentChar != MARK) && (currentChar != BLANK) && i<= NMax) {
+    while ((currentChar != MARK) && (currentChar != BLANK) && i < NMax) {
         currentWord.TabWord[i] = currentChar;
         ADV();
         i++;
     }
     currentWord.TabWord[i] = '\0';
-    if (i > NMax) {
-        currentWord.Length = NMax;
-    } else {
-        currentWord.Length = i++;
-    }
+    currentWord.Length = i;
 }
 
 void DisplayCurrentWord() {
