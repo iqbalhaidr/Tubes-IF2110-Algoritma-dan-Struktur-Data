@@ -1,38 +1,52 @@
 #include <stdio.h>
-//#include "loadData.c"
-#include "./datatypes/tree.c"
+#include "./modules/tree.h"
+#include "./modules/listdin.h"
+#include "./pengguna/pengguna.h"
 #include "draftemail.c"
 
+extern ListUser listUser; 
+extern ListEmail listEmail; 
+extern activeUser user;
+
+// Fungsi untuk membentuk emailtree dengan menambah semua reply ke subjek utama
 void addReplies(Tree node, ListEmail listEmail) {
-    for (int i = 0; i < listEmail.number; i++) {
-        if (listEmail.data[i].reply == node->info) {
-            Address newNode = newTreeNode(listEmail.data[i].id);
-            if (newNode != NULL) {
-                if (LEFT (node) == NULL) {
-                    LEFT(node) = newNode;
-                    addReplies(newNode, listEmail);
-                } else if (RIGHT(node) == NULL) {
-                    RIGHT(node) = newNode;
-                    addReplies(newNode, listEmail);
-                } else {
-                    printf("Error: Node is full\n");
+    for (int i = 0; i < listEmail.number; i++) { // Mengecek setiap email pada listEmail
+        if (listEmail.data[i].reply == node->info) { // Jika email merupakan reply dari email yang sedang dicek
+            if (listEmail.data[i].idPenerima == user.id || listEmail.data[i].idCC == user.id) {
+                Address newNode = newTreeNode(listEmail.data[i].id);
+
+                if (newNode != NULL) {
+                    if (LEFT (node) == NULL) { // Jika email belum memiliki balasan sama sekali
+                        LEFT(node) = newNode;
+                        addReplies(newNode, listEmail);
+                    } else  { // Jika email sudah memiliki balasan
+                        Address nextNode = LEFT(node);
+
+                        while (RIGHT(nextNode) != NULL) {
+                            nextNode = RIGHT(nextNode);
+                        }
+
+                        RIGHT(nextNode) = newNode;
+                        addReplies(newNode, listEmail);
+                    } 
                 }
             }
-            
         }
     }
 }
 
-IdxType indexOfEmail(ListEmail l, int emailID) {
+// Fungsi untuk mencari indeks email pada listEmail berdasarkan idnya
+IdxType indexOfEmail(int emailID, ListEmail listEmail) {
     boolean found;
     IdxType i = 0;
    
-    if(isEmptyEmail(l)){
+    if(isEmptyEmail(listEmail)){ // Jika list kosong
         return IDX_UNDEF;
     } else{
         found = 0;
-        while(!found && i<=l.number){
-            if (ELMT_EMAIL(l, i).id == emailID){
+
+        while(!found && i<listEmail.number){
+            if (ELMT_EMAIL(listEmail, i).id == emailID){
                 found = 1;
             } else{
                 found = 0;
@@ -40,43 +54,51 @@ IdxType indexOfEmail(ListEmail l, int emailID) {
             }
         }
 
-        if(found){
+        if(found) {
             return i;
-        } else{
+        } else{ // Jika email tidak ditemukan
             return IDX_UNDEF;
         }
     }
 }
 
-IdxType getRoot (ListEmail l, int emailID){
-    IdxType i = indexOfEmail(l, emailID);
-    while (l.data[i].reply != -1){
-        i = indexOfEmail(l, l.data[i].reply);
+// Fungsi untuk mencari indeks email root dari email dengan id tertentu
+IdxType indexOfRoot (int emailID, ListEmail listEmail) {
+    IdxType i = indexOfEmail(emailID, listEmail);
+
+    while (listEmail.data[i].reply != -1) {
+        i = indexOfEmail(listEmail.data[i].reply, listEmail);
     }
     return i;
 }
 
-ListDin createPreorderList(Tree p) {
+// Fungsi membentuk list dari semua email pada binary tree seakan n-ary tree
+ListDin createListOfNary(Tree root) {
     ListDin l;
     CreateListDin(&l, 100);
-    if (isTreeEmpty(p)) {
-        return l;
-    } else {
-        insertLast(&l, ROOT(p));
-        ListDin left = createPreorderList(LEFT(p));
-        ListDin right = createPreorderList(RIGHT(p));
-        for (int i = 0; i < left.nEff; i++) {
-            insertLast(&l, left.buffer[i]);
+
+    if (root == NULL) return l;
+
+    insertLast(&l, root->info); // Menambahkan root ke list
+
+    // Melakukan proses rekursif untuk setiap child
+    Address child = root->left;
+    while (child != NULL) {
+        ListDin childList = createListOfNary(child);// Mendapatkan list dari child
+
+        for (int i = 0; i < childList.nEff; i++) { //  Memasukkan semua elemen child ke list
+            insertLast(&l, childList.buffer[i]);
         }
-        for (int i = 0; i < right.nEff; i++) {
-            insertLast(&l, right.buffer[i]);
-        }
-        return l;
+
+        child = child->right; // Melanjutkan ke child selanjutnya
     }
+
+    return l;
 }
 
-void printEmailHead(ListEmail ListEmail,Tree emailTree,int emailID){
-    emailType email = ELMT_EMAIL(ListEmail, indexOfEmail(ListEmail, emailID));
+// Fungsi untuk mencetak email head
+void printEmailHead(Tree emailTree, int emailID, ListEmail listEmail){
+    emailType email = ELMT_EMAIL(listEmail, indexOfEmail(emailID, listEmail));
     printf("[----------------------------[ Baca Pesan ]---------------------------]\n");
     printf(" Inbox ID: EMAIL%d\n",email.id);
     printf(" Subject: %s\n",email.subyek);
@@ -85,55 +107,78 @@ void printEmailHead(ListEmail ListEmail,Tree emailTree,int emailID){
     printf("[---------------------------------------------------------------------]\n");
 }
 
-void printEmail(ListEmail ListEmail,Tree emailTree,int emailID){
-    emailType email = ELMT_EMAIL(ListEmail, indexOfEmail(ListEmail, emailID));
+// Fungsi untuk mencetak email
+void printEmail(Tree emailTree, int emailID, ListEmail listEmail){
+    emailType email = ELMT_EMAIL(listEmail, indexOfEmail(emailID, listEmail));
     printf("\n[%s]\n",email.subyek);
     printf("[---------------------------------------------------------------------]\n");
     printf(" %s\n",email.body);
     printf("[---------------------------------------------------------------------]\n");
 }
 
-int findDepth(Address root, int val, int depth) { 
-    if (root == NULL) { 
-        return -1;  
-    } 
-    if (root->info == val) { 
-        return depth; 
-    } 
-    int leftDepth = findDepth(root->left, val, depth + 1); 
-    if (leftDepth != -1) { 
-        return leftDepth; 
-    } 
-    return findDepth(root->right, val, depth + 1);
+// Fungsi untuk mencari node pada tree
+int getNextReplyNumber(Tree parent) {
+    int replyNumber = 1;
+
+    // Menghitung jumlah balasan yang sudah ada
+    Address child = parent->left; 
+    while (child != NULL) {
+        replyNumber++;
+        child = child->right;
+    }
+
+    return replyNumber;
 }
 
-void readEmail(ListEmail listEmail, int emailID) {
+void BacaEmail(int emailID) {
+    if (indexOfEmail(emailID, listEmail) == IDX_UNDEF) {
+        printf("Email tidak ditemukan\n");
+        return;
+    } else if (listEmail.data[indexOfEmail(emailID, listEmail)].idPenerima != user.id) {
+        printf("Email tidak diperuntukkan untuk Anda\n");
+        return;
+    }
 
-    IdxType root = getRoot(listEmail, emailID);
-    
+    emailType email = listEmail.data[indexOfEmail(emailID, listEmail)];
+
+    IdxType root = indexOfRoot(emailID, listEmail); 
+
     Tree emailTree = newTreeNode(listEmail.data[root].id);
-    
-    addReplies(emailTree, listEmail);
-    
-    printEmailHead(listEmail,emailTree,emailID);
 
-    ListDin l = createPreorderList(emailTree);
-    for (int i = 0; i < l.nEff; i++) {
-        printEmail(listEmail, emailTree, l.buffer[i]);
+    addReplies(emailTree, listEmail); 
+
+    printEmailHead(emailTree, emailID, listEmail); 
+    
+    ListDin listNary = createListOfNary(emailTree); 
+
+    for (int i = 0; i < listNary.nEff; i++) { 
+        printEmail(emailTree, listNary.buffer[i], listEmail);
     }
 }
 
-void replyEmail(int id_user, ListUser list_user, ListEmail listEmail, int id_reply) {
+void BalasEmail(int id_reply) {
+    if (indexOfEmail(id_reply, listEmail) == IDX_UNDEF) {
+        printf("Email tidak ditemukan\n");
+        return;
+    } else if (listEmail.data[indexOfEmail(id_reply, listEmail)].idPenerima != user.id) {
+        printf("Email tidak diperuntukkan untuk Anda\n");
+        return;
+    }
 
-    IdxType root = getRoot(listEmail, id_reply);
-    
+    emailType email = listEmail.data[indexOfEmail(id_reply, listEmail)];
+
+    IdxType root = indexOfRoot(id_reply, listEmail);
+
     Tree emailTree = newTreeNode(listEmail.data[root].id);
 
     addReplies(emailTree, listEmail);
 
-    int reply = findDepth(emailTree, id_reply, 0) + 1;
+    int reply = getNextReplyNumber(findNode(emailTree, id_reply));
 
     int id_old = listEmail.data[root].id;
-
-    DraftEmail(id_user, list_user, &listEmail, reply, id_reply, id_old);
+    
+    DraftEmail(user.id, listUser, &listEmail, reply, id_reply, id_old);
 }
+
+
+
