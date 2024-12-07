@@ -71,14 +71,4 @@ void DisplayCurrentWord();
 /* Menampilkan currentWord
    I.S.  : currentWord berisi kata yang sudah diakuisisi;
    F.S.  : menampilkan currentWord di terminal*/
-
-int lenWord(char *word);
-/* Mengembalikan nilai panjang dari string word*/
-
-boolean isEqual(Word currentWord, char *word);
-/* Mengembalikan nilai true jika currentWord == word, mengembalikan false jika tidak.
-   I.S.  : currentWord terdefinisi
-   F.S.  : mengembalikan nilai sesuai komparasi
-*/
-
 #endif

@@ -2,9 +2,11 @@
 #define LISTUSER_H
 
 #include "boolean.h"
+#include "mesinkata.h"
+#include "../program/utility.h"
 
 /*  Kamus Umum */
-#define CAPACITY 20
+#define CAPACITY_USER 20
 #define IDX_MIN 0
 #define IDX_UNDEF -1
 
@@ -19,7 +21,7 @@ typedef int IdxType;
 
 typedef struct {
     int number;
-    userType data[CAPACITY]; /* memori tempat penyimpan elemen (container) */
+    userType data[CAPACITY_USER]; /* memori tempat penyimpan elemen (container) */
 } ListUser;
 
 /* ********** SELEKTOR ********** */
@@ -49,4 +51,8 @@ void addUser(ListUser *l, userType user);
 /* Proses: Menambahkan user sebagai elemen terakhir List */
 /* I.S. List l boleh kosong, tetapi tidak penuh */
 /* F.S. val adalah elemen terakhir l yang baru */
+
+/* ********** SEARCHING ********** */
+int idUser(ListUser l, Word word);
+
 #endif

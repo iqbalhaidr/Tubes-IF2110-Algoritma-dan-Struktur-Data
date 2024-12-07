@@ -21,7 +21,6 @@
 #include "./modules/mesinkata.h"
 #include "./modules/listdin.h"
 #include "./modules/stack.h"
-#include "loadData.c"
 
 char* toString(Word currentWord) {
     char* string = malloc(256 * sizeof(char));
