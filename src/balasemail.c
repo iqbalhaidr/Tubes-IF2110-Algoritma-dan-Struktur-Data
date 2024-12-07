@@ -179,6 +179,3 @@ void BalasEmail(int id_reply) {
     
     DraftEmail(user.id, listUser, &listEmail, reply, id_reply, id_old);
 }
-
-
-
