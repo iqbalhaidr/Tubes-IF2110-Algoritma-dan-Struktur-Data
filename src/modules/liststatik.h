@@ -7,6 +7,7 @@
 #define LISTSTATIK_H
 
 #include "boolean.h"
+#include "listemail.h"
 
 /*  Kamus Umum */
 #define CAPACITY 100
@@ -19,7 +20,7 @@
 /* Nilai elemen tak terdefinisi*/
 
 /* Definisi elemen dan koleksi objek */
-typedef int ElType;  /* type elemen List */
+typedef emailType ElType;  /* type elemen List */
 typedef int IdxType;
 typedef struct {
    ElType contents[CAPACITY]; /* memori tempat penyimpan elemen (container) */

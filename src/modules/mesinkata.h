@@ -18,6 +18,7 @@ typedef struct
 } Word;
 
 /* State Mesin Word */
+extern boolean over;
 extern boolean EndWord;
 extern Word currentWord;
 extern boolean isInputFile;
@@ -41,6 +42,25 @@ void ADVWORD();
           currentChar adalah karakter pertama dari kata berikutnya, mungkin MARK
           Jika currentChar = MARK, EndWord = true.
    Proses : Akuisisi kata menggunakan procedure SalinWord */
+
+void IgnoreEnter();
+/* Mengabaikan satu Enter
+   I.S. : currentChar sembarang
+   F.S. : currentChar ≠ Enter atau currentChar = MARK */
+
+void STARTWORDDraft();
+/* I.S. : currentChar sembarang
+   F.S. : EndWord = true, dan currentChar = MARK;
+          atau EndWord = false, currentWord adalah kata yang sudah diakuisisi,
+          currentChar karakter pertama sesudah karakter terakhir kata */
+
+void CopyWordDraft();
+/* Mengakuisisi kata, menyimpan dalam currentWord
+   I.S. : currentChar adalah karakter pertama dari kata
+   F.S. : currentWord berisi kata yang sudah diakuisisi;
+          currentChar = MARK;
+          currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
+          Tambahan: dijadikan sebagai string, sehingga pada akhir kata ditambahkan '\0' */
 
 void CopyWord();
 /* Mengakuisisi kata, menyimpan dalam currentWord
