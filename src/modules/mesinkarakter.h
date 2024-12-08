@@ -10,6 +10,8 @@
 /* State Mesin */
 extern char currentChar;
 extern boolean EOP;
+extern boolean isInputFile;
+extern int retval;
 
 void START();
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
@@ -25,5 +27,7 @@ void ADV();
    F.S. : currentChar adalah karakter berikutnya dari currentChar yang lama,
           currentChar mungkin = MARK
           Jika  currentChar = MARK maka EOP akan menyala (true) */
+
+int StartFromFile(char *filePath);
 
 #endif

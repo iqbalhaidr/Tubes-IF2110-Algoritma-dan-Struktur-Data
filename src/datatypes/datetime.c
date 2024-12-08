@@ -43,20 +43,52 @@ void getDatetime(Datetime *t) {
 }
 
 /* *** KONVERSI *** */
-int toSecond(Datetime t) { return EPOCH(t); }
+int isLeap(int year) {
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
+int daysInMonth(int year, int month) {
+    int daysMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    if (month == 2 && isLeap(year)) {
+        return 29;
+    }
+    return daysMonth[month - 1];
+}
+
+int parseInt(const char *str, int start, int length) {
+    int result = 0;
+    for (int i = 0; i < length; i++) {
+        result = result * 10 + (str[start + i] - '0');
+    }
+    return result;
+}
 
 int toEpoch(const char *timestamp) {
-    struct tm t = {0};
+    int year = parseInt(timestamp, 0, 4);
+    int month = parseInt(timestamp, 5, 2);
+    int day = parseInt(timestamp, 8, 2);
+    int hour = parseInt(timestamp, 11, 2);
+    int minute = parseInt(timestamp, 14, 2);
+    int second = parseInt(timestamp, 17, 2);
+    int epochYear = 1970;
+    int days = 0;
 
-    sscanf(timestamp, "%d-%d-%d %d:%d:%d", &t.tm_year, &t.tm_mon, &t.tm_mday,
-           &t.tm_hour, &t.tm_min, &t.tm_sec);
+    for (int y = epochYear; y < year; y++) {
+        days += isLeap(y) ? 366 : 365;
+    }
 
-    t.tm_year -= 1900;
-    t.tm_mon -= 1;  // Bulan mulai dari 0
+    for (int m = 1; m < month; m++) {
+        days += daysInMonth(year, m);
+    }
 
-    time_t timeEpoch = mktime(&t);
+    days += (day - 1);
 
-    return (int)timeEpoch;
+    int seconds = days * 86400;
+    seconds += hour * 3600;
+    seconds += minute * 60;
+    seconds += second;
+
+    return seconds;
 }
 
 /* *** DISPLAY *** */

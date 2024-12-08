@@ -2,8 +2,8 @@
 #include <stdlib.h>
 
 // INCLUDE INI DISESUAIKAN SAJA
-// #include "./datatypes/listemail.c"
-// #include "./datatypes/listuser.c"
+#include "./datatypes/listemail.c"
+#include "./datatypes/listuser.c"
 #include "./datatypes/matrix.c"
 #include "./load.c"
 
@@ -144,8 +144,8 @@ void statusKepentingan(ListUser listUser, ListEmail listEmail) {
 /* DRIVER */
 /*
 int main() {
-    ListUser listUser = loadUser();
-    ListEmail listEmail = loadEmail();
+    <kondisi listUser, listEmail sudah di load data>
+
     statusKepentingan(listUser, listEmail);
 
     return 0;

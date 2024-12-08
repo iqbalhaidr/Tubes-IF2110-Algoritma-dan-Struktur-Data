@@ -7,34 +7,16 @@
 #include <stdio.h>
 #include "../globals.h"
 
-Word getSecondWord(Word word) {
-    int i;
-    boolean copy = false;
-    Word first;
-    first.Length = 0;
-    for (i = 0; i < word.Length; i++) {
-        if (copy) {
-            first.TabWord[first.Length] = word.TabWord[i];
-            first.Length++;
-        }
-
-        if (word.TabWord[i] == ' ') {
-            copy = true;
-        }
-    }
-    return first;
-}
-
 // Variabel global untuk mencatat perintah saat ini
 char currentCommand[50] = "";
 int currentPage = 1;
-int totalPages = 1;
 
 // Fungsi untuk membagi dengan pembulatan ke atas
 int ceil_division(int a, int b) {
     return (a + b - 1) / b;
 }
 
+// Fungsi untuk menampilkan garis pada inbox
 void lineInbox() {
     printf("[--------------------------------------------------------------------------------]\n");
 }
@@ -59,7 +41,7 @@ void formatEmailID(int emailID, char* output) {
     output[8] = '\0'; // Null-terminate string
 }
 
-// Fungsi untuk memotong string tanpa menggunakan string.h
+// Fungsi untuk memotong string
 void truncateString(const char* input, char* output, int maxLength) {
     int i;
     for (i = 0; i < maxLength && input[i] != '\0'; i++) {
@@ -100,7 +82,7 @@ void DisplayInbox(ListEmail listEmail) {
     char formattedID[10];
     char truncatedSubject[21];
 
-    // Menampilkan email
+    // Menampilkan daftar email
     for (IdxType i = startIdx; i >= endIdx; i--) {
         formatEmailID(listEmail.data[i - 1].id, formattedID); // Format Email ID
         truncateString(listEmail.data[i - 1].subyek, truncatedSubject, 20); // Truncate Subject
@@ -123,19 +105,105 @@ void DisplayInbox(ListEmail listEmail) {
     lineInbox();
 }
 
+// Fungsi untuk bacaPesanInbox
+void bacaPesanInbox(ListEmail listEmail, int emailID) {
+    char formattedID[10]; // Buffer untuk menyimpan ID terformat
+    formatEmailID(listEmail.data[emailID - 1].id, formattedID); // Format ID menjadi 'EMAILxxx'
+
+    int IDPengirim = listEmail.data[emailID - 1].idPengirim;
+
+    printf("[---------------------------------[ Baca Pesan ]--------------------------------]\n");
+    printf(" Inbox ID: %s\n", formattedID); // Gunakan ID terformat
+    printf(" Subject: %s\n", listEmail.data[emailID - 1].subyek);
+    printf(" Pengirim: %s\n", listUser.data[IDPengirim - 1].email);
+    printf(" Timestamp: %s\n", listEmail.data[emailID - 1].timestamp);
+    printf("[-------------------------------------------------------------------------------]\n");
+    printf(" %s\n", listEmail.data[emailID - 1].body);
+    printf("[-------------------------------------------------------------------------------]\n\n");
+}
+
+// Fungsi untuk membaca pesan, yang menerima parameter berupa email ID setelah proses validasi berhasil dilakukan.
+void bacaPesan(int emailID) {
+    bacaPesanInbox(listEmail,emailID);
+}
+
+// Fungsi menjalankan perintah inbox
 void Inbox() {
     do {
         printf("Masukkan perintah dalam mode INBOX: ");
-        STARTWORD();  // Mengambil input perintah
+        STARTWORD();  // Memulai input perintah
 
-        int totalPages = ceil_division(listEmail.number, 5);
-        // Memproses perintah berdasarkan input
+        int totalPages = ceil_division(listEmail.number, 5); // Hitung total halaman
+
         if (isEqual(currentWord, "DAFTAR_INBOX") || isEqual(currentWord, "LANJUT") ||
             isEqual(currentWord, "SEBELUM") || isEqual(currentWord, "BACA_PESAN") ||
             isEqual(currentWord, "KELUAR")) {
 
             if (isEqual(currentWord, "DAFTAR_INBOX")) {
                 DisplayInbox(listEmail);
+
+            } else if (isEqual(currentWord, "BACA_PESAN")) {
+                ADVWORD();  // Ambil kata kedua
+                if (!EndWord) {  // Memastikan ada kata kedua
+                    // Validasi format "EMAILxxx"
+                    int isValid = 1;
+                    if (currentWord.Length == 8) {
+                        // Pastikan 5 karakter pertama adalah "EMAIL"
+                        int i;
+                        for (i = 0; i < 5; i++) {
+                            if (currentWord.TabWord[i] != "EMAIL"[i]) {
+                                isValid = 0;
+                                break;
+                            }
+                        }
+                        // Pastikan karakter ke-6 hingga ke-8 adalah angka
+                        if (isValid) {
+                            for (i = 5; i < currentWord.Length; i++) {
+                                if (currentWord.TabWord[i] < '0' || currentWord.TabWord[i] > '9') {
+                                    isValid = 0;
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        isValid = 0;
+                    }
+
+                    if (isValid) {
+                        // Konversi angka dari "EMAILxxx"
+                        int emailID = 0;
+                        for (int i = 5; i < currentWord.Length; i++) {
+                            emailID = emailID * 10 + (currentWord.TabWord[i] - '0');
+                        }
+
+                        // Hitung rentang email di halaman saat ini
+                        int perPage = 5;
+                        int startIdx = listEmail.number - (currentPage - 1) * perPage;
+                        int endIdx = startIdx - perPage + 1;
+                        if (endIdx < 1) {
+                            endIdx = 1;
+                        }
+
+                        // Cek apakah email ada di halaman yang sedang ditampilkan
+                        int found = 0;
+                        for (int i = startIdx; i >= endIdx; i--) {
+                            if (listEmail.data[i - 1].id == emailID) {
+                                found = 1;
+                                break;
+                            }
+                        }
+
+                        if (found) {
+                            bacaPesan(emailID);  // Fungsi untuk membaca pesan
+                        } else {
+                            printf("Email tidak ditemukan di halaman %d.\n", currentPage);
+                        }
+                    } else {
+                        printf("Perintah tidak valid. Format harus 'EMAILxxx'.\n");
+                    }
+                } else {
+                    printf("Perintah tidak valid. Harus ada dua kata.\n");
+                }
             } else if (isEqual(currentWord, "LANJUT")) {
                 if (currentPage < totalPages) {
                     currentPage++;
@@ -144,6 +212,7 @@ void Inbox() {
                 } else {
                     printf("Sudah merupakan halaman yang paling terakhir.\n");
                 }
+
             } else if (isEqual(currentWord, "SEBELUM")) {
                 if (currentPage > 1) {
                     currentPage--;
@@ -152,17 +221,14 @@ void Inbox() {
                 } else {
                     printf("Sudah merupakan halaman yang paling pertama.\n");
                 }
+
             } else if (isEqual(currentWord, "KELUAR")) {
-                currentPage = 1;          // Reset halaman
+                currentPage = 1;  // Reset halaman
                 printf("Keluar dari mode INBOX.\n");
-                break; // Keluar dari loop
-            } else {
-                // Jika currentWord adalah tipe Word yang berisi array karakter,
-                // kita akses string-nya menggunakan currentWord.TabWord atau sesuai struktur
-                printf("Memproses perintah: %s\n", currentWord.TabWord);  // Contoh akses string dalam Word
+                break;
             }
         } else {
             printf("Perintah tidak valid dalam mode INBOX.\n");
         }
-    } while (1);  // Loop terus berjalan hingga perintah keluar ("KELUAR") diterima
+    } while (1);  // Loop berjalan hingga perintah "KELUAR" diterima
 }

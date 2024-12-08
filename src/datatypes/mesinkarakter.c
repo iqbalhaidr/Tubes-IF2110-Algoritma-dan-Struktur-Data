@@ -3,9 +3,11 @@
 #include <stdio.h>
 
 static FILE *pita;
-static int retval;
+int retval;
 char currentChar;
 boolean EOP;
+boolean isInputFile;
+boolean EndWord;
 
 void START() {
     if (pita == NULL) {
@@ -16,8 +18,27 @@ void START() {
 
 void ADV() {
     retval = fscanf(pita, "%c", &currentChar);
-    EOP = (currentChar == MARK);
-    if (EOP) {
-        pita = NULL;
+    if (!isInputFile){
+        //default
+        EOP = (currentChar == MARK);
+        if (EOP) {
+            pita = NULL;
+        }
+    } else {
+        if (retval == EOF){
+            pita = NULL;
+            fclose(pita);
+        }
     }
+}
+
+int StartFromFile(char *filePath){
+    isInputFile = true;
+    pita = fopen(filePath, "r");
+    if (pita == NULL){
+        printf("Gagal memuat file.\n");
+        return 0;
+    }
+    ADV();
+    return 1;
 }

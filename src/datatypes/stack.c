@@ -3,30 +3,30 @@
 #include "../modules/boolean.h"
 
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty(Stack *S) {
+void CreateEmptyStack(Stack *S) {
     Top(*S) = Nil;
 }
 
 /* ************ Predikat Untuk test keadaan KOLEKSI ************ */
-boolean IsEmpty(Stack S) {
+boolean IsEmptyStack(Stack S) {
     return Top(S) == Nil;
 }
 
-boolean IsFull(Stack S) {
+boolean IsFullStack(Stack S) {
     return Top(S) == MaxEl - 1;
 }
 
 /* ************ Menambahkan sebuah elemen ke Stack ************ */
-void Push(Stack * S, infotype X) {
-    if (!IsFull(*S)) {
+void PushStack(Stack * S, infotype X) {
+    if (!IsFullStack(*S)) {
         Top(*S)++;
         InfoTop(*S) = X;
     } 
 }
 
 /* ************ Menghapus sebuah elemen Stack ************ */
-void Pop(Stack * S, infotype* X) {
-    if (!IsEmpty(*S)) {
+void PopStack(Stack * S, infotype* X) {
+    if (!IsEmptyStack(*S)) {
         *X = InfoTop(*S);
         Top(*S)--;
     } 

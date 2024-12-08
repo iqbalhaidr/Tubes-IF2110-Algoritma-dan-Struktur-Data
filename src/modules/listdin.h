@@ -8,6 +8,7 @@
 #define LISTDIN_H
 
 #include "boolean.h"
+#include "listemail.h"
 
 /*  Kamus Umum */
 #define IDX_MIN 0
@@ -16,7 +17,7 @@
 /* Indeks tak terdefinisi*/
 
 /* Definisi elemen dan koleksi objek */
-typedef int ElType; /* type elemen list */
+typedef char ElType; /* type elemen list */
 typedef int IdxType;
 typedef struct
 {
@@ -39,8 +40,8 @@ typedef struct
 /* ********** SELEKTOR ********** */
 #define NEFF(l) (l).nEff
 #define BUFFER(l) (l).buffer
-#define ELMT(l, i) (l).buffer[i]
-#define CAPACITY(l) (l).capacity
+#define ELMTLD(l, i) (l).buffer[i]
+#define CAPACITYLD(l) (l).capacity
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create list kosong  */
