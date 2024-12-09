@@ -1,37 +1,7 @@
-/* Kelompok   : IF2110-01-B (K01-B)           */
-/* Anggota 1  : 13523019 - Shannon A A Lie    */
-/* Anggota 2  : 13523021 - M Raihan Nazhim O  */
-/* Anggota 3  : 13523025 - Joel Hotlan H S    */
-/* Anggota 4  : 13523043 - Najwa Kahani F     */
-/* Anggota 5  : 13523111 - M Iqbal Haidar     */
-/* Tanggal    : Kamis, 5 Desember 2024        */
-/* Proyek     : Alstrukdat - TB1 - Purry Mail */
-/* Bagian     : F04 - Draft Email - C         */
-/* File       : draftemail.c                  */
-/* Deskripsi  : F04A -- F04G [DRAFT EMAIL]    */
-/* PJ F04     : 13523021 - M Raihan Nazhim O  */
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include "./modules/datetime.h"
-#include "./modules/listuser.h"
-#include "./modules/listemail.h"
-#include "./modules/mesinkarakter.h"
-#include "./modules/mesinkata.h"
-#include "./modules/listdin.h"
-#include "./modules/stack.h"
-
-char* toString(Word currentWord) {
-    char* string = malloc(256 * sizeof(char));
-    int i = 0;
-    while (currentWord.TabWord[i] != '\0') {
-        string[i] = currentWord.TabWord[i];
-        i++;
-    }
-    string[i] = '\0';
-    return string;
-}
+#include "draftemail.h"
+#include "../globals.h"
 
 int FindIdBasedEmail(ListUser l , Word e) {
     for (int i = 0 ; i < l.number ; i++) {
@@ -79,7 +49,6 @@ boolean CheckEmptyEmail(ListDin l) {
 }
 
 char* MakeNewSubyekEmail(int reply , char* email_old_subyek) {
-    Word currentWord;
     currentWord.TabWord[0] = 'R';
     currentWord.TabWord[1] = 'e';
     currentWord.TabWord[2] = '[';
@@ -107,7 +76,7 @@ char* MakeNewSubyekEmail(int reply , char* email_old_subyek) {
     }
     currentWord.TabWord[idx] = '\0';
     currentWord.Length = idx + 1;
-    char* res = toString(currentWord);
+    return currentWord.TabWord;
 }
 
 emailType BuatDraftEmail(int id_user , ListUser list_user) {
@@ -195,11 +164,11 @@ emailType BuatDraftEmail(int id_user , ListUser list_user) {
             if (currentWord.TabWord[i] == '\n') {
                 check = false;
             }
-            if (!isFull(list_subyek)) {
+            if (!isFullLD(list_subyek)) {
                 insertLast(&list_subyek , currentWord.TabWord[i]);
             }
         }
-        if (isFull(list_subyek)) {
+        if (isFullLD(list_subyek)) {
             expandList(&list_subyek , 1);
         }
         insertLast(&list_subyek , '\0');
@@ -227,11 +196,11 @@ emailType BuatDraftEmail(int id_user , ListUser list_user) {
         CreateListDin(&list_body , 1000);
         STARTWORDDraft();
         for (int i = 0 ; i < currentWord.Length ; i++) {
-            if (!isFull(list_body)) {
+            if (!isFullLD(list_body)) {
                 insertLast(&list_body , currentWord.TabWord[i]);
             }
         }
-        if (isFull(list_body)) {
+        if (isFullLD(list_body)) {
             expandList(&list_body , 1);
         }
         insertLast(&list_body , '\0');
@@ -315,11 +284,11 @@ emailType BuatDraftBalasEmail(int id_user , ListUser list_user , ListEmail list_
         CreateListDin(&list_body , 1000);
         STARTWORDDraft();
         for (int i = 0 ; i < currentWord.Length ; i++) {
-            if (!isFull(list_body)) {
+            if (!isFullLD(list_body)) {
                 insertLast(&list_body , currentWord.TabWord[i]);
             }
         }
-        if (isFull(list_body)) {
+        if (isFullLD(list_body)) {
             expandList(&list_body , 1);
         }
         insertLast(&list_body , '\0');
@@ -436,11 +405,11 @@ void UbahDraftEmail(emailType *email , int id_user , ListUser list_user) {
             if (currentWord.TabWord[i] == '\n') {
                 check = false;
             }
-            if (!isFull(list_subyek)) {
+            if (!isFullLD(list_subyek)) {
                 insertLast(&list_subyek , currentWord.TabWord[i]);
             }
         }
-        if (isFull(list_subyek)) {
+        if (isFullLD(list_subyek)) {
             expandList(&list_subyek , 1);
         }
         insertLast(&list_subyek , '\0');
@@ -468,11 +437,11 @@ void UbahDraftEmail(emailType *email , int id_user , ListUser list_user) {
         CreateListDin(&list_body , 1000);
         STARTWORDDraft();
         for (int i = 0 ; i < currentWord.Length ; i++) {
-            if (!isFull(list_body)) {
+            if (!isFullLD(list_body)) {
                 insertLast(&list_body , currentWord.TabWord[i]);
             }
         }
-        if (isFull(list_body)) {
+        if (isFullLD(list_body)) {
             expandList(&list_body , 1);
         }
         insertLast(&list_body , '\0');
@@ -541,11 +510,11 @@ void UbahDraftBalasEmail(emailType *email , int id_user , ListUser list_user) {
         CreateListDin(&list_body , 1000);
         STARTWORDDraft();
         for (int i = 0 ; i < currentWord.Length ; i++) {
-            if (!isFull(list_body)) {
+            if (!isFullLD(list_body)) {
                 insertLast(&list_body , currentWord.TabWord[i]);
             }
         }
-        if (isFull(list_body)) {
+        if (isFullLD(list_body)) {
             expandList(&list_body , 1);
         }
         insertLast(&list_body , '\0');
@@ -624,12 +593,12 @@ void LihatDraftEmail(ListUser list_user , emailType email) {
     } else {
         printf("Penerima CC : <Tidak Ada>\n");
     }
-    if (email.subyek != "") {
+    if (!isEqualStr(email.subyek, "")) {
         printf("Subjek : %s\n" , email.subyek);
     } else {
         printf("Subjek : <Tidak Ada>\n");
     }
-    if (email.body != "") {
+    if (!isEqualStr(email.body, "")) {
         printf("Body : %s\n" , email.body);
     } else {
         printf("Body : <Tidak Ada>\n");
@@ -697,13 +666,13 @@ void DraftEmail(int id_user , ListUser list_user , ListEmail *list_email , int r
             printf("SELAMAT DATANG DI MENU DRAFT BALAS EMAIL\n");
         }
         printf("Pilihan Opsi :\n");
-        printf("1. BUAT_DRAFT\n");
-        printf("2. UBAH_DRAFT\n");
-        printf("3. LIHAT_DRAFT\n");
-        printf("4. KIRIM_DRAFT\n");
-        printf("5. UNDO\n");
-        printf("6. REDO\n");
-        printf("7. BATAL\n\n");
+        printf("     --- BUAT_DRAFT\n");
+        printf("     --- UBAH_DRAFT\n");
+        printf("     --- LIHAT_DRAFT\n");
+        printf("     --- KIRIM_DRAFT\n");
+        printf("     --- UNDO\n");
+        printf("     --- REDO\n");
+        printf("     --- BATAL\n\n");
         printf(">> ");
         STARTWORD();
         while (!EndWord) {
@@ -730,7 +699,7 @@ void DraftEmail(int id_user , ListUser list_user , ListEmail *list_email , int r
         } else if (isEqual(currentWord , lihat_draft)) {
             LihatDraftEmail(list_user , email);
         } else if (isEqual(currentWord , kirim_draft)) {
-            if (email.body == "") {
+            if (isEqualStr(email.body, "")) {
                 printf("Draft belum sempurna, mohon disempurnakan terlebih dahulu.\n");
             } else {
                 KirimDraftEmail(&*list_email , &email);
@@ -747,4 +716,8 @@ void DraftEmail(int id_user , ListUser list_user , ListEmail *list_email , int r
             printf("Perintah Tidak Valid. Masukkan \"BATAL\" untuk kembali ke menu utama.\n");
         }
     }
+}
+
+void StartDraftEmail(){
+    DraftEmail(user.id, listUser, &listEmail, 0, 0, 0); //temp
 }

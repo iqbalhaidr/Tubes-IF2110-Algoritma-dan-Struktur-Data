@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "../modules/boolean.h"
 #include "../modules/matrix.h"
-#include <math.h>
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */
 /* *** Konstruktor membentuk Matrix *** */
@@ -26,11 +25,11 @@ IdxType getLastIdxCol(Matrix m) {
     return (m.colEff - 1);
 }
 /* Mengirimkan true jika i, j adalah Index efektif bagi m */
-boolean isIdxEff(Matrix m, IdxType i, IdxType j) {
+boolean isIdxEffMatrix(Matrix m, IdxType i, IdxType j) {
     return (i >= 0 && i < m.rowEff && j >= 0 && j < m.colEff);
 }
 /* Mengirimkan elemen m(i,i) */
-ElType getElmtDiagonal(Matrix m, IdxType i) {
+int getElmtDiagonal(Matrix m, IdxType i) {
     return (m.mem[i][i]);
 }
 
@@ -118,7 +117,7 @@ Matrix multiplyMatrix(Matrix m1, Matrix m2) {
     return m;
 }
 /* Mengirim hasil perkalian setiap elemen m dengan x */
-Matrix multiplyByConst(Matrix m, ElType x) {
+Matrix multiplyByConst(Matrix m, int x) {
     Matrix mR;
     createMatrix(m.rowEff, m.colEff, &mR);
     int i, j;
@@ -130,7 +129,7 @@ Matrix multiplyByConst(Matrix m, ElType x) {
     return mR;
 }
 /* F.S. Mengalikan setiap elemen m dengan k */
-void pMultiplyByConst(Matrix *m, ElType k) {
+void pMultiplyByConst(Matrix *m, int k) {
     int i, j;
     for (i = 0; i < m->rowEff; i++) {
         for (j = 0; j < m->colEff; j++) {

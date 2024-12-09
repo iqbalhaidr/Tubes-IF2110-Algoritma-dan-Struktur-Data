@@ -6,8 +6,7 @@ static FILE *pita;
 int retval;
 char currentChar;
 boolean EOP;
-boolean isInputFile;
-boolean EndWord;
+extern boolean isInputFile;
 
 void START() {
     if (pita == NULL) {
@@ -27,7 +26,6 @@ void ADV() {
     } else {
         if (retval == EOF){
             pita = NULL;
-            fclose(pita);
         }
     }
 }
@@ -36,7 +34,6 @@ int StartFromFile(char *filePath){
     isInputFile = true;
     pita = fopen(filePath, "r");
     if (pita == NULL){
-        printf("Gagal memuat file.\n");
         return 0;
     }
     ADV();

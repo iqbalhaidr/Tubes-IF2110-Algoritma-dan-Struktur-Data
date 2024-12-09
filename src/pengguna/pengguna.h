@@ -1,7 +1,9 @@
-#ifndef PENGGUNA_H
-#define PENGGUNA_H
+#ifndef _PENGGUNA_H
+#define _PENGGUNA_H
 
-#include "../modules.h"
+#include "../modules/boolean.h"
+#include "../modules/listuser.h"
+#include "../modules/listemail.h"
 
 typedef struct {
     int id;
@@ -11,7 +13,7 @@ typedef struct {
 boolean isEmailValid(char* email);
 void registerUser();
 void loginUser();
-void logoutUser();
+void LogoutUser();
 void autentikasiUser();
 
 #endif

@@ -1,11 +1,24 @@
-#include "../modules/boolean.h"
-#include "../modules/inbox.h"
-#include "../pengguna/pengguna.h"
-#include "../modules/listemail.h"
-#include "../modules/mesinkata.h"
+#include "inbox.h"
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "../globals.h"
+
+#include "../modules/boolean.h"
+#include "../modules/mesinkarakter.h"
+#include "../modules/mesinkata.h"
+#include "../modules/datetime.h"
+#include "../modules/listdin.h"
+#include "../modules/stack.h"
+#include "../modules/prioqueue.h"
+#include "../modules/tree.h"
+
+#include "../modules/listuser.h"
+#include "../modules/listemail.h"
+
+#include "../program/utility.h"
+#include "../pengguna/pengguna.h"
+#include "../program/program.h"
 
 // Variabel global untuk mencatat perintah saat ini
 char currentCommand[50] = "";
@@ -128,16 +141,16 @@ void bacaPesan(int emailID) {
 }
 
 // Fungsi menjalankan perintah inbox
-void Inbox() {
+void StartInbox() {
     do {
         printf("Masukkan perintah dalam mode INBOX: ");
-        STARTWORD();  // Memulai input perintah
+        Word input = perintah();  // Memulai input perintah
 
-        int totalPages = ceil_division(listEmail.number, 5); // Hitung total halaman
+        int totalPages = ceil_division(listEmail.number, pagination); // Hitung total halaman
 
-        if (isEqual(currentWord, "DAFTAR_INBOX") || isEqual(currentWord, "LANJUT") ||
-            isEqual(currentWord, "SEBELUM") || isEqual(currentWord, "BACA_PESAN") ||
-            isEqual(currentWord, "KELUAR")) {
+        if (isEqual(input, "DAFTAR_INBOX") || isEqual(input, "LANJUT") ||
+            isEqual(input, "SEBELUM") || isEqual(input, "BACA_PESAN") ||
+            isEqual(input, "KELUAR")) {
 
             if (isEqual(currentWord, "DAFTAR_INBOX")) {
                 DisplayInbox(listEmail);

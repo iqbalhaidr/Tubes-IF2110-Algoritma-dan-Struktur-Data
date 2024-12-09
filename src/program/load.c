@@ -2,25 +2,49 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 #include "load.h"
 #include "utility.h"
 #include "../globals.h"
-#include "../modules.h"
+#include "program.h"
+#include "utility.h"
 
-int inisialisasi(ListUser *listUser, ListEmail *listEmail) {
-    printf("Selamat datang di PurryMail!\n");
-    printf("\n");
+#include <stdio.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#ifdef _WIN32
+#include <direct.h>  // For _mkdir on Windows
+#else
+    #include <unistd.h>  // For POSIX functions (e.g., access)
+#endif
+
+void inisialisasi(ListUser *listUser, ListEmail *listEmail) {
     printf("Masukkan folder konfigurasi untuk dimuat: ");
 
     STARTWORD();
     char *folderPath = toString(currentWord);
+
     if (!loadConfigfromFoler(folderPath, listUser, listEmail)){
-        printf("Gagal memuat file config dari %s\n", folderPath);
-        return 0;
+        red(); printf("Gagal memuat file config dari %s.\n", folderPath); defaultp();
+        printf("Exiting...\n");
+        sleep(2);
+        system("clear");
+        exit(0);
     } else {
+        green(); printf("Memuat konfigurasi Purry Mail...\n");
+        sleep(1);
+        printf("Memuat konfigurasi Purry Mail...\n");
+        sleep(1);
+        printf("Memuat konfigurasi Purry Mail...\n"); defaultp();
+        sleep(3);
+        system("clear");
         printf("Silakan REGISTER/LOGIN untuk memulai!\n");
+        do {
+            startMenu();
+            autentikasiUser();
+        } while (!authenticated);
     }
-    return 1;
 }
 
 int loadConfigfromFoler(char *folderPath, ListUser *listUser, ListEmail *listEmail) {
@@ -34,7 +58,23 @@ int loadConfigfromFoler(char *folderPath, ListUser *listUser, ListEmail *listEma
         return 0;
     }
 
+    snprintf(fileUmumPath, sizeof(fileUmumPath), "./%s/umum.config", folderPath);
+    if (!loadUmum(fileUmumPath, &pagination, &importantInteraction)){
+        return 0;
+    }
     return 1;
+}
+
+/* Memuat config umum */
+int loadUmum(char *filePath, int *pagination, int *importantInteraction){
+    int suc = StartWordFromFile(filePath);
+    if (suc) {
+        *pagination = stringToInt(toString(currentWord));
+        ADVNewLine();
+        *importantInteraction = stringToInt(toString(currentWord));
+        return 1;
+    }
+    return 0;
 }
 
 /* Memuat list user */
@@ -129,27 +169,18 @@ int loadEmail(char* filePath, ListEmail *listEmail) {
     return 0;
 }
 
-#ifdef _WIN32
-    #include <direct.h>
-#else
-    #include <unistd.h>
-#endif
+
 
 int isDirectoryExist(char *folderPath) {
     struct stat info;
     if (stat(folderPath, &info) != 0) {
-        printf("masuk sini1\n");
         // Cannot access path, directory may not exist
         return 0;
-    } else if (info.st_mode & S_IFDIR) {
+    } else if (S_ISDIR(info.st_mode)) {
         // Path exists and is a directory
-        printf("masuk sini2\n");
         return 1;
-    } else {
-        // Path exists but is not a directory
-        printf("masuk sini3\n");
-        return 0;
     }
+    return 0;
 }
 
 int createDirectory(char *folderPath) {
@@ -175,24 +206,38 @@ int createDirectory(char *folderPath) {
     return 0; // Directory already exists
 }
 
-int saveConfig(){
+void SaveConfig(){
     /* Save User */
-    char *folderPath; char fileSaveUserPath[256]; char fileSaveEmailPath[256];
-    printf("Masukkan nama folder penyimpanan: \n");
+    char *folderPath; char fileSaveUserPath[256]; char fileSaveEmailPath[256]; char fileSaveUmumPath[256];
+    printf("Masukkan nama folder penyimpanan: ");
     STARTWORD();
 
     folderPath = toString(currentWord);
 
     if (createDirectory(folderPath) != 0){
-        return 0;
+        return;
     }
+
+    /* Save Umum */
+    snprintf(fileSaveUmumPath, sizeof(fileSaveUmumPath), "./%s/umum.config", folderPath);
+    FILE *fileSaveUmum = fopen(fileSaveUmumPath, "w");
+    if (fileSaveUmum == NULL){
+        printf("Gagal menyimpan konfigurasi :(\n");
+        return;
+    }
+    fprintf(fileSaveUmum, "%d\n", pagination);
+    fprintf(fileSaveUmum, "%d", importantInteraction);
+
+    fclose(fileSaveUmum);
+
+    /* Save User */
 
     snprintf(fileSaveUserPath, sizeof(fileSaveUserPath), "./%s/pengguna.config", folderPath);
 
     FILE *fileSaveUser = fopen(fileSaveUserPath, "w");
     if (fileSaveUser == NULL){
         printf("Gagal menyimpan konfigurasi :(\n");
-        return 0;
+        return;
     }
     //number of user
     fprintf(fileSaveUser, "%d\n", listUser.number);
@@ -215,7 +260,7 @@ int saveConfig(){
     FILE *fileSaveEmail = fopen(fileSaveEmailPath, "w");
     if (fileSaveEmail == NULL){
         printf("Gagal menyimpan konfigurasi :(\n");
-        return 0;
+        return;
     }
     //number of email
     fprintf(fileSaveEmail, "%d\n", listEmail.number);
@@ -238,7 +283,18 @@ int saveConfig(){
     }
     fclose(fileSaveEmail);
     printf("File konfigurasi telah disimpan!\n");
-    return 1;
+}
+
+void ExitProgram(){
+    printf("Keluar dari program?\n");
+    red(); printf("     --- YA\n"); defaultp();
+    green(); printf("     --- TIDAK\n"); defaultp();
+    if (isEqual(perintah(), "YA")){
+        printf("Exiting...\n");
+        sleep(2);
+        system("clear");
+        exit(0);
+    }
 }
 
 /* DRIVER */

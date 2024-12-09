@@ -1,63 +1,83 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "modules.h"
-#include "globals.h"
-#include "./program/utility.h"
-#include "./modules/inbox.h"
+#include "./modules/listuser.h"
+#include "./modules/listemail.h"
+#include "./pengguna/pengguna.h"
 
+/* Global Variables */
 boolean authenticated;
 ListUser listUser; 
 ListEmail listEmail; 
 activeUser user;
 char fileUserPath[256];
 char fileEmailPath[256];
+char fileUmumPath[256];
+int pagination;
+int importantInteraction;
 
-void perintah( ) {
-    printf(">> ");
-    STARTWORD();
-    if (isEqual(currentWord, "INBOX")) {
-        Inbox();
-    } else {
-        printf("Perintah tidak valid.\n");
-    }
-}
+#include "./program/load.h"
+#include "./email/inbox.h"
+#include "./email/draftemail.h"
+#include "./email/balasemail.h"
+#include "./program/notifikasi.h"
+#include "./program/statuskepentingan.h"
 
 int main(){
     printf("Berhasil run main.\n");
 
-    // Deklarasi Variabel
+    /* Deklarasi Variabel Awal */
     authenticated = false;
-    CreateListUser(&listUser);
-    CreateListEmail(&listEmail, 1000);
+
+    /* Tampilan Awal */
+    intro();
     
-    // Insialisasi
-    int init = inisialisasi(&listUser, &listEmail);
-    if(init){        
-        perintah();
-    //     //Autentikasi Pengguna (REGISTER/LOGIN)
-    //     startMenu();
-    //     autentikasiUser();
+    /* Inialisasi: Load, Register, Login */
+    inisialisasi(&listUser, &listEmail);
 
-    //     //Program
-    //     if (authenticated){
-    //         menu();
-    //     }
-        //Autentikasi Pengguna (REGISTER/LOGIN)
-        do {
-            startMenu();
-            autentikasiUser();
-        } while (!authenticated);
-
-        //Program
+    /* Program Utama */
+    do {
         if (authenticated){
-
-            // printListUser(listUser);
-            // printf("\n");
-            // printListEmail(listEmail);
-
-            saveConfig();
-
-            menu();
+             do {
+                menu();
+                Word input = perintah();
+                if (isEqual(input, "BUAT_DRAFT")) {
+                    StartDraftEmail();
+                } else if (isEqual(input, "INBOX")) {
+                    StartInbox();
+                } else if (isEqual(input, "STATUS_KEPENTINGAN")) {
+                    StartStatusKepentingan();
+                } else if (isEqual(input, "NOTIFIKASI")) {
+                    StartNotifikasi();
+                } else if (isEqual(input, "SAVE")) {
+                    SaveConfig();
+                } else if (isEqual(input, "LOGOUT")) {
+                    LogoutUser();
+                } else {
+                    red(); printf("Masukan tidak valid!\n"); defaultp();
+                }
+                sleep(3);
+                system("clear");
+            } while (authenticated);    
         }
-    } 
+
+        do {
+            menuNonAuth();
+            Word input = perintah();
+            if (isEqual(input, "SAVE")) {
+                SaveConfig();
+            } else if (isEqual(input, "LOAD")) {
+                inisialisasi(&listUser, &listEmail);
+            } else if (isEqual(input, "QUIT")) {
+                ExitProgram();
+            } else {
+                red(); printf("Masukan tidak valid!\n"); defaultp();
+            }
+            system("clear");
+        } while (!authenticated);
+        
+    } while (1);
+    
     return 0;
 }

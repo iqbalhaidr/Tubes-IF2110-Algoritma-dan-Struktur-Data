@@ -2,16 +2,10 @@
 #include <stdlib.h>
 
 // INCLUDE INI DISESUAIKAN SAJA
-#include "./datatypes/listemail.c"
-#include "./datatypes/listuser.c"
-#include "./datatypes/matrix.c"
-// #include "./loadData.c"
 
-#define KEPENTINGAN(M, A, B) \
-    ELMTMATRIX(M, (A - 1), (B - 1))  // Kepentingan USER ID A terhadap B
-#define IDPENGIRIM(l, i) (l).data[(i)].idPengirim  // Akses ID Pengirim
-#define IDPENERIMA(l, i) (l).data[(i)].idPenerima  // Akses ID Penerima
-#define IDCC(l, i) (l).data[(i)].idCC              // Akses ID CC
+#include "statuskepentingan.h"
+#include "../modules/matrix.h"
+#include "../globals.h"
 
 /* I.S. m terdefinisi rowEff dan colEff */
 /* F.S. Semua elemen m bernilai 0 */
@@ -139,6 +133,10 @@ void statusKepentingan(ListUser listUser, ListEmail listEmail) {
 
     readStatusKepentingan(listUser, listEmail, &m);
     displayStatusKepentingan(m);
+}
+
+void StartStatusKepentingan() {
+    statusKepentingan(listUser, listEmail);
 }
 
 /* DRIVER */

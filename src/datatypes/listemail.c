@@ -1,7 +1,7 @@
-#include "../modules/boolean.h"
-#include "../modules/listemail.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "../modules/boolean.h"
+#include "../modules/listemail.h"
 
 /* ********** KONSTRUKTOR ********** */
 void CreateListEmail(ListEmail *l, int capacity) {

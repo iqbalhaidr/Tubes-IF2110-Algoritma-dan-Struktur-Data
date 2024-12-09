@@ -1,7 +1,7 @@
 #include "../modules/boolean.h"
 #include "../modules/mesinkata.h"
 #include "../modules/mesinkarakter.h"
-#include "../program/utility.h" //temp
+#include "../program/utility.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -95,17 +95,26 @@ void CopyWordDraft() {
 
 void CopyWord() {
     int i = 0;
-    while ((currentChar != MARK) && (currentChar != BLANK) && (i < NMax)) {
-        currentWord.TabWord[i] = currentChar;
-        ADV();
-        i++;
-    }
-    while ((currentChar != MARK) && (currentChar != BLANK)) {
-        ADV();
-        over = true;
+    if (!isInputFile){
+        //default
+        while ((currentChar != MARK) && (currentChar != BLANK) && i<= NMax) {
+            currentWord.TabWord[i] = currentChar;
+            ADV();
+            i++;
+        }
+    } else {
+        //from file
+        while ((currentChar != '\n') && i<= NMax && (retval!=EOF)) {
+            currentWord.TabWord[i] = currentChar;
+            ADV();
+            i++;
+        }
+        if (retval != EOF) {
+            i--;
+        }
     }
     currentWord.TabWord[i] = '\0';
-    currentWord.Length = i;
+    currentWord.Length = i--;
 }
 
 void DisplayCurrentWord() {

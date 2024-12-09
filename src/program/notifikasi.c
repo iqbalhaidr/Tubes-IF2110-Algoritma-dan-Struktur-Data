@@ -1,14 +1,8 @@
 #include <stdio.h>
 
 // INCLUDE INI DISESUAIKAN SAJA
-#include "./datatypes/datetime.c"
-#include "./datatypes/listemail.c"
-#include "./datatypes/listuser.c"
-#include "./datatypes/matrix.c"
-#include "./datatypes/prioqueue.c"
-// #include "./loadData.c"
-// #include "./modules/boolean.h"
-// #include "./statusKepentingan.c"
+#include "../globals.h"
+#include "notifikasi.h"
 
 #define TIMESTAMP(l, i) (l).data[(i)].timestamp
 #define SUBJECT(l, i) (l).data[(i)].subyek
@@ -39,7 +33,7 @@ void readNotifikasi(ListEmail LE, ListUser LU, int userID, int minInteraction,
     readStatusKepentingan(LU, LE, &m);
 
     for (i = 0; i < emailCount; ++i) {
-        if (IDPENERIMA(LE, i) != userID) {
+        if (listEmail.data[i].idPenerima != userID) {
             continue;
         }
 
@@ -47,7 +41,7 @@ void readNotifikasi(ListEmail LE, ListUser LU, int userID, int minInteraction,
             continue;
         }
 
-        idPengirim = IDPENGIRIM(LE, i);
+        idPengirim = listEmail.data[i].idPengirim;
         interaction = KEPENTINGAN(m, idPengirim, userID);
         val.timeEpoch = toEpoch(TIMESTAMP(LE, i));
         val.timestamp = TIMESTAMP(LE, i);
@@ -99,6 +93,10 @@ void notifikasi(ListEmail LE, ListUser LU, int userID, int minInteraction) {
 
     readNotifikasi(LE, LU, userID, minInteraction, &importantQ, &normalQ);
     displayNotifikasi(&importantQ, &normalQ);
+}
+
+void StartNotifikasi(){
+    notifikasi(listEmail, listUser, user.id, importantInteraction);
 }
 
 /*Driver*/

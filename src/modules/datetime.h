@@ -1,9 +1,5 @@
-/* File: datetime.h */
-/* Tanggal: 15 November 2024 */
-/* *** ADT DATETIME *** */
-
-#ifndef DATETIME_H
-#define DATETIME_H
+#ifndef _DATETIME_H
+#define _DATETIME_H
 
 #include <stdio.h>
 #include <time.h>

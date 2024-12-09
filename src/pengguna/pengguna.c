@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "pengguna.h"
+#include <unistd.h>
 #include "../globals.h"
-
-// const char *filename = "../config/pengguna.config";
+#include "pengguna.h"
+#include "../program/load.h"
 
 /*** REGISTER ***/
 void registerUser(){
@@ -17,7 +17,7 @@ void registerUser(){
         STARTWORD();
         emailReg = toString(currentWord);
         // Validasi Email
-        if (currentWord.Length > 255) {
+        if (lenWord(emailReg) > 255) {
             printf("Panjang email maksimal 255 karakter.\n");
         } else if (!isEmailValid(emailReg)) {
             printf("Email tidak valid!\n");
@@ -97,19 +97,28 @@ void loginUser(){
         user.id = id++;
         user.email = emailLogin;
         authenticated = true;
-        printf("Login berhasil, selamat datang di PurryMail!\n");
+        green(); printf("Login berhasil, selamat datang di PurryMail!\n"); defaultp();
     }
 }
 
-void logoutUser() {
-    authenticated = false;
-    user.id = -1;
-    user.email = '\0';
-    printf("Terima kasih sudah menggunakan PurryMail! Sampai jumpa!\n");
+void LogoutUser() {
+    printf("Konfigurasi yang belum disimpan akan hilang setelah LOGOUT.\n");
+    printf("LOGOUT dari program?\n");
+    red(); printf("     --- YA\n"); defaultp();
+    green(); printf("     --- TIDAK\n"); defaultp();
+    if (isEqual(perintah(), "YA")){
+        printf("Keluar Purry Mail...\n");
+        sleep(2);
+        system("clear");
+        authenticated = false;
+        user.id = -1;
+        user.email = '\0';
+        printf("Terima kasih sudah menggunakan PurryMail! Sampai jumpa!\n");
+    }
 }
 
 void autentikasiUser(){
-    STARTWORD();
+    Word currentWord = perintah();
 
     if (isEqual(currentWord, "REGISTER")) {
         if (!authenticated){
@@ -123,15 +132,19 @@ void autentikasiUser(){
         } else {
             printf("Anda sudah LOGIN sebagai %s\n", user.email);
         }
+    } else if (isEqual(currentWord, "QUIT")) {
+        ExitProgram();
     } else if (isEqual(currentWord, "LOGOUT")) {
         if (authenticated){
-            logoutUser();
+            LogoutUser();
         } else {
             printf("Anda belum LOGIN!\n");
         }
     } else {
         printf("Masukan tidak valid.\n");
     }
+    sleep(2);
+    system("clear");
 }
 
 /* REGEX */
