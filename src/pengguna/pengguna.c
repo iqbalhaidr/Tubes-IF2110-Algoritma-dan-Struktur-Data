@@ -97,6 +97,7 @@ void loginUser(){
         user.id = id++;
         user.email = emailLogin;
         authenticated = true;
+        printf("%d\n", id);
         green(); printf("Login berhasil, selamat datang di PurryMail!\n"); defaultp();
     }
 }
