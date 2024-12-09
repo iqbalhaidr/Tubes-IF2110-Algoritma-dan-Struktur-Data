@@ -30,6 +30,7 @@ void menu(){
     yellow();
     printf("     --- BUAT_DRAFT\n");
     printf("     --- INBOX\n");
+    printf("     --- BALAS_EMAIL\n");
     printf("     --- STATUS_KEPENTINGAN\n");
     printf("     --- NOTIFIKASI\n");
     printf("     --- SAVE\n");
