@@ -1,7 +1,7 @@
-#include "../modules/boolean.h"
-#include "../modules/listdin.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "../modules/boolean.h"
+#include "../modules/listdin.h"
 
 /* ********** KONSTRUKTOR ********** */
 void CreateListDin(ListDin *l, int capacity) {
@@ -41,11 +41,11 @@ boolean isIdxEff(ListDin l, IdxType i) {
 }
 
 /* ********** TEST KOSONG/PENUH ********** */
-boolean isEmpty(ListDin l) {
+boolean isEmptyLD(ListDin l) {
     return (listLength(l) == 0);
 }
 
-boolean isFull(ListDin l) {
+boolean isFullLD(ListDin l) {
     return (listLength(l) == CAPACITYLD(l));
 
 }
@@ -67,7 +67,7 @@ void readList(ListDin *l) {
 
 void printList(ListDin l) {
     IdxType i;
-    if (isEmpty(l)){
+    if (isEmptyLD(l)){
         printf("[]");
     } else{
         printf("[");

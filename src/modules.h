@@ -4,12 +4,10 @@
 #include "./modules/boolean.h"
 #include "./modules/mesinkarakter.h"
 #include "./modules/mesinkata.h"
-
-#include "./modules/listuser.h"
-#include "./modules/listemail.h"
-
-#include "./pengguna/pengguna.h"
-#include "./program/load.h"
-#include "./program/program.h"
+#include "./modules/datetime.h"
+#include "./modules/listdin.h"
+#include "./modules/stack.h"
+#include "./modules/prioqueue.h"
+#include "./modules/tree.h"
 
 #endif

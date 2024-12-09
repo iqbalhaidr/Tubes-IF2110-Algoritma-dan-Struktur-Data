@@ -1,7 +1,7 @@
 #include <stdio.h>
-//#include "loadData.c"
-#include "./datatypes/tree.c"
-#include "draftemail.c"
+#include "../globals.h"
+#include "balasemail.h"
+#include "draftemail.h"
 
 void addReplies(Tree node, ListEmail listEmail) {
     for (int i = 0; i < listEmail.number; i++) {

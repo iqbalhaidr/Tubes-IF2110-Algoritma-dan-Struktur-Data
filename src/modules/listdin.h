@@ -4,8 +4,8 @@
 /* Versi II : dengan banyaknya elemen didefinisikan secara eksplisit,
    memori list dinamik */
 
-#ifndef LISTDIN_H
-#define LISTDIN_H
+#ifndef _LISTDIN_H
+#define _LISTDIN_H
 
 #include "boolean.h"
 #include "listemail.h"
@@ -78,10 +78,10 @@ boolean isIdxEff(ListDin l, IdxType i);
 
 /* ********** TEST KOSONG/PENUH ********** */
 /* *** Test list kosong *** */
-boolean isEmpty(ListDin l);
+boolean isEmptyLD(ListDin l);
 /* Mengirimkan true jika list l kosong, mengirimkan false jika tidak */
 /* *** Test list penuh *** */
-boolean isFull(ListDin l);
+boolean isFullLD(ListDin l);
 /* Mengirimkan true jika list l penuh, mengirimkan false jika tidak */
 
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */

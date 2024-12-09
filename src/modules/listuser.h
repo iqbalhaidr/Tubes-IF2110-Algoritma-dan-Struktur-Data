@@ -1,5 +1,5 @@
-#ifndef LISTUSER_H
-#define LISTUSER_H
+#ifndef _LISTUSER_H
+#define _LISTUSER_H
 
 #include "boolean.h"
 #include "mesinkata.h"
@@ -7,8 +7,7 @@
 
 /*  Kamus Umum */
 #define CAPACITY_USER 20
-#define IDX_MIN 0
-#define IDX_UNDEF -1
+#define IDX_UNDEF_USER -1
 
 /* Definisi elemen dan koleksi objek */
 typedef struct {

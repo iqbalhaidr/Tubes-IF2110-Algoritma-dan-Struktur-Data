@@ -1,13 +1,11 @@
 #include "../modules/prioqueue.h"
-
-#include <stdio.h>
-
 #include "../modules/boolean.h"
+#include <stdio.h>
 
 /* *** Kreator *** */
 void CreatePrioQueue(PrioQueue *pq) {
-    IDX_HEAD(*pq) = IDX_UNDEF;
-    IDX_TAIL(*pq) = IDX_UNDEF;
+    IDX_HEAD(*pq) = IDX_UNDEF_PRIO;
+    IDX_TAIL(*pq) = IDX_UNDEF_PRIO;
 }
 /* I.S. sembarang */
 /* F.S. Sebuah pq kosong terbentuk dengan kondisi sbb: */
@@ -17,7 +15,7 @@ void CreatePrioQueue(PrioQueue *pq) {
 
 /* ********* Prototype ********* */
 boolean isEmpty(PrioQueue pq) {
-    return (IDX_HEAD(pq) == IDX_UNDEF && IDX_TAIL(pq) == IDX_UNDEF);
+    return (IDX_HEAD(pq) == IDX_UNDEF_PRIO && IDX_TAIL(pq) == IDX_UNDEF_PRIO);
 }
 /* Mengirim true jika pq kosong: lihat definisi di atas */
 boolean isFull(PrioQueue pq) {
@@ -44,7 +42,6 @@ void enqueue(PrioQueue *pq, ElTypePrioQ val) {
         IDX_TAIL(*pq) = 0;
         TAIL(*pq) = val;
     } else {
-        int tempval;
         int i = IDX_HEAD(*pq);
         IDX_TAIL(*pq) = (IDX_TAIL(*pq) + 1) % CAPACITYPRIOQUEUE;
 
@@ -80,7 +77,6 @@ void enqueueAscending(PrioQueue *pq, ElTypePrioQ val) {
         IDX_TAIL(*pq) = 0;
         TAIL(*pq) = val;
     } else {
-        int tempval;
         int i = IDX_HEAD(*pq);
         IDX_TAIL(*pq) = (IDX_TAIL(*pq) + 1) % CAPACITYPRIOQUEUE;
 
@@ -113,8 +109,8 @@ void enqueueAscending(PrioQueue *pq, ElTypePrioQ val) {
 void dequeue(PrioQueue *pq, ElTypePrioQ *val) {
     *val = HEAD(*pq);
     if (IDX_HEAD(*pq) == IDX_TAIL(*pq)) {
-        IDX_HEAD(*pq) = IDX_UNDEF;
-        IDX_TAIL(*pq) = IDX_UNDEF;
+        IDX_HEAD(*pq) = IDX_UNDEF_PRIO;
+        IDX_TAIL(*pq) = IDX_UNDEF_PRIO;
     } else {
         IDX_HEAD(*pq) = (IDX_HEAD(*pq) + 1) % CAPACITYPRIOQUEUE;
     }

@@ -1,10 +1,9 @@
-#ifndef LISTEMAIL_H
-#define LISTEMAIL_H
+#ifndef _LISTEMAIL_H
+#define _LISTEMAIL_H
 
 #include "boolean.h"
 
 /*  Kamus Umum */
-#define IDX_MIN 0
 /* Indeks minimum list */
 #define IDX_UNDEF -1
 /* Indeks tak terdefinisi*/

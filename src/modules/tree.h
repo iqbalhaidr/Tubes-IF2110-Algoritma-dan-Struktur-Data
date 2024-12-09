@@ -1,18 +1,5 @@
-/* Kelompok   : IF2110-01-B (K01-B)           */
-/* Anggota 1  : 13523019 - Shannon A A Lie    */
-/* Anggota 2  : 13523021 - M Raihan Nazhim O  */
-/* Anggota 3  : 13523025 - Joel Hotlan H S    */
-/* Anggota 4  : 13523043 - Najwa Kahani F     */
-/* Anggota 5  : 13523111 - M Iqbal Haidar     */
-/* Tanggal    : Minggu, 17 November 2024      */
-/* Proyek     : Alstrukdat - TB1 - Purry Mail */
-/* Bagian     : ADT - Tree (Binary Tree) - H  */
-/* File       : tree.h                        */
-/* Deskripsi  : Definisi ADT Tree (Bin Tree)  */
-/* PJ F00H    : 13523021 - M Raihan Nazhim O  */
-
-#ifndef TREE_H
-#define TREE_H
+#ifndef _TREE_H
+#define _TREE_H
 
 #include "boolean.h"
 

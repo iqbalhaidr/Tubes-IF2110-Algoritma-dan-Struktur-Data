@@ -1,16 +1,3 @@
-/* Kelompok   : IF2110-01-B (K01-B)           */
-/* Anggota 1  : 13523019 - Shannon A A Lie    */
-/* Anggota 2  : 13523021 - M Raihan Nazhim O  */
-/* Anggota 3  : 13523025 - Joel Hotlan H S    */
-/* Anggota 4  : 13523043 - Najwa Kahani F     */
-/* Anggota 5  : 13523111 - M Iqbal Haidar     */
-/* Tanggal    : Minggu, 17 November 2024      */
-/* Proyek     : Alstrukdat - TB1 - Purry Mail */
-/* Bagian     : ADT - Tree (Binary Tree) - C  */
-/* File       : tree.c                        */
-/* Deskripsi  : Implementasi ADT Tree (BTree) */
-/* PJ F00H    : 13523021 - M Raihan Nazhim O  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -23,8 +10,8 @@ Address newTreeNode(ElTypeTree val) {
         LEFT(p) = NULL;
         RIGHT(p) = NULL;
     }
+    return p;
 }
-
 Tree NewTree(ElTypeTree root , Tree left_tree , Tree right_tree) {
     Address p = newTreeNode(root);
     if (p != NULL) {
@@ -209,7 +196,7 @@ int hitungNode(Tree p) {
         return 0;
     } else if (isBinary(p)) {
         return (hitungNode(LEFT(p)) + hitungNode(RIGHT(p)));
-    } else if (isUnerLeft) {
+    } else if (isUnerLeft(p)) {
         return (1 + hitungNode(LEFT(p)));
     } else {
         return (1 + hitungNode(RIGHT(p)));

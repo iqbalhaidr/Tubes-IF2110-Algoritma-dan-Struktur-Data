@@ -2,8 +2,8 @@
 /* deklarasi stack yang diimplementasi dengan tabel kontigu dan ukuran sama */
 /* TOP adalah alamat elemen puncak */
 /* Implementasi dalam bahasa C dengan alokasi statik */
-#ifndef stackt_H
-#define stackt_H
+#ifndef _STACKT_H
+#define _STACKT_H
 
 #include "boolean.h"
 #include "listemail.h"

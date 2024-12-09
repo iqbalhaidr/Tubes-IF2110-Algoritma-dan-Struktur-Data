@@ -45,7 +45,7 @@ int idUser(ListUser l, Word word) {
     int i = 0;
 
     if(isEmptyUser(l)){
-        return IDX_UNDEF;
+        return IDX_UNDEF_USER;
     } else{
         found = false;
         while(!found && i < l.number) {
@@ -59,7 +59,7 @@ int idUser(ListUser l, Word word) {
         if(found) {
             return i++;
         } else {
-            return IDX_UNDEF;
+            return IDX_UNDEF_USER;
         }
     }
 }

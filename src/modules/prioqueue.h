@@ -1,12 +1,12 @@
 /* File : prioqueue.h */
 /* Definisi ADT Priority Queue terurut mengecil berdasarkan nilai elemen */
 
-#ifndef PRIOQUEUE_H
-#define PRIOQUEUE_H
+#ifndef _PRIOQUEUE_H
+#define _PRIOQUEUE_H
 
 #include "boolean.h"
 
-#define IDX_UNDEF -1
+#define IDX_UNDEF_PRIO -1
 #define CAPACITYPRIOQUEUE 100
 
 /* Definisi elemen dan address */
