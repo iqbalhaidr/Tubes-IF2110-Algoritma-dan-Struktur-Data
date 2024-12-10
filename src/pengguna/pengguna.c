@@ -94,7 +94,7 @@ void loginUser(){
     }
 
     if (passwordValid && emailValid) {
-        user.id = id++;
+        user.id = id + 1;
         user.email = emailLogin;
         authenticated = true;
         green(); printf("Login berhasil, selamat datang di PurryMail!\n"); defaultp();
