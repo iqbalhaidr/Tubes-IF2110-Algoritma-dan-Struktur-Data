@@ -78,8 +78,6 @@ void loginUser(){
             printf("Masukkan password: ");
             STARTWORD();
             //validasi password
-            // printf("curword: %s\n", toString(currentWord));
-            // printf("id: %d\n", id);
             if (!isEqual(currentWord, listUser.data[id].password)){
                 printf("Password salah!\n");
             } else {
@@ -101,7 +99,8 @@ void LogoutUser() {
     printf("LOGOUT dari program?\n");
     red(); printf("     --- YA\n"); defaultp();
     green(); printf("     --- TIDAK\n"); defaultp();
-    if (isEqual(perintah(), "YA")){
+    Word input = perintah();
+    if (isEqual(input, "YA")){
         printf("Keluar Purry Mail...\n");
         sleep(2);
         system("clear");
@@ -109,13 +108,19 @@ void LogoutUser() {
         user.id = -1;
         user.email = '\0';
         printf("Terima kasih sudah menggunakan PurryMail! Sampai jumpa!\n");
+    } else if (!isEqual(input, "TIDAK")){
+        red();
+        printf("Masukan tidak valid!");
+        defaultp();
     }
+    sleep(2);
+    system("clear");
 }
 
 void autentikasiUser(){
     Word currentWord = perintah();
 
-    if (isEqual(currentWord, "REGISTER")) {
+    if (isEqual(currentWord, "REGISTER") && listUser.number <= 20) {
         if (!authenticated){
             registerUser();
         } else {
@@ -135,11 +140,13 @@ void autentikasiUser(){
         } else {
             printf("Anda belum LOGIN!\n");
         }
+    } else if (listUser.number > 20) {
+        red(); printf("Sudah terdapat 20 pengguna, konfigurasi penuh!\n"); defaultp();
     } else {
         printf("Masukan tidak valid.\n");
     }
     sleep(2);
-    // system("clear");
+    system("clear");
 }
 
 /* REGEX */
