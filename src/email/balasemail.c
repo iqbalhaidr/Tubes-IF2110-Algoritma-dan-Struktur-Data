@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "balasemail.h"
 #include "draftemail.h"
+#include "inbox.h"
 #include "../globals.h"
 
 // Fungsi untuk membentuk emailtree dengan menambah semua reply ke subjek utama
@@ -174,15 +176,17 @@ void BalasEmail(int id_reply, ListEmail listEmail, ListUser listUser) {
 }
 
 void StartBalasEmail () {
-    printf("Pilihan Opsi :\n");
-    printf("     --- BACA_PESAN\n");
-    printf("     --- BALAS_PESAN\n");
     do {
+        sleep(2);
+        if (!isEqual(currentWord, "DAFTAR_INBOX")){
+            system("clear");
+        }
+        headerBalasPesan();
+        menuBalasPesan();
         printf("Masukkan perintah dalam mode BALAS_PESAN: ");
         Word input = perintah();  // Memulai input perintah
 
         if (isEqual(input, "BALAS_PESAN") || isEqual(input, "BACA_PESAN")) {
-
             if (isEqual(currentWord, "BACA_PESAN")) {
                 ADVWORD();  // Ambil kata kedua
                 if (!EndWord) {  // Memastikan ada kata kedua
@@ -267,10 +271,12 @@ void StartBalasEmail () {
                 } else {
                     printf("Perintah tidak valid. Harus ada dua kata.\n");
                 }
-            } else if (isEqual(currentWord, "KELUAR dari mode BALAS_PESAN.")) {
-                printf("Keluar...\n");
-                break;
             }
+        } else if (isEqual(currentWord, "KELUAR")) {
+            red(); printf("Keluar dari Menu Balas Pesan...\n"); defaultp();
+            break;
+        } else if (isEqual(currentWord, "DAFTAR_INBOX")) {
+            DisplayInbox(listEmail);
         } else {
             printf("Perintah tidak valid.\n");
         }
