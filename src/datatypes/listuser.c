@@ -49,6 +49,7 @@ int idUser(ListUser l, Word word) {
     } else{
         found = false;
         while(!found && i < l.number) {
+            // printf("is equal email: cur word %s and data %s\n", toString(word), l.data[i].email);
             if (isEqual(word, l.data[i].email)){
                 found = true;
             } else{
