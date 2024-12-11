@@ -38,13 +38,8 @@ void inisialisasi(ListUser *listUser, ListEmail *listEmail) {
         sleep(1);
         printf("Memuat konfigurasi Purry Mail...\n"); defaultp();
         sleep(2);
-        // system("clear");
+        system("clear");
         printf("Silakan REGISTER/LOGIN untuk memulai!\n");
-
-        // printf("pagination: %d\n", pagination);
-        // printf("important int: %d\n", importantInteraction);
-        // printListUser(*listUser);
-        // printListEmail(*listEmail);
 
         do {
             startMenu();
@@ -54,6 +49,11 @@ void inisialisasi(ListUser *listUser, ListEmail *listEmail) {
 }
 
 int loadConfigfromFoler(char *folderPath, ListUser *listUser, ListEmail *listEmail) {
+    snprintf(fileUmumPath, sizeof(fileUmumPath), "./%s/umum.config", folderPath);
+    if (!loadUmum(fileUmumPath, &pagination, &importantInteraction)){
+        return 0;
+    }
+
     snprintf(fileUserPath, sizeof(fileUserPath), "./%s/pengguna.config", folderPath);
     if (!loadUser(fileUserPath, listUser)){
         return 0;
@@ -64,10 +64,6 @@ int loadConfigfromFoler(char *folderPath, ListUser *listUser, ListEmail *listEma
         return 0;
     }
 
-    snprintf(fileUmumPath, sizeof(fileUmumPath), "./%s/umum.config", folderPath);
-    if (!loadUmum(fileUmumPath, &pagination, &importantInteraction)){
-        return 0;
-    }
     return 1;
 }
 
@@ -139,20 +135,18 @@ int loadEmail(char* filePath, ListEmail *listEmail) {
             ADVNewLine();
             email.subyek = toString(currentWord);
             while (currentWord.TabWord[currentWord.Length - 1] == '\\') {
-                email.subyek[currentWord.Length-1] = '\0';
+                email.subyek[lenWord(email.subyek)-1] = '\n';
                
                 ADVNewLine();
-                email.subyek = concat(email.subyek, " ");
                 email.subyek = concat(email.subyek, toString(currentWord));
             }
 
             ADVNewLine();
             email.body = toString(currentWord);
             while (currentWord.TabWord[currentWord.Length - 1] == '\\') {
-                email.body[currentWord.Length-1] = '\0'; //changed
+                email.body[lenWord(email.body)-1] = '\n';
                
                 ADVNewLine();
-                email.body = concat(email.body, " ");
                 email.body = concat(email.body, toString(currentWord));
             }
 
@@ -278,8 +272,22 @@ void SaveConfig(){
         fprintf(fileSaveEmail, "%d\n", listEmail.data[k].idPenerima);
         fprintf(fileSaveEmail, "%d\n", listEmail.data[k].idCC);
         fprintf(fileSaveEmail, "%s\n", listEmail.data[k].timestamp);
-        fprintf(fileSaveEmail, "%s\n", listEmail.data[k].subyek);
-        fprintf(fileSaveEmail, "%s\n", listEmail.data[k].body);
+        //save body
+        for (int i = 0; i < lenWord(listEmail.data[k].subyek); i++){
+            if (listEmail.data[k].subyek[i] == '\n'){
+                fprintf(fileSaveEmail, "%c", '\\');
+            }
+            fprintf(fileSaveEmail, "%c", listEmail.data[k].subyek[i]);
+        }
+        fprintf(fileSaveEmail, "\n");
+        //save body
+        for (int i = 0; i < lenWord(listEmail.data[k].body); i++){
+            if (listEmail.data[k].body[i] == '\n'){
+                fprintf(fileSaveEmail, "%c", '\\');
+            }
+            fprintf(fileSaveEmail, "%c", listEmail.data[k].body[i]);
+        }
+        fprintf(fileSaveEmail, "\n");
         fprintf(fileSaveEmail, "%d\n", listEmail.data[k].reply);
         fprintf(fileSaveEmail, "%d\n", listEmail.data[k].read);
         fprintf(fileSaveEmail, "%d", listEmail.data[k].readCC);
@@ -296,11 +304,14 @@ void ExitProgram(){
     printf("Keluar dari program?\n");
     red(); printf("     --- YA\n"); defaultp();
     green(); printf("     --- TIDAK\n"); defaultp();
+    Word input = perintah();
     if (isEqual(perintah(), "YA")){
         printf("Exiting...\n");
         sleep(2);
         system("clear");
         exit(0);
+    } else if (!isEqual(input, "TIDAK")){
+        red(); printf("Masukan tidak valid!\n"); defaultp();
     }
 }
 
