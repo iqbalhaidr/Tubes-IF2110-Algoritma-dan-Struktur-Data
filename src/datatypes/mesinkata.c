@@ -102,6 +102,8 @@ void CopyWord() {
             ADV();
             i++;
         }
+        currentWord.TabWord[i] = '\0';
+        currentWord.Length = i;
     } else {
         //from file
         while ((currentChar != '\n') && i<= NMax && (retval!=EOF)) {
@@ -109,12 +111,12 @@ void CopyWord() {
             ADV();
             i++;
         }
-        if (retval != EOF) {
-            i--;
+        if (EOF == true) {
+            i++;
         }
+        currentWord.TabWord[i] = '\0';
+        currentWord.Length = i--;
     }
-    currentWord.TabWord[i] = '\0';
-    currentWord.Length = i--;
 }
 
 void DisplayCurrentWord() {

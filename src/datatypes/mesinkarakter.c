@@ -24,6 +24,8 @@ void ADV() {
             pita = NULL;
         }
     } else {
+        // printf("EOF: %d\n", retval == EOF);
+        // printf("c on adv: %c\n", currentChar);
         if (retval == EOF){
             pita = NULL;
         }

@@ -35,7 +35,7 @@ int main(){
     
     /* Inialisasi: Load, Register, Login */
     inisialisasi(&listUser, &listEmail);
-
+    
     /* Program Utama */
     do {
         if (authenticated){
@@ -59,7 +59,7 @@ int main(){
                 } else {
                     red(); printf("Masukan tidak valid!\n"); defaultp();
                 }
-                sleep(3);
+                sleep(2);
                 system("clear");
             } while (authenticated);    
         }
@@ -76,6 +76,7 @@ int main(){
             } else {
                 red(); printf("Masukan tidak valid!\n"); defaultp();
             }
+            sleep(2);
             system("clear");
         } while (!authenticated);
         

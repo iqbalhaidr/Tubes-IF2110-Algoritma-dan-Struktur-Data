@@ -49,7 +49,7 @@ int lenWord(char* word) {
     while (word[i] != '\0') {
         i++;
     }
-    return i;
+    return i--; //changed`
 }
 
 /* Kesamaan Word */
