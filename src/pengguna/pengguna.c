@@ -115,7 +115,6 @@ void LogoutUser() {
         printf("Masukan tidak valid!");
         defaultp();
     }
-    sleep(2);
     system("clear");
 }
 
