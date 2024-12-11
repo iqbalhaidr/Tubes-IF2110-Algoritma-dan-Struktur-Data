@@ -13,7 +13,7 @@ extern int retval;
 
 void reset() {
     currentWord.Length = 0;
-    for (int i = 0; i < NMax; i++) {
+    for (int i = 0; i < currentWord.Length; i++) { //changed
         currentWord.TabWord[i] = BLANK;
     }
     currentChar = BLANK;
@@ -106,16 +106,18 @@ void CopyWord() {
         currentWord.Length = i;
     } else {
         //from file
-        while ((currentChar != '\n') && i<= NMax && (retval!=EOF)) {
-            currentWord.TabWord[i] = currentChar;
+        while ((currentChar != '\n') && (retval!=EOF)) {
+            if (currentChar != '\r') {
+                currentWord.TabWord[i] = currentChar;
+                i++;
+            }
             ADV();
-            i++;
         }
         if (EOF == true) {
             i++;
         }
         currentWord.TabWord[i] = '\0';
-        currentWord.Length = i--;
+        currentWord.Length = i;
     }
 }
 
@@ -142,16 +144,15 @@ int StartWordFromFile(char *filePath){
 void ADVNewLine() {
     if (currentChar == '\n') {
         reset();
+        IgnoreBlanks(); //addition
         isInputFile = true;
         EndWord = false;     
-        ADV();
+        // ADV();
 
         if (retval == EOF) {
             EndWord = true; 
         } else {
             CopyWord();
         }
-    } else {
-        CopyWord();
     }
 }
