@@ -5,12 +5,19 @@
 
 void intro();
 
-/* Tampilan Menu Awal untuk Autentikasi */
 void startMenu();
-
-/* Tampilan Menu Email */ 
 void menu();
-
 void menuNonAuth();
+void headerPurryMail();
+void headerBuatDraft();
+void menuBuatDraft();
+void headerInbox();
+void menuInbox();
+void headerBalasPesan();
+void menuBalasPesan();
+void headerStartMenu();
+void headerMenu();
+void headerStatusKepentingan();
+
 
 #endif

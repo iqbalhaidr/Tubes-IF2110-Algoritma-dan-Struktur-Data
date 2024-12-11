@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 // INCLUDE INI DISESUAIKAN SAJA
 
@@ -126,13 +127,25 @@ void displayStatusKepentingan(Matrix m) {
 void statusKepentingan(ListUser listUser, ListEmail listEmail) {
     Matrix m;
 
-    if (listUser.number <= 0) {
-        printf("Belum ada user terdaftar.\n");
-        return;
-    }
-
-    readStatusKepentingan(listUser, listEmail, &m);
-    displayStatusKepentingan(m);
+    do {
+        sleep(2);
+        system("clear");
+        if (listUser.number <= 0) {
+            printf("Belum ada user terdaftar.\n");
+            sleep(1);
+            return;
+        }
+        readStatusKepentingan(listUser, listEmail, &m);
+        displayStatusKepentingan(m);
+        printf("Masukkan perintah KELUAR untuk kembali ke Menu Utama\n");
+        Word input = perintah();
+        if (isEqual(input, "KELUAR")){
+            red(); printf("Keluar dari Status Kepentingan...\n"); defaultp();
+            return;
+        } else {
+            red(); printf("Masukan tidak valid!\n"); defaultp();
+        }
+    } while (1);
 }
 
 void StartStatusKepentingan() { statusKepentingan(listUser, listEmail); }

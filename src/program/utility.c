@@ -49,7 +49,7 @@ int lenWord(char* word) {
     while (word[i] != '\0') {
         i++;
     }
-    return i--; //changed`
+    return i;
 }
 
 /* Kesamaan Word */
@@ -79,7 +79,7 @@ boolean isEqualStr(char* word1, char* word2) {
 char* toString(Word currentWord){
     char* string = malloc(256 * sizeof(char));
     int i = 0;
-    while (currentWord.TabWord[i] != '\0') {
+    while (i < currentWord.Length) {
         string[i] = currentWord.TabWord[i];
         i++;
     }
@@ -129,6 +129,10 @@ void blue(){
 
 void defaultp(){
     printf("\033[0m");
+}
+
+void bold() {
+    printf("\033[1m");
 }
 
 #endif

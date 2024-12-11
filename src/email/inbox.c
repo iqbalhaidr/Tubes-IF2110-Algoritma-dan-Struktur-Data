@@ -1,6 +1,7 @@
 #include "inbox.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include "../globals.h"
 
@@ -143,6 +144,9 @@ void bacaPesan(int emailID) {
 // Fungsi menjalankan perintah inbox
 void StartInbox() {
     do {
+        sleep(2);
+        system("clear");
+        headerInbox();
         printf("Masukkan perintah dalam mode INBOX: ");
         Word input = perintah();  // Memulai input perintah
 

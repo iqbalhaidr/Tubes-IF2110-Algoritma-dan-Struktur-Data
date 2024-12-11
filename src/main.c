@@ -67,7 +67,11 @@ int main(){
         do {
             menuNonAuth();
             Word input = perintah();
-            if (isEqual(input, "SAVE")) {
+            if (isEqual(input, "REGISTER")) {
+                registerUser();
+            } else if (isEqual(input, "LOGIN")) {
+                loginUser();
+            } else if (isEqual(input, "SAVE")) {
                 SaveConfig();
             } else if (isEqual(input, "LOAD")) {
                 inisialisasi(&listUser, &listEmail);

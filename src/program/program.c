@@ -5,19 +5,21 @@
 #include "../globals.h"
 
 void intro(){
-    printf("Selamat datang di PurryMail!\n");
+    system("clear");
+    headerPurryMail();
     printf("\n");
-    // printf("Memulai program...\n"); sleep(1);
-    // printf("Memulai program...\n"); sleep(1);
-    // printf("Memulai program...\n"); sleep(1);
-    // sleep(2);
+    printf("Memulai program...\n"); sleep(1);
+    printf("Memulai program...\n"); sleep(1);
+    printf("Memulai program...\n"); sleep(1);
+    sleep(2);
     system("clear");
 }
 
 /* Tampilan Menu Awal untuk Autentikasi */
 void startMenu(){
+    headerStartMenu();
     printf("Masukkan Opsi Masuk Program: \n");
-    yellow();
+    yellow(); bold();
     printf("     --- REGISTER\n");
     printf("     --- LOGIN\n");
     printf("     --- QUIT\n");
@@ -26,8 +28,9 @@ void startMenu(){
 
 /* Tampilan Menu Email */ 
 void menu(){
+    headerMenu();
     printf("Masukkan Menu: \n");
-    yellow();
+    yellow(); bold();
     printf("     --- BUAT_DRAFT\n");
     printf("     --- INBOX\n");
     printf("     --- BALAS_EMAIL\n");
@@ -40,7 +43,7 @@ void menu(){
 
 void menuNonAuth(){
     printf("Masukkan Menu: \n");
-    yellow();
+    yellow(); bold();
     printf("     --- REGISTER\n");
     printf("     --- LOGIN\n");
     printf("     --- SAVE\n");
@@ -51,6 +54,7 @@ void menuNonAuth(){
 }
 
 void headerPurryMail() {
+    yellow(); 
     printf("--------------------------------------------------------------------------\n");
     printf(" ######                                    ##   ##             ##    ###    \n");
     printf(" ##   ##                                   ##   ##                    ##    \n");
@@ -61,6 +65,13 @@ void headerPurryMail() {
     printf(" ##        ### ##  ##      ##          ##  ##   ##   ### ##  ######  ####   \n");
     printf("                                    ####                                       \n");
     printf("--------------------------------------------------------------------------\n");
+    defaultp();
+}
+
+void headerBuatDraft(){
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("                 DRAFT EMAIL    \n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }
 
 void headerBuatDraft(){
@@ -72,7 +83,7 @@ void headerBuatDraft(){
 /* Tampilan Menu Buat Draft */ 
 void menuBuatDraft(){
     printf("Masukkan Menu: \n");
-    yellow();
+    yellow(); bold();
     printf("     --- UBAH_DRAFT\n");
     printf("     --- KIRIM_DRAFT\n");
     printf("     --- LIHAT_DRAFT\n");
@@ -84,6 +95,23 @@ void menuBuatDraft(){
 }
 
 void headerInbox(){
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("                    INBOX    \n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("\n");
+    defaultp();
+}
+
+void headerStartMenu(){
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("                  MENU AWAL    \n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+}
+
+void headerMenu(){
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("           MENU UTAMA PURRY MAIL    \n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("                     INBOX    \n");
     printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
@@ -92,7 +120,7 @@ void headerInbox(){
 /* Tampilan Menu Inbox */ 
 void menuInbox(){
     printf("Masukkan Menu: \n");
-    yellow();
+    yellow(); bold();
     printf("     --- DAFTAR_INBOX\n");
     printf("     --- LANJUT\n");
     printf("     --- SEBELUM\n");
@@ -104,6 +132,15 @@ void menuInbox(){
 }
 
 void headerBalasPesan(){
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("                 BALAS EMAIL    \n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+}
+
+void headerStatusKepentingan(){
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("             STATUS KEPENTINGAN    \n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("                  BALAS_PESAN    \n");
     printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
@@ -111,13 +148,13 @@ void headerBalasPesan(){
 
 /* Tampilan Menu Balas Pesan */ 
 void menuBalasPesan(){
-    printf("Masukkan Menu: \n");
-    yellow();
+    printf("Masukkan Menu Balas Pesan: \n");
+    yellow(); bold();
     printf("     --- DAFTAR_INBOX\n");
     printf("     --- BACA_PESAN EMAILXXX\n");
-    printf("     --- BACA_PESAN EMAILXXX\n");
+    printf("     --- BALAS_PESAN EMAILXXX\n");
     printf("     --- KELUAR\n");
+    defaultp();
     printf("XXX merupakan Email ID yang ingin diakses yaa\n");
     printf("Jangan lupa sertakan ';' di akhir yaa ~~~\n");
-    defaultp();
 }

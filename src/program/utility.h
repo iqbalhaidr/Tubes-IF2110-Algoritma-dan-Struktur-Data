@@ -28,5 +28,6 @@ void green();
 void yellow();
 void blue();
 void defaultp();
+void bold();
 
 #endif
