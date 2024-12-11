@@ -4,9 +4,9 @@
 
 // INCLUDE INI DISESUAIKAN SAJA
 
-#include "statuskepentingan.h"
-#include "../modules/matrix.h"
 #include "../globals.h"
+#include "../modules/matrix.h"
+#include "statuskepentingan.h"
 
 /* I.S. m terdefinisi rowEff dan colEff */
 /* F.S. Semua elemen m bernilai 0 */
@@ -15,7 +15,7 @@ void initMatrix(Matrix *m) {
 
     for (i = 0; i < ROW_EFF(*m); ++i) {
         for (j = 0; j < COL_EFF(*m); ++j) {
-            ELMTMATRIX(*m, i, i) = 0;
+            ELMTMATRIX(*m, i, j) = 0;
         }
     }
 }
@@ -28,7 +28,7 @@ ElType maxEl(Matrix m) {
 
     for (i = 0; i < ROW_EFF(m); ++i) {
         for (j = 0; j < COL_EFF(m); ++j) {
-            if (ELMTMATRIX(m, i, i) > maxElmt) {
+            if (ELMTMATRIX(m, i, j) > maxElmt) {
                 maxElmt = ELMTMATRIX(m, i, j);
             }
         }
@@ -148,9 +148,7 @@ void statusKepentingan(ListUser listUser, ListEmail listEmail) {
     } while (1);
 }
 
-void StartStatusKepentingan() {
-    statusKepentingan(listUser, listEmail);
-}
+void StartStatusKepentingan() { statusKepentingan(listUser, listEmail); }
 
 /* DRIVER */
 /*

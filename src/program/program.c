@@ -49,6 +49,7 @@ void menuNonAuth(){
     printf("     --- SAVE\n");
     printf("     --- LOAD\n");
     printf("     --- QUIT\n");
+    printf("Jangan lupa sertakan ';' di akhir yaa ~~~\n");
     defaultp();
 }
 
@@ -71,6 +72,12 @@ void headerBuatDraft(){
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("                 DRAFT EMAIL    \n");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+}
+
+void headerBuatDraft(){
+    printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("                   BUAT_DRAFT    \n");
+    printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }
 
 /* Tampilan Menu Buat Draft */ 
@@ -105,6 +112,9 @@ void headerMenu(){
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("           MENU UTAMA PURRY MAIL    \n");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("                     INBOX    \n");
+    printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }
 
 /* Tampilan Menu Inbox */ 
@@ -131,6 +141,9 @@ void headerStatusKepentingan(){
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("             STATUS KEPENTINGAN    \n");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("                  BALAS_PESAN    \n");
+    printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }
 
 /* Tampilan Menu Balas Pesan */ 

@@ -4,6 +4,7 @@
 #include "../globals.h"
 #include "pengguna.h"
 #include "../program/load.h"
+#include "../program/notifikasi.h"
 
 /*** REGISTER ***/
 void registerUser(){
@@ -91,6 +92,7 @@ void loginUser(){
         user.email = emailLogin;
         authenticated = true;
         green(); printf("Login berhasil, selamat datang di PurryMail!\n"); defaultp();
+        StartNotifikasi();
     }
 }
 

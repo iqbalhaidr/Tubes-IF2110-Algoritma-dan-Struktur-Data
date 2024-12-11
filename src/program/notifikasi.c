@@ -7,6 +7,7 @@
 #define TIMESTAMP(l, i) (l).data[(i)].timestamp
 #define SUBJECT(l, i) (l).data[(i)].subyek
 #define READPENERIMA(l, i) (l).data[(i)].read
+#define READCC(l, i) (l).data[(i)].readCC
 
 /* Mengembalikan true jika jumlah interaksi melebihi batas minimum interaksi */
 boolean isImportant(int interaction, int minInteraction) {
@@ -33,11 +34,15 @@ void readNotifikasi(ListEmail LE, ListUser LU, int userID, int minInteraction,
     readStatusKepentingan(LU, LE, &m);
 
     for (i = 0; i < emailCount; ++i) {
-        if (listEmail.data[i].idPenerima != userID) {
-            continue;
-        }
-
-        if (READPENERIMA(LE, i)) {
+        if (listEmail.data[i].idPenerima == userID) {
+            if (READPENERIMA(LE, i)) {
+                continue;
+            }
+        } else if (listEmail.data[i].idCC == userID) {
+            if (READCC(LE, i)) {
+                continue;
+            }
+        } else {
             continue;
         }
 
@@ -95,7 +100,7 @@ void notifikasi(ListEmail LE, ListUser LU, int userID, int minInteraction) {
     displayNotifikasi(&importantQ, &normalQ);
 }
 
-void StartNotifikasi(){
+void StartNotifikasi() {
     notifikasi(listEmail, listUser, user.id, importantInteraction);
 }
 
