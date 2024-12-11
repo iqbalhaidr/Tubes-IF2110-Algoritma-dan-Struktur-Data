@@ -41,6 +41,8 @@ void menu(){
 void menuNonAuth(){
     printf("Masukkan Menu: \n");
     yellow();
+    printf("     --- REGISTER\n");
+    printf("     --- LOGIN\n");
     printf("     --- SAVE\n");
     printf("     --- LOAD\n");
     printf("     --- QUIT\n");

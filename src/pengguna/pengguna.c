@@ -43,13 +43,6 @@ void registerUser(){
     
     // Save ID, Email, and Password to Config File
     if (passwordValid && emailValid) {
-        // fprintf(file, "\n");
-        // fprintf(file, "%d", listUser.number + 1);
-        // fprintf(file, "\n");
-        // fprintf(file, "%s", emailReg);
-        // fprintf(file, "\n");
-        // fprintf(file, "%s", passReg);
-
         /* Adjust the listUser */
         listUser.data[listUser.number].id = listUser.number + 1;
         listUser.data[listUser.number].email = emailReg;
@@ -85,6 +78,8 @@ void loginUser(){
             printf("Masukkan password: ");
             STARTWORD();
             //validasi password
+            // printf("curword: %s\n", toString(currentWord));
+            // printf("id: %d\n", id);
             if (!isEqual(currentWord, listUser.data[id].password)){
                 printf("Password salah!\n");
             } else {
@@ -144,7 +139,7 @@ void autentikasiUser(){
         printf("Masukan tidak valid.\n");
     }
     sleep(2);
-    system("clear");
+    // system("clear");
 }
 
 /* REGEX */

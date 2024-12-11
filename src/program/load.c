@@ -37,9 +37,15 @@ void inisialisasi(ListUser *listUser, ListEmail *listEmail) {
         printf("Memuat konfigurasi Purry Mail...\n");
         sleep(1);
         printf("Memuat konfigurasi Purry Mail...\n"); defaultp();
-        sleep(3);
-        system("clear");
+        sleep(2);
+        // system("clear");
         printf("Silakan REGISTER/LOGIN untuk memulai!\n");
+
+        // printf("pagination: %d\n", pagination);
+        // printf("important int: %d\n", importantInteraction);
+        // printListUser(*listUser);
+        // printListEmail(*listEmail);
+
         do {
             startMenu();
             autentikasiUser();
@@ -143,7 +149,7 @@ int loadEmail(char* filePath, ListEmail *listEmail) {
             ADVNewLine();
             email.body = toString(currentWord);
             while (currentWord.TabWord[currentWord.Length - 1] == '\\') {
-                email.body[currentWord.Length-1] = '\0';
+                email.body[currentWord.Length-1] = '\0'; //changed
                
                 ADVNewLine();
                 email.body = concat(email.body, " ");
@@ -163,6 +169,7 @@ int loadEmail(char* filePath, ListEmail *listEmail) {
             email.readCC = stringToInt(temp);
 
             addEmail(listEmail, email);
+            
         }
         return 1;
     }
