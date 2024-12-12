@@ -9,18 +9,18 @@
 /* Indeks tak terdefinisi*/
 
 /* Definisi elemen dan koleksi objek */
-typedef struct
-{
+typedef struct {
    int id;
    int idPengirim;
    int idPenerima;
    int idCC;
-   char* timestamp; //still temp
+   char* timestamp;
    char* subyek;
    char* body;
    int reply;
    boolean read;
    boolean readCC;
+   boolean starred;
 } emailType ;
 
 typedef int IdxType;

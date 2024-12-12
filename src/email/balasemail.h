@@ -25,6 +25,5 @@ void printEmailHead(Tree emailTree, int emailID, ListEmail listEmail);
 void printEmail(Tree emailTree, int emailID, ListEmail listEmail);
 void BacaEmail(int emailID, ListEmail listEmail, ListUser listUser);
 void BalasEmail(int id_reply, ListEmail listEmail, ListUser listUser);
-void StartBalasEmail ();
 
-#endif // 
+#endif

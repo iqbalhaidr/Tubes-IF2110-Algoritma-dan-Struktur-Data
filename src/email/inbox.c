@@ -142,8 +142,6 @@ void DisplayInbox(ListEmail listEmail) {
                     FindEmailBasedId(listUser, listEmail.data[idx].idPengirim),
                     listEmail.data[idx].read ? "Read" : "Unread",
                     listEmail.data[idx].timestamp);
-            } else {
-                printf("DEBUG: Email dengan ID %d tidak relevan untuk user.id %d\n", listEmail.data[idx].id, user.id);
             }
         }
         printf("[-----------------------------------------------------------------------------------]\n");

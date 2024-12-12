@@ -54,8 +54,6 @@ int main(){
                     SaveConfig();
                 } else if (isEqual(input, "LOGOUT")) {
                     LogoutUser();
-                } else if (isEqual(input, "BALAS_EMAIL")) {
-                    StartBalasEmail();
                 } else {
                     red(); printf("Masukan tidak valid!\n"); defaultp();
                 }
