@@ -130,11 +130,10 @@ void BacaEmail(int emailID, ListEmail listEmail, ListUser listUser) {
     if (indexOfEmail(emailID, listEmail) == IDX_UNDEF) {
         printf("Email tidak ditemukan\n");
         return;
+    } else if (listEmail.data[indexOfEmail(emailID, listEmail)].idPenerima != user.id && listEmail.data[indexOfEmail(emailID, listEmail)].idCC != user.id) {
+        printf("Email tidak diperuntukkan untuk Anda\n");
+        return;
     }
-    // } else if (listEmail.data[indexOfEmail(emailID, listEmail)].idPenerima != user.id) {
-    //     printf("Email tidak diperuntukkan untuk Anda\n");
-    //     return;
-    // }
 
     IdxType root = indexOfRoot(emailID, listEmail); 
 
@@ -155,7 +154,7 @@ void BalasEmail(int id_reply, ListEmail listEmail, ListUser listUser) {
     if (indexOfEmail(id_reply, listEmail) == IDX_UNDEF) {
         printf("Email tidak ditemukan\n");
         return;
-    } else if (listEmail.data[indexOfEmail(id_reply, listEmail)].idPenerima != user.id) {
+    } else if (listEmail.data[indexOfEmail(id_reply, listEmail)].idPenerima != user.id && listEmail.data[indexOfEmail(id_reply, listEmail)].idCC != user.id) {
         printf("Email tidak diperuntukkan untuk Anda\n");
         return;
     }
@@ -177,8 +176,10 @@ void StartBalasEmail () {
     printf("Pilihan Opsi :\n");
     printf("     --- BACA_PESAN\n");
     printf("     --- BALAS_PESAN\n");
+    printf("     --- KELUAR\n");
+
     do {
-        printf("Masukkan perintah dalam mode BALAS_PESAN: ");
+        printf("Masukkan perintah dalam mode BALAS_EMAIL: ");
         Word input = perintah();  // Memulai input perintah
 
         if (isEqual(input, "BALAS_PESAN") || isEqual(input, "BACA_PESAN")) {
@@ -267,8 +268,8 @@ void StartBalasEmail () {
                 } else {
                     printf("Perintah tidak valid. Harus ada dua kata.\n");
                 }
-            } else if (isEqual(currentWord, "KELUAR dari mode BALAS_PESAN.")) {
-                printf("Keluar...\n");
+            } else if (isEqual(currentWord, "KELUAR")) {
+                printf("KELUAR dari mode BALAS_PESAN.\n");
                 break;
             }
         } else {
