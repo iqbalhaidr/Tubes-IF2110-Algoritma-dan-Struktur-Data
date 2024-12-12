@@ -13,8 +13,6 @@ void headerBuatDraft();
 void menuBuatDraft();
 void headerInbox();
 void menuInbox();
-void headerBalasPesan();
-void menuBalasPesan();
 void headerStartMenu();
 void headerMenu();
 void headerStatusKepentingan();

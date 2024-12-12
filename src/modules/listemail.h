@@ -71,5 +71,4 @@ void expandListEmail(ListEmail *l, int num);
 /* Proses : Menambahkan capacity l sebanyak num */
 /* I.S. List sudah terdefinisi */
 /* F.S. Ukuran list bertambah sebanyak num */
-
 #endif

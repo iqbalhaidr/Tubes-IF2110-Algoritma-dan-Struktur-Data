@@ -33,7 +33,6 @@ void menu(){
     yellow(); bold();
     printf("     --- BUAT_DRAFT\n");
     printf("     --- INBOX\n");
-    printf("     --- BALAS_EMAIL\n");
     printf("     --- STATUS_KEPENTINGAN\n");
     printf("     --- NOTIFIKASI\n");
     printf("     --- SAVE\n");
@@ -118,33 +117,15 @@ void menuInbox(){
     printf("     --- LANJUT\n");
     printf("     --- SEBELUM\n");
     printf("     --- BACA_PESAN EMAILXXX\n");
+    printf("     --- BALAS_PESAN EMAILXXX\n");
     printf("     --- KELUAR\n");
     printf("XXX merupakan Email ID yang ingin diakses yaa\n");
     printf("Jangan lupa sertakan ';' di akhir yaa ~~~\n");
     defaultp();
-}
-
-void headerBalasPesan(){
-    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-    printf("                 BALAS EMAIL    \n");
-    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }
 
 void headerStatusKepentingan(){
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("             STATUS KEPENTINGAN    \n");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-}
-
-/* Tampilan Menu Balas Pesan */ 
-void menuBalasPesan(){
-    printf("Masukkan Menu Balas Pesan: \n");
-    yellow(); bold();
-    printf("     --- DAFTAR_INBOX\n");
-    printf("     --- BACA_PESAN EMAILXXX\n");
-    printf("     --- BALAS_PESAN EMAILXXX\n");
-    printf("     --- KELUAR\n");
-    defaultp();
-    printf("XXX merupakan Email ID yang ingin diakses yaa\n");
-    printf("Jangan lupa sertakan ';' di akhir yaa ~~~\n");
 }
