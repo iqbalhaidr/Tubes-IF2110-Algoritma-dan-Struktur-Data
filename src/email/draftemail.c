@@ -76,7 +76,7 @@ char* MakeNewSubyekEmail(int reply , char* email_old_subyek) {
     }
     currentWord.TabWord[idx] = '\0';
     currentWord.Length = idx + 1;
-    return currentWord.TabWord;
+    return toString(currentWord);
 }
 
 emailType BuatDraftEmail(int id_user , ListUser list_user) {
@@ -310,6 +310,7 @@ emailType BuatDraftBalasEmail(int id_user , ListUser list_user , ListEmail list_
         printf("Masukkan \"STOP\" untuk force stop pembuatan Draft Balas Email.\n");
     }
     printf("Draft Balas Email berhasil dibuat.\n");
+
     return email;
 }
 

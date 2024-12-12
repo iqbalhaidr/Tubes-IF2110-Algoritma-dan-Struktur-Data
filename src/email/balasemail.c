@@ -10,7 +10,7 @@
 void addReplies(Tree node, ListEmail listEmail) {
     for (int i = 0; i < listEmail.number; i++) { // Mengecek setiap email pada listEmail
         if (listEmail.data[i].reply == node->info) { // Jika email merupakan reply dari email yang sedang dicek
-            if (listEmail.data[i].idPenerima == user.id || listEmail.data[i].idCC == user.id) {
+            if (listEmail.data[i].idPenerima == user.id || listEmail.data[i].idCC == user.id || listEmail.data[i].idPengirim == user.id) { // Jika email diperuntukkan untuk user
                 Address newNode = newTreeNode(listEmail.data[i].id);
 
                 if (newNode != NULL) {
@@ -101,31 +101,39 @@ void printEmailHead(Tree emailTree, int emailID, ListEmail listEmail){
 
     int IDPengirim = listEmail.data[emailID - 1].idPengirim;
 
-    printf("[---------------------------------[ Baca Pesan ]--------------------------------]\n");
+    printf("[-----------------------------------[ Baca Pesan ]----------------------------------]\n");
     printf(" Inbox ID: %s\n", formattedID); // Gunakan ID terformat
     printf(" Subject: %s\n", listEmail.data[emailID - 1].subyek);
     printf(" Pengirim: %s\n", listUser.data[IDPengirim - 1].email);
     printf(" Timestamp: %s\n", listEmail.data[emailID - 1].timestamp);
-    printf("[-------------------------------------------------------------------------------]\n");
+    printf("[-----------------------------------------------------------------------------------]\n");
 }
 
 // Fungsi untuk mencetak email
 void printEmail(Tree emailTree, int emailID, ListEmail listEmail){
     emailType email = ELMT_EMAIL(listEmail, indexOfEmail(emailID, listEmail));
     printf("\n[%s]\n",email.subyek);
-    printf("[---------------------------------------------------------------------]\n");
+    printf("[-----------------------------------------------------------------------------------]\n");
     printf(" %s\n",email.body);
-    printf("[---------------------------------------------------------------------]\n");
+    printf("[-----------------------------------------------------------------------------------]\n");
 }
 
 void BacaEmail(int emailID, ListEmail listEmail, ListUser listUser) {
-    if (indexOfEmail(emailID, listEmail) == IDX_UNDEF) {
+    int idx = indexOfEmail(emailID, listEmail);
+    if (idx == IDX_UNDEF) {
         printf("Email tidak ditemukan\n");
         return;
-    } else if (listEmail.data[indexOfEmail(emailID, listEmail)].idPenerima != user.id && listEmail.data[indexOfEmail(emailID, listEmail)].idCC != user.id) {
+    } else if (listEmail.data[idx].idPenerima != user.id && listEmail.data[idx].idCC != user.id) {
         printf("Email tidak diperuntukkan untuk Anda\n");
         return;
     }
+
+    // Tandai pesan sebagai sudah dibaca krn idPenerima == user.id atau idCC == user.id
+    if (listEmail.data[idx].idPenerima == user.id) {
+        listEmail.data[idx].read = 1;
+    } else if (listEmail.data[idx].idCC == user.id) {
+        listEmail.data[idx].readCC = 1;
+    } 
 
     IdxType root = indexOfRoot(emailID, listEmail); 
 
@@ -142,127 +150,28 @@ void BacaEmail(int emailID, ListEmail listEmail, ListUser listUser) {
     }
 }
 
-void BalasEmail(int id_reply, ListEmail listEmail, ListUser listUser) {
-    if (indexOfEmail(id_reply, listEmail) == IDX_UNDEF) {
+void BalasEmail(int id_reply, ListEmail *listEmail, ListUser listUser) {
+    int idx = indexOfEmail(id_reply, *listEmail);
+    if (idx == IDX_UNDEF) {
         printf("Email tidak ditemukan\n");
         return;
-    } else if (listEmail.data[indexOfEmail(id_reply, listEmail)].idPenerima != user.id && listEmail.data[indexOfEmail(id_reply, listEmail)].idCC != user.id && listEmail.data[indexOfEmail(id_reply, listEmail)].idPengirim != user.id) {
+    } else if (listEmail->data[idx].idPenerima != user.id && listEmail->data[idx].idCC != user.id && listEmail->data[idx].idPengirim != user.id) {
         printf("Email tidak diperuntukkan untuk Anda\n");
         return;
     }
 
-    IdxType root = indexOfRoot(id_reply, listEmail);
+    IdxType root = indexOfRoot(id_reply, *listEmail);
 
-    Tree emailTree = newTreeNode(listEmail.data[root].id);
+    Tree emailTree = newTreeNode(listEmail->data[root].id);
 
-    addReplies(emailTree, listEmail);
+    addReplies(emailTree, *listEmail);
 
     ListDin listNary = createListOfNary(emailTree); 
 
-    int reply = getLastIdx(listNary);
+    int reply = listLength(listNary);
 
-    int id_old = listEmail.data[root].id;
+    int id_old = listEmail->data[root].id;
     
-    DraftEmail(user.id, listUser, &listEmail, reply, id_reply, id_old);
+    DraftEmail(user.id, listUser, listEmail, reply, id_reply, id_old);
 }
 
-void StartBalasEmail () {
-        Word input = perintah();  // Memulai input perintah
-
-        if (isEqual(input, "BALAS_PESAN") || isEqual(input, "BACA_PESAN")) {
-            if (isEqual(currentWord, "BACA_PESAN")) {
-                ADVWORD();  // Ambil kata kedua
-                if (!EndWord) {  // Memastikan ada kata kedua
-                    // Validasi format "EMAILxxx"
-                    int isValid = 1;
-                    if (currentWord.Length == 8) {
-                        // Pastikan 5 karakter pertama adalah "EMAIL"
-                        int i;
-                        for (i = 0; i < 5; i++) {
-                            if (currentWord.TabWord[i] != "EMAIL"[i]) {
-                                isValid = 0;
-                                break;
-                            }
-                        }
-                        // Pastikan karakter ke-6 hingga ke-8 adalah angka
-                        if (isValid) {
-                            for (i = 5; i < currentWord.Length; i++) {
-                                if (currentWord.TabWord[i] < '0' || currentWord.TabWord[i] > '9') {
-                                    isValid = 0;
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
-                        isValid = 0;
-                    }
-
-                    if (isValid) {
-                        // Konversi angka dari "EMAILxxx"
-                        int emailID = 0;
-                        for (int i = 5; i < currentWord.Length; i++) {
-                            emailID = emailID * 10 + (currentWord.TabWord[i] - '0');
-                        }
-
-                        BacaEmail(emailID, listEmail, listUser);  // Fungsi untuk membaca pesan
-                        
-                    } else {
-                        printf("Perintah tidak valid. Format harus 'EMAILxxx'.\n");
-                    }
-                } else {
-                    printf("Perintah tidak valid. Harus ada dua kata.\n");
-                }
-            } else if (isEqual(currentWord, "BALAS_PESAN")) {
-                ADVWORD();  // Ambil kata kedua
-                if (!EndWord) {  // Memastikan ada kata kedua
-                    // Validasi format "EMAILxxx"
-                    int isValid = 1;
-                    if (currentWord.Length == 8) {
-                        // Pastikan 5 karakter pertama adalah "EMAIL"
-                        int i;
-                        for (i = 0; i < 5; i++) {
-                            if (currentWord.TabWord[i] != "EMAIL"[i]) {
-                                isValid = 0;
-                                break;
-                            }
-                        }
-                        // Pastikan karakter ke-6 hingga ke-8 adalah angka
-                        if (isValid) {
-                            for (i = 5; i < currentWord.Length; i++) {
-                                if (currentWord.TabWord[i] < '0' || currentWord.TabWord[i] > '9') {
-                                    isValid = 0;
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
-                        isValid = 0;
-                    }
-
-                    if (isValid) {
-                        // Konversi angka dari "EMAILxxx"
-                        int emailID = 0;
-                        for (int i = 5; i < currentWord.Length; i++) {
-                            emailID = emailID * 10 + (currentWord.TabWord[i] - '0');
-                        }
-                        
-                        BalasEmail(emailID, listEmail, listUser);  // Fungsi untuk membalas pesan
-
-                    } else {
-                        printf("Perintah tidak valid. Format harus 'EMAILxxx'.\n");
-                    }
-                } else {
-                    printf("Perintah tidak valid. Harus ada dua kata.\n");
-                }
-
-            }
-        } else if (isEqual(currentWord, "KELUAR")) {
-            red(); printf("Keluar dari Menu Balas Pesan...\n"); defaultp();
-            break;
-        } else if (isEqual(currentWord, "DAFTAR_INBOX")) {
-            DisplayInbox(listEmail);
-        } else {
-            printf("Perintah tidak valid.\n");
-        }
-    } while (1);  // Loop berjalan hingga perintah "KELUAR" diterima
-}
