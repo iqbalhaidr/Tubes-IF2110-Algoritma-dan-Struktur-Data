@@ -35,4 +35,4 @@ void RedoDraftEmail(emailType *email , Stack *stack_main , Stack *stack_temp) ;
 void DraftEmail(int id_user , ListUser list_user , ListEmail *list_email , int reply , int id_reply , int id_old);
 void StartDraftEmail();
 
-#endif // 
+#endif

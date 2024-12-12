@@ -21,8 +21,6 @@
 #include "../pengguna/pengguna.h"
 #include "../program/program.h"
 
-#include "balasEmail.h"
-
 // Variabel global untuk mencatat perintah saat ini
 // char currentCommand[50] = "";
 int currentPage = 1;
@@ -144,8 +142,6 @@ void DisplayInbox(ListEmail listEmail) {
                     FindEmailBasedId(listUser, listEmail.data[idx].idPengirim),
                     listEmail.data[idx].read ? "Read" : "Unread",
                     listEmail.data[idx].timestamp);
-            } else {
-                printf("DEBUG: Email dengan ID %d tidak relevan untuk user.id %d\n", listEmail.data[idx].id, user.id);
             }
         }
         printf("[-----------------------------------------------------------------------------------]\n");
@@ -258,6 +254,7 @@ void StartInbox() {
                     }
                 }
 
+                printf("Email ID: %d\n", emailID);
 
                 // Menghitung rentang email pada halaman saat ini
                 int startIdx = (currentPage - 1) * pagination + 1;
@@ -278,7 +275,7 @@ void StartInbox() {
                 }
 
                 if (found) {
-                    BacaEmail(emailID, listEmail, listUser);  // Fungsi untuk membaca pesan
+                    bacaPesan(emailID);  // Fungsi untuk membaca pesan
                 } else {
                     printf("Email tidak ditemukan. Pastikan email yang ingin dibaca berada pada halaman DAFTAR_INBOX yang sedang dibuka.\n");
                 }
@@ -323,7 +320,8 @@ void StartInbox() {
                 }
 
                 if (found) {
-                    BalasEmail(emailID, &listEmail, listUser);  // Fungsi untuk membalas pesan
+                    printf("Email ID: %d\n", emailID);
+                    balasPesan(emailID);  // Fungsi untuk membalas pesan
                 } else {
                     printf("Email tidak ditemukan. Pastikan email yang ingin dibaca berada pada halaman DAFTAR_INBOX yang sedang dibuka.\n");
                 }

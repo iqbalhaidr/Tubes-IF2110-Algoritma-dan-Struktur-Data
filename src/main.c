@@ -39,7 +39,7 @@ int main(){
     /* Program Utama */
     do {
         if (authenticated){
-            do {
+             do {
                 menu();
                 Word input = perintah();
                 if (isEqual(input, "BUAT_DRAFT")) {
