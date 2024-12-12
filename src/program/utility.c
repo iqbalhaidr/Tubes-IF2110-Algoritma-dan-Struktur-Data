@@ -3,6 +3,7 @@
 
 #include "utility.h"
 #include "../modules.h"
+#include "../modules/mesinkata.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -10,7 +11,7 @@ char* storedWord;
 
 Word perintah() {
     printf(">> ");
-    STARTWORD();
+    STARTWORDDraft();
     return currentWord;
 }
 
