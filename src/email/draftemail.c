@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include "draftemail.h"
 #include "../globals.h"
 
@@ -222,7 +221,7 @@ emailType BuatDraftEmail(int id_user , ListUser list_user) {
         }
         printf("Masukkan \"STOP\" untuk force stop pembuatan Draft Email.\n");
     }
-    green(); printf("Draft Email berhasil dibuat.\n"); defaultp();
+    printf("Draft Email berhasil dibuat.\n");
     return email;
 }
 
@@ -578,7 +577,7 @@ void KirimDraftEmail(ListEmail *list_email , emailType *email) {
     (*email).reply = -1;
     (*email).read = false;
     (*email).readCC = false;
-    green(); printf("Draft Email berhasil dikirim!\n"); defaultp();
+    printf("Draft Email berhasil dikirim!\n");
 }
 
 void LihatDraftEmail(ListUser list_user , emailType email) {
@@ -647,29 +646,26 @@ void DraftEmail(int id_user , ListUser list_user , ListEmail *list_email , int r
     char* undo = "UNDO";
     char* redo = "REDO";
     char* batal = "BATAL";
-    sleep(2);
-    system("clear");
-    headerBuatDraft();
     if (id_reply == 0) {
+        printf("\n==================================\n");
         printf("SELAMAT DATANG DI MENU DRAFT EMAIL\n");
         email = BuatDraftEmail(id_user , list_user);
     } else {
+        printf("\n========================================\n");
         printf("SELAMAT DATANG DI MENU DRAFT BALAS EMAIL\n");
         email = BuatDraftBalasEmail(id_user , list_user , *list_email , reply , id_reply , id_old);
     }
     PushStack(&stack_main , email);
     while (true) {
-            sleep(3);
-        system("clear");
-        headerBuatDraft();
         boolean check = true;
         if (reply == 0) {
+            printf("\n==================================\n");
             printf("SELAMAT DATANG DI MENU DRAFT EMAIL\n");
         } else {
+            printf("\n========================================\n");
             printf("SELAMAT DATANG DI MENU DRAFT BALAS EMAIL\n");
         }
         printf("Pilihan Opsi :\n");
-        yellow();
         printf("     --- BUAT_DRAFT\n");
         printf("     --- UBAH_DRAFT\n");
         printf("     --- LIHAT_DRAFT\n");
@@ -677,15 +673,8 @@ void DraftEmail(int id_user , ListUser list_user , ListEmail *list_email , int r
         printf("     --- UNDO\n");
         printf("     --- REDO\n");
         printf("     --- BATAL\n\n");
-        defaultp();
         printf(">> ");
-        STARTWORD();
-        while (!EndWord) {
-            ADVWORD();
-            if (!EndWord) {
-                check = false;
-            }
-        }
+        STARTWORDDraft();
         if (!check) {
             printf("Perintah Tidak Valid. Masukkan \"BATAL\" untuk kembali ke menu utama.\n");
         } else if (isEqual(currentWord , buat_draft)) {
