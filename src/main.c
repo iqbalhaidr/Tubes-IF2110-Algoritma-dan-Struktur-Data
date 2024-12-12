@@ -39,7 +39,7 @@ int main(){
     /* Program Utama */
     do {
         if (authenticated){
-             do {
+            do {
                 menu();
                 Word input = perintah();
                 if (isEqual(input, "BUAT_DRAFT")) {
@@ -54,8 +54,6 @@ int main(){
                     SaveConfig();
                 } else if (isEqual(input, "LOGOUT")) {
                     LogoutUser();
-                } else if (isEqual(input, "BALAS_EMAIL")) {
-                    StartBalasEmail();
                 } else {
                     red(); printf("Masukan tidak valid!\n"); defaultp();
                 }

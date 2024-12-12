@@ -21,6 +21,8 @@
 #include "../pengguna/pengguna.h"
 #include "../program/program.h"
 
+#include "balasEmail.h"
+
 // Variabel global untuk mencatat perintah saat ini
 // char currentCommand[50] = "";
 int currentPage = 1;
@@ -256,7 +258,6 @@ void StartInbox() {
                     }
                 }
 
-                printf("Email ID: %d\n", emailID);
 
                 // Menghitung rentang email pada halaman saat ini
                 int startIdx = (currentPage - 1) * pagination + 1;
@@ -277,7 +278,7 @@ void StartInbox() {
                 }
 
                 if (found) {
-                    bacaPesan(emailID);  // Fungsi untuk membaca pesan
+                    BacaEmail(emailID, listEmail, listUser);  // Fungsi untuk membaca pesan
                 } else {
                     printf("Email tidak ditemukan. Pastikan email yang ingin dibaca berada pada halaman DAFTAR_INBOX yang sedang dibuka.\n");
                 }
@@ -322,8 +323,7 @@ void StartInbox() {
                 }
 
                 if (found) {
-                    printf("Email ID: %d\n", emailID);
-                    balasPesan(emailID);  // Fungsi untuk membalas pesan
+                    BalasEmail(emailID, &listEmail, listUser);  // Fungsi untuk membalas pesan
                 } else {
                     printf("Email tidak ditemukan. Pastikan email yang ingin dibaca berada pada halaman DAFTAR_INBOX yang sedang dibuka.\n");
                 }
