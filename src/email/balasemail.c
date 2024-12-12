@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "balasemail.h"
 #include "draftemail.h"
+#include "inbox.h"
 #include "../globals.h"
 
 // Fungsi untuk membentuk emailtree dengan menambah semua reply ke subjek utama
@@ -94,13 +95,17 @@ ListDin createListOfNary(Tree root) {
 
 // Fungsi untuk mencetak email head
 void printEmailHead(Tree emailTree, int emailID, ListEmail listEmail){
-    emailType email = ELMT_EMAIL(listEmail, indexOfEmail(emailID, listEmail));
-    printf("[----------------------------[ Baca Pesan ]---------------------------]\n");
-    printf(" Inbox ID: EMAIL%d\n",email.id);
-    printf(" Subject: %s\n",email.subyek);
-    printf(" Pengirim: %d\n",email.idPengirim);
-    printf(" Timestamp: %s\n",email.timestamp);
-    printf("[---------------------------------------------------------------------]\n");
+    char formattedID[10]; // Buffer untuk menyimpan ID terformat
+    formatEmailID(listEmail.data[emailID - 1].id, formattedID); // Format ID menjadi 'EMAILxxx'
+
+    int IDPengirim = listEmail.data[emailID - 1].idPengirim;
+
+    printf("[---------------------------------[ Baca Pesan ]--------------------------------]\n");
+    printf(" Inbox ID: %s\n", formattedID); // Gunakan ID terformat
+    printf(" Subject: %s\n", listEmail.data[emailID - 1].subyek);
+    printf(" Pengirim: %s\n", listUser.data[IDPengirim - 1].email);
+    printf(" Timestamp: %s\n", listEmail.data[emailID - 1].timestamp);
+    printf("[-------------------------------------------------------------------------------]\n");
 }
 
 // Fungsi untuk mencetak email
@@ -110,20 +115,6 @@ void printEmail(Tree emailTree, int emailID, ListEmail listEmail){
     printf("[---------------------------------------------------------------------]\n");
     printf(" %s\n",email.body);
     printf("[---------------------------------------------------------------------]\n");
-}
-
-// Fungsi untuk mencari node pada tree
-int getNextReplyNumber(Tree parent) {
-    int replyNumber = 1;
-
-    // Menghitung jumlah balasan yang sudah ada
-    Address child = parent->left; 
-    while (child != NULL) {
-        replyNumber++;
-        child = child->right;
-    }
-
-    return replyNumber;
 }
 
 void BacaEmail(int emailID, ListEmail listEmail, ListUser listUser) {
@@ -154,7 +145,7 @@ void BalasEmail(int id_reply, ListEmail listEmail, ListUser listUser) {
     if (indexOfEmail(id_reply, listEmail) == IDX_UNDEF) {
         printf("Email tidak ditemukan\n");
         return;
-    } else if (listEmail.data[indexOfEmail(id_reply, listEmail)].idPenerima != user.id && listEmail.data[indexOfEmail(id_reply, listEmail)].idCC != user.id) {
+    } else if (listEmail.data[indexOfEmail(id_reply, listEmail)].idPenerima != user.id && listEmail.data[indexOfEmail(id_reply, listEmail)].idCC != user.id && listEmail.data[indexOfEmail(id_reply, listEmail)].idPengirim != user.id) {
         printf("Email tidak diperuntukkan untuk Anda\n");
         return;
     }
@@ -165,7 +156,9 @@ void BalasEmail(int id_reply, ListEmail listEmail, ListUser listUser) {
 
     addReplies(emailTree, listEmail);
 
-    int reply = getNextReplyNumber(findNode(emailTree, id_reply));
+    ListDin listNary = createListOfNary(emailTree); 
+
+    int reply = getLastIdx(listNary);
 
     int id_old = listEmail.data[root].id;
     
