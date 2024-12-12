@@ -7,7 +7,7 @@
 #include "boolean.h"
 
 #define IDX_UNDEF_PRIO -1
-#define CAPACITYPRIOQUEUE 100
+#define CAPACITYPRIOQUEUE 10000
 
 /* Definisi elemen dan address */
 typedef struct notif {
