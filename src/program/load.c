@@ -310,7 +310,7 @@ void ExitProgram(){
     red(); printf("     --- YA\n"); defaultp();
     green(); printf("     --- TIDAK\n"); defaultp();
     Word input = perintah();
-    if (isEqual(perintah(), "YA")){
+    if (isEqual(input, "YA")){
         printf("Exiting...\n");
         sleep(2);
         system("clear");
