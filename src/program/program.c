@@ -119,8 +119,13 @@ void menuInbox(){
     printf("     --- SEBELUM\n");
     printf("     --- BACA_PESAN EMAILXXX\n");
     printf("     --- BALAS_PESAN EMAILXXX\n");
+    printf("     --- DAFTAR_STARRED\n");
+    printf("     --- LANJUT_STAR\n");
+    printf("     --- SEBELUM_STAR\n");
+    printf("     --- STAR EMAILXXX\n");
+    printf("     --- UNSTAR EMAILXXX\n");
     printf("     --- KELUAR\n");
-        defaultp();
+    defaultp();
     printf("XXX merupakan Email ID yang ingin diakses yaa\n");
     printf("Jangan lupa sertakan ';' di akhir yaa ~~~\n");
 }
