@@ -36,7 +36,7 @@ void printListEmail(ListEmail l) {
             email = ELMT_EMAIL(l, i);
             printf("-----\n");
             printf("%d\n%d\n%d\n%d\n%s\n", email.id, email.idPengirim, email.idPenerima, email.idCC,email.timestamp);
-            printf("%s\n%s\n%d\n%d\n%d\n", email.subyek, email.body, email.reply, email.read, email.readCC);
+            printf("%s\n%s\n%d\n%d\n%d\n%d\n", email.subyek, email.body, email.reply, email.read, email.readCC, email.starred);
         }
         printf("-----\n");
     }
