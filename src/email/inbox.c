@@ -23,12 +23,14 @@
 #include "../pengguna/pengguna.h"
 #include "../program/program.h"
 
-// Variabel global untuk mencatat perintah saat ini
-// char currentCommand[50] = "";
+// Variabel global
 int currentPage = 1;
 int cekStartidx;
 int topIndexDisplay;
 int bottomIndexDisplay;
+int cekStartidxStar;
+int topIndexDisplayStar;
+int bottomIndexDisplayStar;
 
 // fungsi untuk mencari start index untuk perintah sebelum
 int cekStartIndexComBefore(ListEmail listEmail, int page, int cekStartIndex){
@@ -153,7 +155,7 @@ void DisplayInbox(ListEmail listEmail) {
 
         while (countEmailShown < pagination && idx >= 0) {
             if (listEmail.data[idx].idPenerima == user.id || listEmail.data[idx].idCC == user.id) {
-                lastVerifiedIndexDisplayed = idx;
+                lastVerifiedIndexDisplayed = idx+1;
                 if (countEmailShown == 0){
                     topIndexDisplay = listEmail.data[idx].id;
                 }
@@ -192,21 +194,7 @@ void DisplayInbox(ListEmail listEmail) {
                     } else if (i == 9) {
                         arr[i] = ((idx + 1) % 10) + '0';
                     }
-                }
-                // arr[2] = 'E';
-                // arr[3] = 'M';
-                // arr[4] = 'A';
-                // arr[5] = 'I';
-                // arr[6] = 'L';
-
-                // arr[7] = ((idx + 1) / 100) + '0';
-                // arr[8] = (((idx + 1) / 10) % 10) + '0';
-                // arr[9] = ((idx + 1) % 10) + '0';
-
-                // Debug untuk memeriksa isi arr setelah mengisi EMAIL
-                // printf("Debug arr setelah EMAIL: %s\n", arr);
-
-                // Lanjutkan untuk mengisi elemen lain seperti truncatedSubject, timestamp, dsb.             
+                }            
                 for (int i = 14 ; i < min(32 , len(truncatedSubject) + 14) ; i++) {
                     arr[i] = truncatedSubject[i - 14];
                 }
@@ -240,12 +228,6 @@ void DisplayInbox(ListEmail listEmail) {
                 }
 
                 printf("%s\n", arr);
-                    // formattedID,
-                    // truncatedSubject,
-                    // FindEmailBasedId(listUser, listEmail.data[idx].idPengirim),
-                    // listEmail.data[idx].read ? "Read" : "Unread",
-                    // formattedTimestamp,
-                    // listEmail.data[idx].starred ? "Yes" : "No");
             }
             cekStartidx--;
             idx--;
@@ -262,15 +244,15 @@ void DisplayInbox(ListEmail listEmail) {
 }
 
 
-void starEmailInbox(ListEmail *listEmail, int emailID) {
+void starEmailInbox(ListEmail listEmail, int emailID) {
     char formattedID[10];
     formatEmailID(emailID, formattedID);
 
     int idx = -1;
 
     // Cari indeks berdasarkan emailID
-    for (int i = 0; i < listEmail->number; i++) {
-        if (listEmail->data[i].id == emailID) {
+    for (int i = 0; i < listEmail.number; i++) {
+        if (listEmail.data[i].id == emailID) {
             idx = i;
             break;
         }
@@ -281,16 +263,18 @@ void starEmailInbox(ListEmail *listEmail, int emailID) {
         return;
     }
 
-    if((*listEmail).data[emailID].starred == 1){
+    // Gunakan indeks yang ditemukan (idx) untuk memeriksa dan mengubah status "starred"
+    if (listEmail.data[idx].starred == 1) {
         printf("%s sudah berada di STARRED.\n", formattedID);
-    } else if (listEmail->data[emailID].starred == 0) {
-        listEmail->data[emailID].starred = 1;
+    } else if (listEmail.data[idx].starred == 0) {
+        listEmail.data[idx].starred = 1;
         printf("%s berhasil dipindahkan ke STARRED.\n", formattedID);
     }
 }
 
+
 void starEmail(int emailID) {
-    starEmailInbox(&listEmail,emailID);
+    starEmailInbox(listEmail,emailID);
 }
 
 void unStarEmailInbox(ListEmail listEmail, int emailID) {
@@ -312,10 +296,10 @@ void unStarEmailInbox(ListEmail listEmail, int emailID) {
         return;
     }
 
-    if(listEmail.data[emailID].starred == 1){
-        listEmail.data[emailID].starred = 0;
+    if(listEmail.data[idx].starred == 1){
+        listEmail.data[idx].starred = 0;
         printf("%s berhasil dihapus dari daftar STARRED.\n", formattedID);
-    } else if (listEmail.data[emailID].starred == 0) {
+    } else if (listEmail.data[idx].starred == 0) {
         printf("%s tidak berada di daftar STARRED.\n", formattedID);
     }
 }
@@ -337,50 +321,105 @@ int countEmailStarredInbox(ListEmail listEmail) {
 
 // Fungsi untuk menampilkan daftar starred inbox
 void StarredInbox(ListEmail listEmail) {
-    if (countEmailInbox(listEmail) == 0) {
-        printf("[--------------------------------[ Daftar Starred ]--------------------------------]\n");
-        printf("[----------------------------------------------------------------------------------]\n");
-        printf("|                             Inbox Anda masih kosong                              |\n");
-        printf("[----------------------------------------------------------------------------------]\n\n");
+    if (countEmailStarredInbox(listEmail) == 0) {
+        printf("[---------------------------------[ Daftar Starred ]-----------------------------------]\n");
+        printf("[--------------------------------------------------------------------------------------]\n");
+        printf("|                           Inbox Starred Anda masih kosong                            |\n");
+        printf("[--------------------------------------------------------------------------------------]\n\n");
         return;
     } else {
-        printf("[----------------------- Anda memiliki %d pesan pada Inbox -------------------------]\n", countEmailStarredInbox(listEmail));
-        printf("[----------------------------------[ Daftar Inbox ]---------------------------------]\n");
-        printf("| %-9s | %-20s | %-14s | %-7s | %-21s\n", 
+        printf("[--------------------------- Anda memiliki %d pesan pada Inbox -------------------------]\n", countEmailStarredInbox(listEmail));
+        printf("[-----------------------------------[ Daftar Starred ]---------------------------------]\n");
+        printf("| %-9s | %-21s | %-14s | %-7s | %-21s |\n", 
             "Email ID", "Subject", "Pengirim", "Status", "Timestamp");
-        printf("[----------------------------------------------------------------------------------]\n");
+        printf("[--------------------------------------------------------------------------------------]\n");
+        int totalPages = ceil_division(countEmailStarredInbox(listEmail), pagination);
 
-        int totalPages = ceil_division(countEmailInbox(listEmail), pagination);
-        int startIdx = listEmail.number - (currentPage - 1) * pagination;
-        int endIdx = startIdx - pagination + 1;
-
-        if (endIdx < 1) {
-            endIdx = 1;
-        }
-
-        char formattedID[10];
         char truncatedSubject[21];
         char formattedTimestamp[21];
+        int countStarEmailShown = 0;
+        int idx = cekStartidxStar - 1;
+        int lastVerifiedIndexDisplayedStar;
 
-        for (int i = startIdx; i >= endIdx; i--) {
-            int idx = i - 1;
-            if (listEmail.data[idx].idPenerima == user.id || listEmail.data[idx].idCC == user.id) {
-                formatEmailID(listEmail.data[idx].id, formattedID);
+        while (countStarEmailShown < pagination && idx >= 0) {
+            if (((listEmail.data[idx].starred == 1) && (listEmail.data[idx].idPenerima == user.id)) || (listEmail.data[idx].idCC == user.id && listEmail.data[idx].starred == 1)) {
+                lastVerifiedIndexDisplayedStar = idx + 1;
+                if (countStarEmailShown == 0){
+                    topIndexDisplayStar = listEmail.data[idx].id;
+                }
+                if (countStarEmailShown == pagination-1){
+                    bottomIndexDisplayStar = listEmail.data[idx].id;
+                }
+                countStarEmailShown++;
                 truncateString(listEmail.data[idx].subyek, truncatedSubject, 20);
                 formatDateTime(listEmail.data[idx].timestamp, formattedTimestamp);
 
-                printf("| %-9s | %-20s | %-14s | %-7s | %-21s |\n",
-                    formattedID,
-                    truncatedSubject,
-                    FindEmailBasedId(listUser, listEmail.data[idx].idPengirim),
-                    listEmail.data[idx].read ? "Read" : "Unread",
-                    formattedTimestamp);
+                int size = 2 + 9 + 3 + 20 + 3 + 15 + 3 + 7 + 3 + 21 + 3 + 7 + 2 + 1;
+                char arr[size];
+
+                for (int i = 0 ; i < size ; i++) {
+                    arr[i] = ' '; // Gunakan spasi untuk inisialisasi
+                }
+                arr[size - 1] = '\0';
+                arr[size - 2] = '\n';
+
+                arr[0] = arr[12] = arr[35] = arr[53] = arr[63] = arr[87] = '|';
+                for (int i = 2 ; i <= 9 ; i++) {
+                    if (i == 2) {
+                        arr[i] = 'E';
+                    } else if (i == 3) {
+                        arr[i] = 'M';
+                    } else if (i == 4) {
+                        arr[i] = 'A';
+                    } else if (i == 5) {
+                        arr[i] = 'I';
+                    } else if (i == 6) {
+                        arr[i] = 'L';
+                    } else if (i == 7) {
+                        arr[i] = ((idx + 1) / 100) + '0';
+                    } else if (i == 8) {
+                        arr[i] = (((idx + 1) / 10) % 10) + '0';
+                    } else if (i == 9) {
+                        arr[i] = ((idx + 1) % 10) + '0';
+                    }
+                }            
+                for (int i = 14 ; i < min(32 , len(truncatedSubject) + 14) ; i++) {
+                    arr[i] = truncatedSubject[i - 14];
+                }
+                for (int i = 37 ; i < min(52 , len(FindEmailBasedId(listUser, listEmail.data[idx].idPengirim)) + 37) ; i++) {
+                    arr[i] = FindEmailBasedId(listUser, listEmail.data[idx].idPengirim)[i - 37];
+                }
+                if (listEmail.data[idx].read) {
+                    arr[55] = 'R';
+                    arr[56] = 'e';
+                    arr[57] = 'a';
+                    arr[58] = 'd';
+                } else {
+                    arr[55] = 'U';
+                    arr[56] = 'n';
+                    arr[57] = 'r';
+                    arr[58] = 'e';
+                    arr[59] = 'a';
+                    arr[60] = 'd';
+                }
+                for (int i = 65 ; i < min(86 , len(formattedTimestamp) + 65) ; i++) {
+                    arr[i] = formattedTimestamp[i - 65];
+                }
+
+                printf("%s", arr);
+                
             }
+            cekStartidx--;
+            idx--;
         }
 
-        printf("[----------------------------------------------------------------------------------]\n");
-        printf("[-------------------------         Page [%d]/[%d]        --------------------------]\n", currentPage, totalPages);
-        printf("[----------------------------------------------------------------------------------]\n\n");
+        if (countStarEmailShown != pagination-1){
+            bottomIndexDisplayStar = lastVerifiedIndexDisplayedStar;
+        }
+
+        printf("[--------------------------------------------------------------------------------------]\n");
+        printf("[---------------------------         Page [%d]/[%d]        ------------------------------]\n", currentPage, totalPages);
+        printf("[--------------------------------------------------------------------------------------]\n\n");
     }
 }
 
@@ -402,6 +441,7 @@ void StartInbox() {
                 DisplayInbox(listEmail);
 
             } else if (isEqual(currentWord, "DAFTAR_STARRED")) {
+                cekStartidxStar = listEmail.number;
                 StarredInbox(listEmail);
 
             } else if (isEqual(currentWord, "LANJUT")) {
@@ -419,6 +459,24 @@ void StartInbox() {
                     cekStartidx = cekStartIndexComBefore(listEmail, pagination, cekStartidx);
                     printf("Halaman telah berganti ke %d.\n", currentPage);
                     DisplayInbox(listEmail);
+                } else {
+                    printf("Sudah merupakan halaman yang paling pertama.\n");
+                }
+            } else if (isEqual(currentWord, "LANJUT_STAR")) {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    printf("Halaman telah berganti ke %d.\n", currentPage);
+                    StarredInbox(listEmail);
+                } else {
+                    printf("Sudah merupakan halaman yang paling terakhir.\n");
+                }
+
+            } else if (isEqual(currentWord, "SEBELUM_STAR")) {
+                if (currentPage > 1) {
+                    currentPage--;
+                    cekStartidxStar = cekStartIndexComBefore(listEmail, pagination, cekStartidx);
+                    printf("Halaman telah berganti ke %d.\n", currentPage);
+                    StarredInbox(listEmail);
                 } else {
                     printf("Sudah merupakan halaman yang paling pertama.\n");
                 }
@@ -530,25 +588,18 @@ void StartInbox() {
                 }
 
                 // Menghitung rentang email pada halaman saat ini
-                int startIdx = (currentPage - 1) * pagination + 1;
-                int endIdx = startIdx + pagination - 1;
-
-                if (endIdx > listEmail.number) {
-                    endIdx = listEmail.number;
-                }
-
                 int found = 0;
 
                 // Mencari emailID dalam rentang indeks yang valid
-                for (int i = startIdx; i <= endIdx; i++) {
-                    if (listEmail.data[i - 1].id == emailID) {
+                for (int i = bottomIndexDisplay; i <= topIndexDisplay; i++) {
+                    if (listEmail.data[i - 1].id == emailID && (listEmail.data[i - 1].idPenerima == user.id || listEmail.data[i-1].idCC == user.id)) {
                         found = 1;
                         break;
                     }
                 }
 
                 if (found) {
-                    starEmail(emailID);
+                    starEmail(emailID);  // Fungsi untuk star pesan
                 } else {
                     printf("Email tidak ditemukan. Pastikan email yang ingin dibaca berada pada halaman DAFTAR_INBOX yang sedang dibuka.\n");
                 }
@@ -578,25 +629,18 @@ void StartInbox() {
                 }
 
                 // Menghitung rentang email pada halaman saat ini
-                int startIdx = (currentPage - 1) * pagination + 1;
-                int endIdx = startIdx + pagination - 1;
-
-                if (endIdx > listEmail.number) {
-                    endIdx = listEmail.number;
-                }
-
                 int found = 0;
 
                 // Mencari emailID dalam rentang indeks yang valid
-                for (int i = startIdx; i <= endIdx; i++) {
-                    if (listEmail.data[i - 1].id == emailID) {
+                for (int i = bottomIndexDisplay; i <= topIndexDisplay; i++) {
+                    if (listEmail.data[i - 1].id == emailID && (listEmail.data[i - 1].idPenerima == user.id || listEmail.data[i-1].idCC == user.id)) {
                         found = 1;
                         break;
                     }
                 }
 
                 if (found) {
-                    unStarEmail(emailID); 
+                    unStarEmail(emailID);  // Fungsi untuk unstar pesan
                 } else {
                     printf("Email tidak ditemukan. Pastikan email yang ingin dibaca berada pada halaman DAFTAR_INBOX yang sedang dibuka.\n");
                 }
