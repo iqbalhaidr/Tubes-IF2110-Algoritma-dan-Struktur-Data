@@ -201,11 +201,17 @@ void DisplayInbox(ListEmail listEmail) {
                 for (int i = 37 ; i < min(52 , len(FindEmailBasedId(listUser, listEmail.data[idx].idPengirim)) + 37) ; i++) {
                     arr[i] = FindEmailBasedId(listUser, listEmail.data[idx].idPengirim)[i - 37];
                 }
-                if (listEmail.data[idx].read) {
+                if ((listEmail.data[idx].idPenerima == user.id) && (listEmail.data[idx].read)) {
                     arr[55] = 'R';
                     arr[56] = 'e';
                     arr[57] = 'a';
                     arr[58] = 'd';
+                } else if ((listEmail.data[idx].idCC == user.id) && (listEmail.data[idx].readCC)) {
+                    arr[55] = 'R';
+                    arr[56] = 'e';
+                    arr[57] = 'a';
+                    arr[58] = 'd';
+                
                 } else {
                     arr[55] = 'U';
                     arr[56] = 'n';
@@ -389,11 +395,17 @@ void StarredInbox(ListEmail listEmail) {
                 for (int i = 37 ; i < min(52 , len(FindEmailBasedId(listUser, listEmail.data[idx].idPengirim)) + 37) ; i++) {
                     arr[i] = FindEmailBasedId(listUser, listEmail.data[idx].idPengirim)[i - 37];
                 }
-                if (listEmail.data[idx].read) {
+                if ((listEmail.data[idx].idPenerima == user.id) && (listEmail.data[idx].read)) {
                     arr[55] = 'R';
                     arr[56] = 'e';
                     arr[57] = 'a';
                     arr[58] = 'd';
+                } else if ((listEmail.data[idx].idCC == user.id) && (listEmail.data[idx].readCC)) {
+                    arr[55] = 'R';
+                    arr[56] = 'e';
+                    arr[57] = 'a';
+                    arr[58] = 'd';
+                
                 } else {
                     arr[55] = 'U';
                     arr[56] = 'n';
