@@ -682,6 +682,7 @@ void DraftEmail(int id_user , ListUser list_user , ListEmail *list_email , int r
             printf("SELAMAT DATANG DI MENU DRAFT BALAS EMAIL\n");
         }
         printf("Pilihan Opsi :\n");
+        yellow(); bold();
         printf("     --- BUAT_DRAFT\n");
         printf("     --- UBAH_DRAFT\n");
         printf("     --- LIHAT_DRAFT\n");
@@ -689,6 +690,7 @@ void DraftEmail(int id_user , ListUser list_user , ListEmail *list_email , int r
         printf("     --- UNDO\n");
         printf("     --- REDO\n");
         printf("     --- BATAL\n\n");
+        defaultp();
         printf(">> ");
         STARTWORDDraft();
         if (isEqual(currentWord , buat_draft)) {
