@@ -162,6 +162,10 @@ int loadEmail(char* filePath, ListEmail *listEmail) {
             temp = toString(currentWord);
             email.readCC = stringToInt(temp);
 
+            ADVNewLine();
+            temp = toString(currentWord);
+            email.starred = stringToInt(temp);
+
             addEmail(listEmail, email);
             
         }
@@ -291,6 +295,7 @@ void SaveConfig(){
         fprintf(fileSaveEmail, "%d\n", listEmail.data[k].reply);
         fprintf(fileSaveEmail, "%d\n", listEmail.data[k].read);
         fprintf(fileSaveEmail, "%d", listEmail.data[k].readCC);
+        fprintf(fileSaveEmail, "%d", listEmail.data[k].starred);
         if (i < listEmail.number - 1){
             fprintf(fileSaveEmail, "\n");
         }
