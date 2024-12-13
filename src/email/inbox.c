@@ -17,6 +17,7 @@
 #include "../modules/listuser.h"
 #include "../modules/listemail.h"
 #include "../email/draftemail.h"
+#include "../email/balasemail.h"
 
 #include "../program/utility.h"
 #include "../pengguna/pengguna.h"
@@ -260,53 +261,6 @@ void DisplayInbox(ListEmail listEmail) {
     }
 }
 
-// Fungsi untuk bacaPesanInbox
-void bacaPesanInbox(ListEmail listEmail, int emailID) {
-    char formattedID[10];
-    formatEmailID(emailID, formattedID);
-
-    int idx = -1;
-
-    // Cari indeks berdasarkan emailID
-    for (int i = 0; i < listEmail.number; i++) {
-        if (listEmail.data[i].id == emailID) {
-            idx = i;
-            break;
-        }
-    }
-
-    if (idx == -1) {
-        printf("Email tidak ditemukan.\n");
-        return;
-    }
-
-    // Data ditemukan, tampilkan pesan
-    int IDPengirim = listEmail.data[idx].idPengirim;
-    printf("[---------------------------------[ Baca Pesan ]-------------------------------]\n");
-    printf(" Inbox ID: %s\n", formattedID);
-    printf(" Subject: %s\n", listEmail.data[idx].subyek);
-    printf(" Pengirim: %s\n", FindEmailBasedId(listUser, IDPengirim));
-    printf(" Timestamp: %s\n", listEmail.data[idx].timestamp);
-    printf("[------------------------------------------------------------------------------]\n");
-    printf(" %s\n", listEmail.data[idx].body);
-    printf("[------------------------------------------------------------------------------]\n\n");
-
-    // Tandai pesan sebagai sudah dibaca krn idPenerima == user.id atau idCC == user.id
-    if (listEmail.data[idx].idPenerima == user.id) {
-        listEmail.data[idx].read = 1;
-    } else if (listEmail.data[idx].idCC == user.id) {
-        listEmail.data[idx].readCC = 1;
-    }
-}
-
-// Fungsi untuk membaca pesan, yang menerima parameter berupa email ID setelah proses validasi berhasil dilakukan.
-void bacaPesan(int emailID) {
-    bacaPesanInbox(listEmail,emailID);
-}
-
-void balasPesan(int emailID) {
-    printf("Balas Pesan niiiiii\n");
-}
 
 void starEmailInbox(ListEmail *listEmail, int emailID) {
     char formattedID[10];
@@ -496,12 +450,9 @@ void StartInbox() {
                 }
 
                 // Menghitung rentang email pada halaman saat ini
-
                 int found = 0;
 
                 // Mencari emailID dalam rentang indeks yang valid
-                printf("bottom: %d\n", bottomIndexDisplay);
-                printf("top: %d\n", topIndexDisplay);
                 for (int i = bottomIndexDisplay; i <= topIndexDisplay; i++) {
                     if (listEmail.data[i - 1].id == emailID && (listEmail.data[i - 1].idPenerima == user.id || listEmail.data[i-1].idCC == user.id)) {
                         found = 1;
@@ -510,7 +461,7 @@ void StartInbox() {
                 }
 
                 if (found) {
-                    bacaPesan(emailID);  // Fungsi untuk membaca pesan
+                    BacaEmail(emailID, listEmail, listUser);  // Fungsi untuk membaca pesan
                 } else {
                     printf("Email tidak ditemukan. Pastikan email yang ingin dibaca berada pada halaman DAFTAR_INBOX yang sedang dibuka.\n");
                 }
@@ -528,7 +479,7 @@ void StartInbox() {
             if (isEqual(temp, "BALAS_PESAN EMAIL")) {
                 int emailID = 0;
 
-                // Menggabungkan angka setelah perintah "BACA_PESAN EMAIL"
+                // Menggabungkan angka setelah perintah "BALAS_PESAN EMAIL"
                 for (int i = temp.Length; i < currentWord.Length; i++) {
                     if (currentWord.TabWord[i] < '0' || currentWord.TabWord[i] > '9') {
                         break;
@@ -538,25 +489,18 @@ void StartInbox() {
                 }
 
                 // Menghitung rentang email pada halaman saat ini
-                int startIdx = (currentPage - 1) * pagination + 1;
-                int endIdx = startIdx + pagination - 1;
-
-                if (endIdx > listEmail.number) {
-                    endIdx = listEmail.number;
-                }
-
                 int found = 0;
+
                 // Mencari emailID dalam rentang indeks yang valid
-                for (int i = startIdx; i <= endIdx; i++) {
-                    if (listEmail.data[i - 1].id == emailID) {
+                for (int i = bottomIndexDisplay; i <= topIndexDisplay; i++) {
+                    if (listEmail.data[i - 1].id == emailID && (listEmail.data[i - 1].idPenerima == user.id || listEmail.data[i-1].idCC == user.id)) {
                         found = 1;
                         break;
                     }
                 }
 
                 if (found) {
-                    printf("Email ID: %d\n", emailID);
-                    balasPesan(emailID);  // Fungsi untuk membalas pesan
+                    BalasEmail(emailID,&listEmail,listUser);  // Fungsi untuk membalas pesan
                 } else {
                     printf("Email tidak ditemukan. Pastikan email yang ingin dibaca berada pada halaman DAFTAR_INBOX yang sedang dibuka.\n");
                 }
