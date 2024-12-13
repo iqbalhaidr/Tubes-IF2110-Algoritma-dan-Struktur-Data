@@ -45,12 +45,13 @@ _Semua fitur dibawah ini selesai 100%._
 - Status Kepentingan
 - Notifikasi
 - Save & Load
+- Starred Email
 
 ## Pembagian Tugas
-| NIM      | Nama                            | ADT                                   | Fitur                               |
-| -------- | ------------------------------- | ------------------------------------- | ----------------------------------- |
-| 13523019 | Shannon Aurellius Anastasya Lie | ADT List Statik, ADT List Dinamik     | Perintah, Inbox Utama               |
-| 13523021 | Muhammad Raihan Nazhim Oktana   | ADT Tree                              | Draft                               |
-| 13523025 | Joel Hotlan Haris Siahaan       | ADT Stack, ADT Priority Queue (Queue) | Balas Email, Laporan                |
-| 13523043 | Najwa Kahani Fatima             | ADT Mesin Karakter & Kata             | Inisialisasi, Pengguna, Save & Load |
-| 13523111 | Muhammad Iqbal Haidar           | ADT Datetime                          | Status Kepentingan, Notifikasi      |
+| NIM      | Nama                            | ADT                                   | Fitur                                |
+| -------- | ------------------------------- | ------------------------------------- | ------------------------------------ |
+| 13523019 | Shannon Aurellius Anastasya Lie | ADT List Statik, ADT List Dinamik     | Perintah, Inbox Utama, Starred Email |
+| 13523021 | Muhammad Raihan Nazhim Oktana   | ADT Tree                              | Draft                                |
+| 13523025 | Joel Hotlan Haris Siahaan       | ADT Stack, ADT Priority Queue (Queue) | Balas Email, Laporan                 |
+| 13523043 | Najwa Kahani Fatima             | ADT Mesin Karakter & Kata             | Inisialisasi, Pengguna, Save & Load  |
+| 13523111 | Muhammad Iqbal Haidar           | ADT Datetime                          | Status Kepentingan, Notifikasi       |
