@@ -67,6 +67,8 @@ void headerPurryMail() {
 }
 
 void headerBuatDraft(){
+    sleep(1);
+    system("clear");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("                 DRAFT EMAIL    \n");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
@@ -82,14 +84,16 @@ void menuBuatDraft(){
     printf("     --- UNDO\n");
     printf("     --- REDO\n");
     printf("     --- KELUAR\n");
-    printf("Jangan lupa sertakan ';' di akhir yaa ~~~\n");
     defaultp();
+    printf("Jangan lupa sertakan ';' di akhir yaa ~~~\n");
 }
 
 void headerInbox(){
+    sleep(1);
+    // system("clear");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("                    INBOX    \n");
-    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     printf("\n");
     defaultp();
 }
@@ -104,9 +108,6 @@ void headerMenu(){
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("           MENU UTAMA PURRY MAIL    \n");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-    printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-    printf("                     INBOX    \n");
-    printf(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }
 
 /* Tampilan Menu Inbox */ 
@@ -119,12 +120,14 @@ void menuInbox(){
     printf("     --- BACA_PESAN EMAILXXX\n");
     printf("     --- BALAS_PESAN EMAILXXX\n");
     printf("     --- KELUAR\n");
+        defaultp();
     printf("XXX merupakan Email ID yang ingin diakses yaa\n");
     printf("Jangan lupa sertakan ';' di akhir yaa ~~~\n");
-    defaultp();
 }
 
 void headerStatusKepentingan(){
+    sleep(1);
+    system("clear");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("             STATUS KEPENTINGAN    \n");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
